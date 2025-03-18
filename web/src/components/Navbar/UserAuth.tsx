@@ -29,7 +29,7 @@ const UserAuth = () => {
     );
   }
   return (
-    <div className="w-2/3 flex h-16 items-center justify-between px-4 md:px-6 ">
+    <div className="w-2/3 flex h-16 items-center justify-between px-6 ">
       <nav className="hidden gap-6 md:flex">
         <Link href="#" className="text-sm font-medium hover:underline">
           Características
