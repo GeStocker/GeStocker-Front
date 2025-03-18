@@ -113,6 +113,11 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@theme custom {
+  --color-miGris: #F4F4F5;
+  --color-textGris: #616060;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
