@@ -114,10 +114,10 @@
 }
 
 @theme custom {
-  --color-miGris: #F4F4F5;
-  --color-miGrisOscuro: #D9D9D9;
-  --color-textGris: #616060;
-  --color-textSubtitle: #434343;
+  --color-custom-grisClarito: #F4F4F5;
+  --color-custom-GrisOscuro: #D9D9D9;
+  --color-custom-textGris: #616060;
+  --color-custom-textSubtitle: #434343;
 }
 
 @layer base {

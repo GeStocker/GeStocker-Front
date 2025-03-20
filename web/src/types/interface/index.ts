@@ -1,3 +1,10 @@
+export enum UserRole {
+    BASIC = 'basic',
+    PROFESIONAL = 'profesional',
+    BUSINESS = 'business',
+    SUPERADMIN = 'superadmin'
+}
+
 
 export interface IUser {
     id: number;
@@ -7,4 +14,5 @@ export interface IUser {
     phone: string;
     city: string;
     country: string;
+    roles: UserRole[];
 }

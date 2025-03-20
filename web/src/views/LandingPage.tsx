@@ -35,7 +35,7 @@ const LandingPage = () => {
           className="w-full md:w-1/2 rounded-md"
         />
       </section>
-      <section className="w-full bg-miGris flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
+      <section className="w-full bg-custom-grisClarito flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
         <h2 className="text-xl md:text-4xl font-bold text-gray-950 text-center">
           Comienza en 3 simples pasos
         </h2>
@@ -100,7 +100,7 @@ const LandingPage = () => {
           />
         </div>
       </section>
-      <section className="w-full bg-miGris flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
+      <section className="w-full bg-custom-grisClarito flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
         <h2 className="text-xl md:text-4xl text-center font-bold text-gray-950 ">
           Planes que se adaptan a tu negocio
         </h2>
