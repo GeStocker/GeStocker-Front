@@ -24,9 +24,26 @@ const registerSchema = Yup.object({
         .min(10, "Debe tener al menos 10 dígitos")
         .required("El teléfono es obligatorio"),
     password: Yup.string()
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,"Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!-), y mínimo 8 caracteres")
+    .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!-), y mínimo 8 caracteres"
+    )
     .required("La contraseña es obligatoria"),
+    passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref('password')], "Las contraseñas no coinciden")
+    .required("Debes confirmar la contraseña"),
 });
+export enum UserRole {
+    BASIC = "basic",
+    PROFESIONAL = "profesional",
+    BUSINESS = "business",
+  }
+  
+  const roleByPlan: Record<string, UserRole> = {
+    basic: UserRole.BASIC,
+    profesional: UserRole.PROFESIONAL,
+    business: UserRole.BUSINESS,
+  };
 
 interface FormData{
     name: string;
@@ -36,74 +53,65 @@ interface FormData{
     address: string;
     phone: string;
     password: string;
+    passwordConfirmation: string;
+    roles: [];
 }
 
 const RegisterView: React.FC = () => {
     const router = useRouter();
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
     const [countries, setCountries] = useState<string[]>([]);
-  const [filteredCountries, setFilteredCountries] = useState<string[]>([]);
-  const [search, setSearch] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+    const [filteredCountries, setFilteredCountries] = useState<string[]>([]);
+    const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await axios.get('https://restcountries.com/v3.1/all?fields=name');
-        const countryList = res.data.map((c: { name: { common: string } }) => c.name.common);
-        countryList.sort((a: string, b: string): number => a.localeCompare(b));
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const res = await axios.get('https://restcountries.com/v3.1/all?fields=name');
+                const countryList = res.data.map((c: { name: { common: string } }) => c.name.common);
+                countryList.sort((a: string, b: string): number => a.localeCompare(b));
+                setCountries(countryList);
+                setFilteredCountries(countryList);
+            } catch (error) {
+                console.error('Error al cargar los países:', error);
+            }
+        };
+        fetchCountries();
+    }, []);
 
-        setCountries(countryList);
-        setFilteredCountries(countryList);
-      } catch (error) {
-        console.error('Error al cargar los países:', error);
-      }
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.toLowerCase();
+        setSearch(value);
+        const filtered = countries.filter(c => c.toLowerCase().includes(value));
+        setFilteredCountries(filtered);
     };
-    fetchCountries();
-  }, []);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.toLowerCase();
-    setSearch(value);
-
-    const filtered = countries.filter(c => c.toLowerCase().includes(value));
-    setFilteredCountries(filtered);
-  };
-
-  const handleSelect = (country: string) => {
-    setSelectedCountry(country);
-    setSearch('');
-    setIsOpen(false);
-  };
-
-    const handleToggleBasic = () => {
-        setSelectedPlan(selectedPlan === "basic" ? null : "basic");
+    const handleSelect = (country: string) => {
+        setSelectedCountry(country);
+        setSearch('');
+        setIsOpen(false);
     };
-    
-    const handleToggleProfessional = () => {
-        setSelectedPlan(selectedPlan === "professional" ? null : "professional");
-    };
-    
-    const handleToggleBusiness = () => {
-        setSelectedPlan(selectedPlan === "business" ? null : "business");
+
+    const handlePlanChange = (plan: string, setFieldValue: (field: string, value: string | number | boolean | string[] | undefined, shouldValidate?: boolean) => void) => {
+        setSelectedPlan(plan);
+        const role = roleByPlan[plan];
+        setFieldValue('role', [role]);
     };
 
     const handleOnSubmit = async (values: FormData) => {
         try {
+            console.log("values", values);
             await registerUser(values);
 
             toast.success("✅ Registro exitoso");
-
             setTimeout(() => {
                 router.push(routes.login);
-              }, 2000);
-
+            }, 2000);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 console.warn("Error al registrar el usuario:", e.message);
-
                 toast.error(`❌ Error: ${e.message}`);
             } else {
                 console.warn("Error al registrar el usuario:", e);
@@ -122,7 +130,9 @@ const RegisterView: React.FC = () => {
                 country: '',
                 address: '',
                 phone: '',
-                password: ''
+                password: '',
+                passwordConfirmation: '',
+                roles: [],
             }}
             validationSchema={registerSchema}
             onSubmit={handleOnSubmit}
@@ -146,7 +156,7 @@ const RegisterView: React.FC = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.name}
-                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"/>
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
                             {errors.name && touched.name && <p className=" text-red-500  text-sm">{errors.name}</p>} 
                         </div>
                         <div className="flex flex-col">
@@ -157,7 +167,7 @@ const RegisterView: React.FC = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
-                            className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"
+                            className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
                             />
                         {errors.email && touched.email && <p className=" text-red-500  text-sm">{errors.email}</p>}
                         </div>
@@ -171,7 +181,7 @@ const RegisterView: React.FC = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.city}
-                                className="w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"
+                                className="w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
                                 />
                                 {errors.city && touched.city && <p className="text-red-500 text-sm">{errors.city}</p>}
                             </div>
@@ -180,7 +190,7 @@ const RegisterView: React.FC = () => {
                                 <label htmlFor="country" className="font-semibold text-xl">País</label>
                                 <div className="relative w-[350px] mb-4">
                                 <div 
-                                    className="border border-black rounded-lg p-3 bg-gray-100 cursor-pointer text-gray-900 flex justify-between items-center"
+                                    className="border border-black rounded-md p-3 bg-gray-100 cursor-pointer text-gray-900 flex justify-between items-center"
                                     onClick={() => setIsOpen(!isOpen)}
                                 >
                                     {selectedCountry || 'Selecciona un país'}
@@ -188,7 +198,7 @@ const RegisterView: React.FC = () => {
                                 </div>
 
                                 {isOpen && (
-                                    <div className="absolute top-full left-0 w-full bg-white border rounded-lg mt-1 shadow-md z-10">
+                                    <div className="absolute top-full left-0 w-full bg-white border rounded-md mt-1 shadow-md z-10">
                                     <input
                                         type="text"
                                         placeholder="Buscar país..."
@@ -202,8 +212,8 @@ const RegisterView: React.FC = () => {
                                             key={country}
                                             className="p-3 hover:bg-blue-100 cursor-pointer"
                                             onClick={() => {
-                                            handleSelect(country); // Actualizamos el país seleccionado
-                                            setFieldValue('country', country); // Actualizamos el valor de Formik
+                                            handleSelect(country);
+                                            setFieldValue('country', country); 
                                             }}
                                         >
                                             {country}
@@ -216,8 +226,6 @@ const RegisterView: React.FC = () => {
                                 {errors.country && touched.country && <p className="text-red-500 text-sm">{errors.country}</p>}
                             </div>
                             </div>
-
-
                     <div className="flex gap-16">
                         <div className="flex flex-col">
                             <label htmlFor="address" className="font-semibold text-xl">Dirección</label>
@@ -227,177 +235,104 @@ const RegisterView: React.FC = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.address}
-                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"/>
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
                             {errors.address && touched.address && <p className=" text-red-500  text-sm">{errors.address}</p>}
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="phone" className="font-semibold text-xl">Télefono</label>
                             <input
-                                type="text"
+                                type="string"
                                 name="phone"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.phone}
-                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"/>
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
                             {errors.phone && touched.phone && <p className=" text-red-500  text-sm">{errors.phone}</p>}
                         </div>
                     </div>
-                    <div className="flex flex-col">
-                        <label htmlFor="password" className="font-semibold text-xl">Contraseña</label>
-                        <input
-                        type={"password"}
-                        name="password"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.password}
-                        className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-lg"/>
-                    </div>
-                    {errors.password && touched.password && <p className=" text-red-500  text-sm">{errors.password}</p>}
-            <div className="flex flex-col gap-3">
-              <h3 className="text-2xl">Selecciona tu plan:</h3>
-                <div className="h-[200px]">
-              <div className="grid grid-cols-3 gap-2">
-                <div className="flex bg-gray-100 w-64 rounded-sm p-1"> 
-                    <div className="flex gap-2 cursor-pointer pt-1" onClick={handleToggleBasic}>
-                    {selectedPlan === "basic" ? (
-                        <MdRadioButtonChecked className="w-6 h-6 text-black text-2xl" />
-                    ) : (
-                        <MdRadioButtonUnchecked className="w-6 h-6 text-black text-2xl" />
-                    )}
-                    </div>
-                    <div className="ml-2 text-lg">
-                    <h3>Básico</h3>
-                    <h3 className="font-semibold">$19/mes</h3>
-                    <div className="w-full max-w-md">
-                        <div className="flex items-center cursor-pointer">
-                        <h2>Características</h2>
+                    <div className="flex gap-16">
+                        <div className="flex flex-col">
+                            <label htmlFor="password" className="font-semibold text-xl">Contraseña</label>
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.password}
+                                className={`w-[350px] p-3 mb-4 border ${
+                                    errors.password && touched.password ? "border-red-500" : "border-black"
+                                } bg-gray-100 rounded-md`}
+                            />
+                            {errors.password && touched.password && (
+                                <p className="text-red-500 text-sm">{errors.password}</p>
+                            )}
+                            {values.password && !errors.password && (
+                                <p className="text-green-500 text-sm">Contraseña válida</p>
+                            )}
                         </div>
-                        <div>
-                            <div className="text-base text-black">
-                            <div className="flex justify-center items-center gap-1">
-                                <MdCheck />
-                                <p>
-                                Prueba gratuita por 7 días
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <MdCheck />
-                                <p>
-                                Hasta 500 productos
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <MdCheck />
-                                <p>
-                                1 usuario
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <MdCheck />
-                                <p>
-                                Soporte por correo
-                                </p>
-                            </div>
-                            </div>
+
+                        <div className="flex flex-col">
+                            <label htmlFor="passwordConfirmation" className="font-semibold text-xl">Confirmar Contraseña</label>
+                            <input
+                                type="password"
+                                name="passwordConfirmation"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.passwordConfirmation}
+                                className={`w-[350px] p-3 mb-4 border ${
+                                    errors.passwordConfirmation && touched.passwordConfirmation ? "border-red-500" : "border-black"
+                                } bg-gray-100 rounded-md`}
+                            />
+                            {errors.passwordConfirmation && touched.passwordConfirmation && (
+                                <p className="text-red-500 text-sm">{errors.passwordConfirmation}</p>
+                            )}
+                            {values.passwordConfirmation && values.passwordConfirmation === values.password && (
+                                <p className="text-green-500 text-sm">Las contraseñas coinciden</p>
+                            )}
+                            {/* {values.passwordConfirmation && values.passwordConfirmation !== values.password && (
+                                <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>
+                            )} */}
                         </div>
                     </div>
-                    </div>
-                </div>
-                <div className="flex bg-gray-100 w-64 rounded-sm p-1"> 
-                <div className="flex gap-2 cursor-pointer pt-1" onClick={handleToggleProfessional}>
-                    {selectedPlan === "professional" ?  (
-                        <MdRadioButtonChecked className="w-6 h-6 text-black text-2xl" />
-                    ) : (
-                        <MdRadioButtonUnchecked className="w-6 h-6 text-black text-2xl" />
-                    )}
-                </div>
-                <div className="ml-2 text-lg">
-                    <h3>Profesional</h3>
-                    <h3 className="font-semibold">$49/mes</h3>
-                    <div className="w-full max-w-md">
-                        <div className="flex items-center cursor-pointer">
-                            <h2>Características</h2>
-                        </div>
-                        <div>
-                            <div className="text-base text-black">
-                                <div className="flex justify-center items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Hasta 5000 productos
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        5 usuarios
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Soporte prioritario
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Informes avanzados
-                                    </p>
-                                </div>
+                    <div className="flex flex-col gap-3">
+                            <h3 className="text-2xl">Selecciona tu plan:</h3>
+                            <div className="grid grid-cols-3 gap-4">
+                                {[
+                                    { plan: "basic", title: "Básico", price: "$19/mes", features: ["Prueba gratuita por 7 días", "Hasta 500 productos", "1 usuario", "Soporte por correo"] },
+                                    { plan: "profesional", title: "Profesional", price: "$49/mes", features: ["Hasta 5000 productos", "5 usuarios", "Soporte prioritario", "Informes avanzados"] },
+                                    { plan: "business", title: "Empresarial", price: "$99/mes", features: ["Productos ilimitados", "Usuarios ilimitados", "Soporte 24/7", "ChatBot con IA"] },
+                                ].map(({ plan, title, price, features }) => (
+                                    <div
+                                        key={plan}
+                                        className={`flex flex-col bg-gray-100 w-64 rounded-sm p-3 cursor-pointer ${selectedPlan === plan ? "border-2 border-black" : ""}`}
+                                        onClick={() => handlePlanChange(plan, setFieldValue)}
+                                    >
+                                        <div className="flex gap-2">
+                                            {selectedPlan === plan ? (
+                                                <MdRadioButtonChecked className="w-6 h-6 text-black text-2xl" />
+                                            ) : (
+                                                <MdRadioButtonUnchecked className="w-6 h-6 text-gray-500 text-2xl" />
+                                            )}
+                                            <div className="ml-2 text-lg">
+                                                <h3>{title}</h3>
+                                                <h3 className="font-semibold">{price}</h3>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2">
+                                            <h4>Características:</h4>
+                                            <ul className="text-sm">
+                                                {features.map((feature, index) => (
+                                                    <li key={index} className="flex items-center gap-1">
+                                                        <MdCheck className="text-black" />
+                                                        <span>{feature}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    </div>
-                </div>
-              </div>
-              <div className="flex bg-gray-100 w-64 rounded-sm p-1"> 
-                <div className="flex gap-2 cursor-pointer pt-1" onClick={handleToggleBusiness}>
-                    {selectedPlan === "business" ?  (
-                        <MdRadioButtonChecked className="w-6 h-6 text-black text-2xl" />
-                    ) : (
-                        <MdRadioButtonUnchecked className="w-6 h-6 text-black text-2xl" />
-                    )}
-                </div>
-                <div className="ml-2 text-lg">
-                    <h3>Empresarial</h3>
-                    <h3 className="font-semibold">$99/mes</h3>
-                    <div className="w-full max-w-md">
-                        <div className="flex items-center cursor-pointer">
-                            <h2>Características</h2>
-                        </div>
-                        <div>
-                            <div className="text-base text-black">
-                                <div className="flex justify-center items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Productos ilimitados
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Usuarios ilimitados
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        Soporte 24/7
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <MdCheck />
-                                    <p>
-                                        ChatBot con IA
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-              </div>
-              </div>
-            </div>
                 <div className="w-full flex justify-center items-center mt-4">
                     <button
                         type="submit"

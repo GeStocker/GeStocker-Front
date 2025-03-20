@@ -1,3 +1,4 @@
+import ButtonGoogle from '@/components/Button Google/ButtonGoogle';
 import { routes } from '@/routes/routes'
 import RegisterView from '@/views/Register/RegisterView'
 import Link from 'next/link'
@@ -47,6 +48,14 @@ const Register = () => {
 
         <div className="flex flex-col flex-1 ml-16 mt-12 mx-4">
           <h2 className="text-4xl font-bold mb-6">Registrarse</h2>
+          <div>
+              <ButtonGoogle />
+          </div>
+          <div className="relative w-full flex items-center pr-10 my-6">
+              <div className="flex-grow h-px bg-gray-800"></div>
+              <span className="mx-4 text-black">O</span>
+              <div className="flex-grow h-px bg-gray-800"></div>
+          </div>
           <div className="w-full">
             <RegisterView />
           </div>
