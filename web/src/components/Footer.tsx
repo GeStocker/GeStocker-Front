@@ -4,7 +4,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-miGris w-full">
+    <footer className="border-t bg-custom-grisClarito w-full">
         <div className="w-full flex flex-col gap-6 py-4 px-4 md:px-6 md:flex-row md:items-center md:justify-between md:py-6">
           <div className="flex flex-col gap-4">
           <Link href={routes.home} className="flex items-center gap-1 font-bold">
