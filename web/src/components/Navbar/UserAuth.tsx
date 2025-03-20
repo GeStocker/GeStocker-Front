@@ -7,7 +7,7 @@ import { routes } from "@/routes/routes";
 import { FaRegBell, FaRegUser } from "react-icons/fa6";
 
 const UserAuth = () => {
-  const isAuth = false;
+  const isAuth = true;
 
   if (isAuth === null) {
     return (
@@ -41,7 +41,7 @@ const UserAuth = () => {
           Contacto
         </Link>
       </nav>
-      <div className="flex gap-4">
+      <div className="flex gap-4 absolute right-1">
         <Link href={routes.login}>
           <Button variant="outline">Iniciar sesión</Button>
         </Link>
