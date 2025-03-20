@@ -14,3 +14,13 @@ export const registerUser = async (userData: Partial<IUser>) => {
         throw new Error("Error al registrar el usuario");
     }
 }
+
+export const loginUser = async (userData: Partial<IUser>): Promise<{ user: IUser; token: string }> => {
+    try {
+        const user = await axios.post(`${API}/auth/login`, userData);
+        return user.data;
+    } catch (error) {
+        console.warn("Error al iniciar sesión:", error);
+        throw new Error("Error al iniciar sesión");
+    }
+}
