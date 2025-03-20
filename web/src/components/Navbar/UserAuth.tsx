@@ -5,9 +5,10 @@ import { CgSpinner } from "react-icons/cg";
 import { Button } from "../ui/button";
 import { routes } from "@/routes/routes";
 import { FaRegBell, FaRegUser } from "react-icons/fa6";
+import { useAuth } from "@/context/AuthContext";
 
 const UserAuth = () => {
-  const isAuth = false;
+  const {isAuth} = useAuth();
 
   if (isAuth === null) {
     return (

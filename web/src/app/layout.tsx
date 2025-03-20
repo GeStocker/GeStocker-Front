@@ -3,8 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer";
-import { VisibleWrapperFooter, VisibleWrapperNavbar } from "@/lib/VisibleWrapper";
-import { Toaster } from 'sonner';
+import {
+  VisibleWrapperFooter,
+  VisibleWrapperNavbar,
+} from "@/lib/VisibleWrapper";
+import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,18 +35,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <VisibleWrapperNavbar>
-          <Navbar/>
-        </VisibleWrapperNavbar>
-        <Toaster 
-        position="top-right" />
-        <div className="min-h-screen">
-        {children}
-
-        </div>
-        <VisibleWrapperFooter>
-          <Footer/>
-        </VisibleWrapperFooter>
+        <AuthProvider>
+          <VisibleWrapperNavbar>
+            <Navbar />
+          </VisibleWrapperNavbar>
+          <Toaster position="top-right" />
+          <div className="min-h-screen">{children}</div>
+          <VisibleWrapperFooter>
+            <Footer />
+          </VisibleWrapperFooter>
+        </AuthProvider>
       </body>
     </html>
   );

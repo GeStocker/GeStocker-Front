@@ -1,11 +1,11 @@
+
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
 interface MyJwtPayload extends JwtPayload {
   id: string; // O el tipo que uses (puede ser number)
 }
 
-export const getUserIdFromToken = () => {
-  const token = useAuth(); // O donde guardes el token
+export const getUserIdFromToken = (token: string) => {
   if (token) {
     try {
       const decoded = jwtDecode<MyJwtPayload>(token);

@@ -1,6 +1,5 @@
 import { IUser } from "../../types/interface";
 import axios from "axios";
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -26,11 +25,15 @@ export const loginUser = async (
   }
 };
 
-export const getUserById = async (): Promise<{user: Partial<IUser> }> => {
+export const getUserById = async (userId: string, token: string): Promise<Partial<IUser>> => {
   try {
-    const userId = getUserIdFromToken();
-    const user = await axios.get(`${API}/users:${userId}`);
-    return user.data;
+    const user = (await axios.get(`${API}/users/${userId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })).data
+    console.log(user)
+    return user;
   } catch (error) {
     console.warn("Error al obtener usuario:", error);
     throw new Error("Error al obtener usuario");
