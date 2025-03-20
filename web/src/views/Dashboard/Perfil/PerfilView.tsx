@@ -1,6 +1,8 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/context/AuthContext";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import { getUserById } from "@/services/user/user";
 
 import { Formik } from "formik";
@@ -33,6 +35,7 @@ const registerSchema = Yup.object({
 });
 
 const PerfilView = () => {
+  const {token} = useAuth()
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -43,7 +46,8 @@ const PerfilView = () => {
 
   const fetchUserData = async () => {
     try {
-      const { name, email, city, address, phone } = (await getUserById()).user;
+      const userId = getUserIdFromToken(token ?? "") ?? "";
+      const { name , email, city, address, phone } = (await getUserById(userId, token ?? ""));
       setUserData({
         name: name ?? "",
         email: email ?? "",
@@ -52,12 +56,12 @@ const PerfilView = () => {
         phone: phone ?? ""
       });
     } catch (error) {
-      console.error("Error al obtener los datos del usuario", error);
+      console.warn("Error al obtener los datos del usuario", error);
     }
   };
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [token]);
 
   const handleOnSubmit = async (values: FormData) => {
     try {
@@ -224,7 +228,8 @@ const PerfilView = () => {
                     <div className="w-full flex justify-center items-center mt-4">
                       <button
                         type="submit"
-                        className="w-full bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300"
+                        className="w-full bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300 disabled:bg-custom-GrisOscuro"
+                        disabled
                       >
                         Guardar Datos
                       </button>
