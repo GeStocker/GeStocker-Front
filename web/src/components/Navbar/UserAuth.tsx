@@ -42,7 +42,7 @@ const UserAuth = () => {
           Contacto
         </Link>
       </nav>
-      <div className="flex gap-4">
+      <div className="flex gap-4 absolute right-1">
         <Link href={routes.login}>
           <Button variant="outline">Iniciar sesión</Button>
         </Link>
