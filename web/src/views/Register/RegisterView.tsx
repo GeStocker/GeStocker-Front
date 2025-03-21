@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client";    
+import React, { useState }  from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
@@ -9,7 +9,7 @@ import { routes } from "@/routes/routes";
 import { registerUser } from "@/services/user/user";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import SelectCountry from "@/components/SelectCountry/SelectCountry";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const registerSchema = Yup.object({
@@ -62,46 +62,9 @@ interface FormData {
 }
 
 const RegisterView: React.FC = () => {
-  const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const [countries, setCountries] = useState<string[]>([]);
-  const [filteredCountries, setFilteredCountries] = useState<string[]>([]);
-  const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await axios.get(
-          "https://restcountries.com/v3.1/all?fields=name"
-        );
-        const countryList = res.data.map(
-          (c: { name: { common: string } }) => c.name.common
-        );
-        countryList.sort((a: string, b: string): number => a.localeCompare(b));
-        setCountries(countryList);
-        setFilteredCountries(countryList);
-      } catch (error) {
-        console.error("Error al cargar los países:", error);
-      }
-    };
-    fetchCountries();
-  }, []);
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.toLowerCase();
-    setSearch(value);
-    const filtered = countries.filter((c) => c.toLowerCase().includes(value));
-    setFilteredCountries(filtered);
-  };
-
-  const handleSelect = (country: string) => {
-    setSelectedCountry(country);
-    setSearch("");
-    setIsOpen(false);
-  };
+    const router = useRouter();
+    const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
 
   const handlePlanChange = (
     plan: string,
@@ -136,200 +99,122 @@ const RegisterView: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          city: "",
-          country: "",
-          address: "",
-          phone: "",
-          password: "",
-          passwordConfirmation: "",
-          roles: [],
-        }}
-        validationSchema={registerSchema}
-        onSubmit={handleOnSubmit}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          setFieldValue,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="flex gap-16">
-              <div className="flex flex-col">
-                <label htmlFor="name" className="font-semibold text-xl">
-                  Nombre
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.name}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                />
-                {errors.name && touched.name && (
-                  <p className=" text-red-500  text-sm">{errors.name}</p>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="email" className="font-semibold text-xl">
-                  Correo
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                />
-                {errors.email && touched.email && (
-                  <p className=" text-red-500  text-sm">{errors.email}</p>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-16">
-              <div className="flex flex-col">
-                <label htmlFor="city" className="font-semibold text-xl">
-                  Ciudad
-                </label>
-                <input
-                  type="text"
-                  name="city"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.city}
-                  className="w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                />
-                {errors.city && touched.city && (
-                  <p className="text-red-500 text-sm">{errors.city}</p>
-                )}
-              </div>
-
-              <div className="flex flex-col">
-                <label htmlFor="country" className="font-semibold text-xl">
-                  País
-                </label>
-                <div className="relative w-[350px] mb-4">
-                  <div
-                    className="border border-black rounded-md p-3 bg-gray-100 cursor-pointer text-gray-900 flex justify-between items-center"
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    {selectedCountry || "Selecciona un país"}
-                    <span className="text-gray-500">▼</span>
-                  </div>
-
-                  {isOpen && (
-                    <div className="absolute top-full left-0 w-full bg-white border rounded-md mt-1 shadow-md z-10">
-                      <input
-                        type="text"
-                        placeholder="Buscar país..."
-                        value={search}
-                        onChange={handleSearch}
-                        className="w-full p-3 border-b text-gray-900 outline-none"
-                      />
-                      <div className="max-h-60 overflow-y-auto">
-                        {filteredCountries.map((country) => (
-                          <div
-                            key={country}
-                            className="p-3 hover:bg-blue-100 cursor-pointer"
-                            onClick={() => {
-                              handleSelect(country);
-                              setFieldValue("country", country);
-                            }}
-                          >
-                            {country}
-                          </div>
-                        ))}
-                      </div>
+    return(
+        <div>
+            <Formik            
+            initialValues={{
+                name: '',
+                email: '',
+                city: '',
+                country: '',
+                address: '',
+                phone: '',
+                password: '',
+                passwordConfirmation: '',
+                roles: [],
+            }}
+            validationSchema={registerSchema}
+            onSubmit={handleOnSubmit}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                }) => (
+                    <form onSubmit={handleSubmit}>
+                    <div className="flex gap-16">
+                        <div className="flex flex-col">
+                            <label htmlFor="name" className="font-semibold text-xl">Nombre</label>
+                            <input
+                                type="text"
+                                name="name"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.name}
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
+                            {errors.name && touched.name && <p className=" text-red-500  text-sm">{errors.name}</p>} 
+                        </div>
+                        <div className="flex flex-col">
+                        <label htmlFor="email" className="font-semibold text-xl">Correo</label>
+                        <input
+                            type="email"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                            className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                            />
+                        {errors.email && touched.email && <p className=" text-red-500  text-sm">{errors.email}</p>}
+                        </div>
+                        </div>
+                        <div className="flex gap-16">
+                            <div className="flex flex-col">
+                                <label htmlFor="city" className="font-semibold text-xl">Ciudad</label>
+                                <input
+                                type="text"
+                                name="city"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.city}
+                                className="w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                                />
+                                {errors.city && touched.city && <p className="text-red-500 text-sm">{errors.city}</p>}
+                            </div>
+                            
+                            <div className="flex flex-col">
+                                <SelectCountry value={values.country}
+                                setFieldValue={setFieldValue} />
+                                {errors.country && touched.country && <p className="text-red-500 text-sm">{errors.country}</p>}
+                            </div>
+                            </div>
+                    <div className="flex gap-16">
+                        <div className="flex flex-col">
+                            <label htmlFor="address" className="font-semibold text-xl">Dirección</label>
+                            <input
+                                type="text"
+                                name="address"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.address}
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
+                            {errors.address && touched.address && <p className=" text-red-500  text-sm">{errors.address}</p>}
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="phone" className="font-semibold text-xl">Télefono</label>
+                            <input
+                                type="string"
+                                name="phone"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.phone}
+                                className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"/>
+                            {errors.phone && touched.phone && <p className=" text-red-500  text-sm">{errors.phone}</p>}
+                        </div>
                     </div>
-                  )}
-                </div>
-                {errors.country && touched.country && (
-                  <p className="text-red-500 text-sm">{errors.country}</p>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-16">
-              <div className="flex flex-col">
-                <label htmlFor="address" className="font-semibold text-xl">
-                  Dirección
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.address}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                />
-                {errors.address && touched.address && (
-                  <p className=" text-red-500  text-sm">{errors.address}</p>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="phone" className="font-semibold text-xl">
-                  Télefono
-                </label>
-                <input
-                  type="string"
-                  name="phone"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.phone}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                />
-                {errors.phone && touched.phone && (
-                  <p className=" text-red-500  text-sm">{errors.phone}</p>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-16">
-              <div className="flex flex-col">
-                <label htmlFor="password" className="font-semibold text-xl">
-                  Contraseña
-                </label>
-                <div className="relative">
-                  <input
-                    type={!showPassword ? "password" : "text"}
-                    name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                    className={`w-[350px] p-3 mb-4 border ${
-                      errors.password && touched.password
-                        ? "border-red-500"
-                        : "border-black"
-                    } bg-gray-100 rounded-md`}
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-5 bottom-3 text-gray-500 hover:text-gray-700 transition-colors "
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <FaEye size={22} />
-                    ) : (
-                      <FaEyeSlash size={22} />
-                    )}
-                  </button>
-                </div>
-                {errors.password && touched.password && (
-                  <p className="text-red-500 w-[350px] text-sm">{errors.password}</p>
-                )}
-                {values.password && !errors.password && (
-                  <p className="text-green-500 text-sm">Contraseña válida</p>
-                )}
-              </div>
+                    <div className="flex gap-16">
+                        <div className="flex flex-col">
+                            <label htmlFor="password" className="font-semibold text-xl">Contraseña</label>
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.password}
+                                className={`w-[350px] p-3 mb-4 border ${
+                                    errors.password && touched.password ? "border-red-500" : "border-black"
+                                } bg-gray-100 rounded-md`}
+                            />
+                            {errors.password && touched.password && (
+                                <p className="text-red-500 text-sm">{errors.password}</p>
+                            )}
+                            {values.password && !errors.password && (
+                                <p className="text-green-500 text-sm">Contraseña válida</p>
+                            )}
+                        </div>
 
               <div className="flex flex-col">
                 <label
