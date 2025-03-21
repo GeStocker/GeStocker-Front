@@ -6,7 +6,8 @@ import Link from "next/link";
 import { routes } from "@/routes/routes";
 import { loginUser} from "@/services/user/user";
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const registerSchema = Yup.object({
     email: Yup.string()
@@ -26,16 +27,18 @@ interface FormData{
 }
 
 const LoginView: React.FC = () => {
-    // const router = useRouter();
+    const router = useRouter();
+    const {saveUserData} = useAuth()
 
     const handleOnSubmit = async (values: FormData) => {
         try {
-            await loginUser(values);
-
+            const res = await loginUser(values);
+            console.log(res.token)
+            saveUserData(res.token);
             toast.success("✅ Inicio de sesión exitoso");
 
             setTimeout(() => {
-                // router.push(routes.home);
+                router.push(routes.dashboard);
               }, 2000);
 
         } catch (e: unknown) {

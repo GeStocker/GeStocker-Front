@@ -6,9 +6,19 @@ import { Button } from "../ui/button";
 import { routes } from "@/routes/routes";
 import { FaRegBell, FaRegUser } from "react-icons/fa6";
 import { useAuth } from "@/context/AuthContext";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const UserAuth = () => {
-  const {isAuth} = useAuth();
+  const { isAuth, resetUserData } = useAuth();
+  const router = useRouter()
+
+  const onClickCloseSesion = () => {
+    resetUserData()
+    setTimeout( () => {
+    router.push(routes.home)
+   })
+  }
 
   if (isAuth === null) {
     return (
@@ -20,12 +30,24 @@ const UserAuth = () => {
   if (isAuth) {
     return (
       <div className="w-2/3 flex h-16 gap-4 items-center justify-end px-4 md:px-6 ">
-        <div className=" border rounded-full p-1">
-          <FaRegBell className="size-6 cursor-pointer" />
-        </div>
-        <div className=" border border-gray-950 rounded-full p-1 ">
-          <FaRegUser className="size-6 cursor-pointer" />
-        </div>
+            <div className=" border rounded-full p-1">
+              <FaRegBell className="size-6 cursor-pointer" />
+            </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className=" border border-gray-950 rounded-full p-1 ">
+              <FaRegUser className="size-6 cursor-pointer" />
+            </div>
+            <DropdownMenuSeparator />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+          <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <span onClick={onClickCloseSesion}>Cerrar Sesión</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     );
   }
