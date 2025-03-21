@@ -13,13 +13,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 const registerSchema = Yup.object({
   email: Yup.string()
     .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/,
-      "El correo debe contener '@' y terminar en '.com'"
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      "El correo tiene un formato invalido"
     )
     .required("El correo es obligatorio"),
   password: Yup.string()
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-])[A-Za-z\d@$!%*?&\-]{8,}$/,
+      /^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)(?=.*[@$!%*?&\-.])[A-Za-zñÑ\d@$!%*?&\-.]{8,}$/,
       "Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!%*?&-), y mínimo 8 caracteres"
     )
     .required("La contraseña es obligatoria"),
