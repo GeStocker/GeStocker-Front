@@ -25,8 +25,8 @@ const registerSchema = Yup.object({
         .required("El teléfono es obligatorio"),
     password: Yup.string()
     .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!-), y mínimo 8 caracteres"
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-])[A-Za-z\d@$!%*?&\-]{8,}$/,
+        "Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!%*?&-), y mínimo 8 caracteres"
     )
     .required("La contraseña es obligatoria"),
     passwordConfirmation: Yup.string()
@@ -96,8 +96,8 @@ const RegisterView: React.FC = () => {
 
     const handlePlanChange = (plan: string, setFieldValue: (field: string, value: string | number | boolean | string[] | undefined, shouldValidate?: boolean) => void) => {
         setSelectedPlan(plan);
-        const role = roleByPlan[plan];
-        setFieldValue('role', [role]);
+        const roles = roleByPlan[plan];
+        setFieldValue('roles', [roles]);
     };
 
     const handleOnSubmit = async (values: FormData) => {

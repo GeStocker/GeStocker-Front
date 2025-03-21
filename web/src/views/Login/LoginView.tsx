@@ -13,7 +13,10 @@ const registerSchema = Yup.object({
     .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/, "El correo debe contener '@' y terminar en '.com'")
     .required("El correo es obligatorio"),
     password: Yup.string()
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,"Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!-), y mínimo 8 caracteres")
+    .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-])[A-Za-z\d@$!%*?&\-]{8,}$/,
+        "Debe tener una mayúscula, una minúscula, un número, un carácter especial (@!%*?&-), y mínimo 8 caracteres"
+    )
     .required("La contraseña es obligatoria"),
 });
 
