@@ -7,7 +7,7 @@ const StepCard: React.FC<{icon: string, title: string, description: string}> = (
         <img src={icon} alt="Icono del paso" className='w-9 h-9'/>
         </div>
         <h3 className='text-xl font-bold'>{title}</h3>
-        <p className='text-lg text-textSubtitle text-center'>{description}</p>
+        <p className='text-lg text-custom-textSubtitle text-center'>{description}</p>
     </div>
   )
 }

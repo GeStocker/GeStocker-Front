@@ -14,7 +14,7 @@ const LandingPage = () => {
           <h1 className="text-2xl lg:text-5xl font-bold text-gray-950 text-center lg:text-left">
             Gestiona tu inventario de forma simple y eficiente
           </h1>
-          <p className="text-base lg:text-xl text-textSubtitle text-center lg:text-left">
+          <p className="text-base lg:text-xl text-custom-textSubtitle text-center lg:text-left">
             GeStocker te ayuda a controlar tu stock, realizar seguimiento de
             productos y optimizar tu negocio.
           </p>
@@ -39,7 +39,7 @@ const LandingPage = () => {
         <h2 className="text-xl md:text-4xl font-bold text-gray-950 text-center">
           Comienza en 3 simples pasos
         </h2>
-        <p className="text-base lg:text-xl text-textSubtitle max-w-[30rem] text-center">
+        <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
           Gestionar tu inventario nunca ha sido tan fácil
         </p>
         <div className="flex flex-col lg:flex-row gap-4 my-2 lg:gap-16 lg:my-8 wrap">
@@ -70,7 +70,7 @@ const LandingPage = () => {
         >
           Características principales
         </h2>
-        <p className="text-base lg:text-xl text-textSubtitle max-w-[30rem] text-center">
+        <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
           Todo lo que necesitas para gestionar tu inventario de manera eficiente
         </p>
         <div className="flex flex-col lg:flex-row gap-4 my-2 lg:gap-5 lg:my-8 flex-wrap items-center justify-center">
@@ -104,7 +104,7 @@ const LandingPage = () => {
         <h2 className="text-xl md:text-4xl text-center font-bold text-gray-950 ">
           Planes que se adaptan a tu negocio
         </h2>
-        <p className="text-base lg:text-xl text-textSubtitle max-w-[30rem] text-center">
+        <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
           Elige el plan que mejor se ajuste a las necesidades de tu empresa
         </p>
         <div className="flex flex-col lg:flex-row flex-wrap gap-4 lg:gap-16 my-2 lg:my-8">
@@ -140,7 +140,7 @@ const LandingPage = () => {
           <h1 className="text-2xl lg:text-5xl font-bold text-gray-950 text-center lg:text-left">
             ¿Listo para optimizar tu inventario?
           </h1>
-          <p className="text-base lg:text-xl text-textSubtitle text-center lg:text-left">
+          <p className="text-base lg:text-xl text-custom-textSubtitle text-center lg:text-left">
             Únete a miles de empresas que ya confían en GeStocker para gestionar
             su inventario.
           </p>

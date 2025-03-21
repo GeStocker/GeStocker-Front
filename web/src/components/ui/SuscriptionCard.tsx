@@ -16,7 +16,7 @@ const SuscriptionCard: React.FC<{
           <span className="text-3xl font-bold">{`$`+price}</span>
           <span className="text-base text-textGris">/mes</span>
         </div>
-        <p className="text-lg text-textSubtitle text-start flex flex-col gap-0.5">
+        <p className="text-lg text-custom-textSubtitle text-start flex flex-col gap-0.5">
           {items.map((item, idx) => {
             return <span key={idx}>{`✓ ` + item}</span>;
           })}
