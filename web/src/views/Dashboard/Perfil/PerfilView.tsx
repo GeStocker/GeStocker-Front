@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { format } from "date-fns";
 import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getCookie} from 'cookies-next/client';
 
 interface FormData {
   name: string;
@@ -19,7 +20,6 @@ interface FormData {
   city: string;
   address: string;
   phone: string;
-  country: string;
 }
 
 const registerSchema = Yup.object({
@@ -39,18 +39,19 @@ const registerSchema = Yup.object({
 });
 
 const PerfilView = () => {
-  const { token } = useAuth();
+  const { token, saveUserData } = useAuth();
+
   const [userData, setUserData] = useState({
     name: "",
     email: "",
     city: "",
     address: "",
-    phone: "",
-    country: "",
+    phone: ""
   });
   const [accountData, setAccountData] = useState({
     createdAt: "",
     roles: "",
+    country: ""
   });
   const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
   const [fileImage, setFileImage] = useState<File | null>(null);
@@ -106,11 +107,11 @@ const PerfilView = () => {
         city: city ?? "",
         address: address ?? "",
         phone: phone ?? "",
-        country: country ?? "",
       });
       setAccountData({
         createdAt: createdAt ?? "",
         roles: roles?.[0] ?? "",
+        country: country ?? ""
       });
       if (!img) {
         setUserImage("/sadImage.png");
@@ -122,6 +123,9 @@ const PerfilView = () => {
     }
   };
   useEffect(() => {
+    const cookie = getCookie("token")
+    if(!cookie) return;
+    saveUserData(cookie)
     fetchUserData();
   }, [token]);
 
@@ -326,7 +330,7 @@ const PerfilView = () => {
                             name="country"
                             onChange={handleChange}
                             // onBlur={handleBlur}
-                            value={values.country}
+                            value={accountData.country}
                             disabled
                             className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito disabled:text-custom-textGris"
                           />
