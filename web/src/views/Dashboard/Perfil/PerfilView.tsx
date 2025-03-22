@@ -80,9 +80,9 @@ const PerfilView = () => {
   const handleOnSubmit = async (values: FormData) => {
     try {
       const userId = getUserIdFromToken(token ?? "") ?? "";
-      await updateUser(userId, values);
+      await updateUser(userId, token ?? "", values);
       toast.info("Se han actualizado los datos correctamente");
-      fetchUserData()
+      // fetchUserData()
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al enviar los nuevos datos:", e.message);
@@ -90,7 +90,7 @@ const PerfilView = () => {
         toast.error(`Error: ${e.message}`);
       } else {
         console.warn("Error al enviar los nuevos datos:", e);
-        toast.error("Error al registrar el usuario");
+        toast.error("Error al guardar los datos");
       }
     }
   };
@@ -306,7 +306,7 @@ const PerfilView = () => {
                         <button
                           type="submit"
                           className="w-48 bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300 disabled:bg-custom-GrisOscuro"
-                          disabled
+                          // disabled
                         >
                           Guardar Datos
                         </button>
