@@ -62,22 +62,19 @@ export const updateUser = async (
   }
 };
 
-export const getImageUser = async () => {
-  return null;
-};
 
 export const uploadImageUser = async (
   userId: string,
   token: string,
-  file: File
+  fileImage: File
 ) => {
   try {
-    const formData = new FormData();
-    formData.append("image", file);
-
-    const response = await axios.post(`${API}/users/${userId}`, formData, {
+    const file = new FormData();
+    console.log("Archivo enviado:", fileImage);
+    file.append("file", fileImage);
+    const response = await axios.patch(`${API}/users/${userId}`, file, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
     });
     return response.data.url;
