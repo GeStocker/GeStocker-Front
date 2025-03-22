@@ -3,14 +3,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
-import { getUserById, updateUser } from "@/services/user/user";
+import { getUserById, updateUser, uploadImageUser } from "@/services/user/user";
 
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
 import { format } from "date-fns";
-import ImagePerfil from "./ImagePerfil";
+import { Camera, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface FormData {
   name: string;
@@ -51,12 +52,54 @@ const PerfilView = () => {
     createdAt: "",
     roles: "",
   });
+  const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
+  const [fileImage, setFileImage] = useState<File | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFileImage(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const sendImageToBack = async () => {
+    if (!fileImage) return;
+    try {
+      const userId = getUserIdFromToken(token ?? "") ?? "";
+      await uploadImageUser(userId, token ?? "", fileImage);
+      toast.info("Se han actualizado la imagen correctamente");
+    } catch (error) {
+      console.warn("Error al subir la imagen:", error);
+      toast.error("Error al guardar los datos");
+    }
+  };
+
+  const removeImage = () => {
+    setUserImage("/sadImage.png");
+    setFileImage(null);
+  };
 
   const fetchUserData = async () => {
     try {
+      if (!token) return;
       const userId = getUserIdFromToken(token ?? "") ?? "";
-      const { name, email, city, address, phone, country, createdAt, roles } =
-        await getUserById(userId, token ?? "");
+      const {
+        name,
+        email,
+        city,
+        address,
+        phone,
+        country,
+        createdAt,
+        roles,
+        img,
+      } = await getUserById(userId, token ?? "");
       setUserData({
         name: name ?? "",
         email: email ?? "",
@@ -69,6 +112,11 @@ const PerfilView = () => {
         createdAt: createdAt ?? "",
         roles: roles?.[0] ?? "",
       });
+      if (!img) {
+        setUserImage("/sadImage.png");
+        return;
+      }
+      setUserImage(img);
     } catch (error) {
       console.warn("Error al obtener los datos del usuario", error);
     }
@@ -80,9 +128,8 @@ const PerfilView = () => {
   const handleOnSubmit = async (values: FormData) => {
     try {
       const userId = getUserIdFromToken(token ?? "") ?? "";
-      await updateUser(userId, values);
+      await updateUser(userId, token ?? "", values);
       toast.info("Se han actualizado los datos correctamente");
-      fetchUserData()
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al enviar los nuevos datos:", e.message);
@@ -90,7 +137,7 @@ const PerfilView = () => {
         toast.error(`Error: ${e.message}`);
       } else {
         console.warn("Error al enviar los nuevos datos:", e);
-        toast.error("Error al registrar el usuario");
+        toast.error("Error al guardar los datos");
       }
     }
   };
@@ -107,7 +154,40 @@ const PerfilView = () => {
             <h3 className="text-sm text-custom-textGris">
               Sube una foto para personalizar tu perfil
             </h3>
-            <ImagePerfil />
+            <div className="flex flex-col items-center">
+              <div className=" relative">
+                <img
+                  src={userImage}
+                  alt="User Profile"
+                  className="w-40 h-40 rounded-full"
+                />
+                <div className="absolute -right-2 -bottom-2">
+                  <label htmlFor="profile-image" className="cursor-pointer">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
+                      <Camera className="h-4 w-4" />
+                    </div>
+                  </label>
+                  <input
+                    id="profile-image"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
+                </div>
+              </div>
+              {userImage && (
+                <div className="mt-4 flex gap-2">
+                  <Button variant="outline" size="sm" onClick={sendImageToBack}>
+                    Guardar foto
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={removeImage}>
+                    <Trash2 className="h-4 w-4" />
+                    Eliminar foto
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="p-4 border rounded-md gap-1 flex flex-col">
@@ -306,7 +386,7 @@ const PerfilView = () => {
                         <button
                           type="submit"
                           className="w-48 bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300 disabled:bg-custom-GrisOscuro"
-                          disabled
+                          // disabled
                         >
                           Guardar Datos
                         </button>

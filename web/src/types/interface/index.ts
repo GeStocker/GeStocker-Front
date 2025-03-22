@@ -15,5 +15,6 @@ export interface IUser {
     city: string;
     country: string;
     createdAt: string;
+    img: string;
     roles: UserRole[];
 }
