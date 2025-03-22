@@ -40,7 +40,7 @@ const LoginView: React.FC = () => {
       const res = await loginUser(values);
       console.log(res.token);
       saveUserData(res.token);
-      toast.success("✅ Inicio de sesión exitoso");
+      toast.success("Inicio de sesión exitoso");
 
       setTimeout(() => {
         router.push(routes.dashboard);
@@ -49,10 +49,10 @@ const LoginView: React.FC = () => {
       if (e instanceof Error) {
         console.warn("Error al registrar el usuario:", e.message);
 
-        toast.error(`❌ Error: ${e.message}`);
+        toast.error(`Error: ${e.message}`);
       } else {
         console.warn("Error al registrar el usuario:", e);
-        toast.error("❌ Error al registrar el usuario");
+        toast.error("Error al registrar el usuario");
       }
     }
   };

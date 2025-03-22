@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="w-full flex flex-col gap-6 py-4 px-4 md:px-6 md:flex-row md:items-center md:justify-between md:py-6">
           <div className="flex flex-col gap-4">
           <Link href={routes.home} className="flex items-center gap-1 font-bold">
-          <img src="logo.png" alt="Logo GeStocker" className="h-9 w-9" />
+          <img src="/logo.png" alt="Logo GeStocker" className="h-9 w-9" />
           <span>GeStocker</span>
         </Link>
             <p className="text-sm text-textGris">

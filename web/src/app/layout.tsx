@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/Footer/Footer";
 import {
   VisibleWrapperFooter,
   VisibleWrapperNavbar,
@@ -39,7 +39,7 @@ export default function RootLayout({
           <VisibleWrapperNavbar>
             <Navbar />
           </VisibleWrapperNavbar>
-          <Toaster position="top-right" />
+          <Toaster position="top-right" richColors duration={2000}/>
           <div className="min-h-screen">{children}</div>
           <VisibleWrapperFooter>
             <Footer />
