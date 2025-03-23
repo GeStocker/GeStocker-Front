@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   DropdownMenu,
@@ -13,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { routes } from "@/routes/routes";
 
 const MenuMyProfile = () => {
-  const { resetUserData } = useAuth();
+  const { resetUserData, userPicture } = useAuth();
   const router = useRouter();
 
   const onClickCloseSesion = () => {
@@ -25,9 +26,17 @@ const MenuMyProfile = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <div className=" border border-gray-950 rounded-full p-1">
-          <FaRegUser className="size-6 cursor-pointer" />
-        </div>
+        {userPicture ? (
+          <img
+            src={userPicture}
+            alt="profile picture"
+            className="h-9 w-9 cursor-pointer rounded-full border border-gray-950"
+          />
+        ) : (
+          <div className=" border border-gray-950 rounded-full p-1">
+            <FaRegUser className="size-6 cursor-pointer" />
+          </div>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"

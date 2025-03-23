@@ -1,3 +1,4 @@
+'use client'
 import { routes } from "@/routes/routes";
 import Link from "next/link";
 import React from "react";

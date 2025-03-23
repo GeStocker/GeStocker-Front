@@ -7,6 +7,7 @@ import { routes } from "@/routes/routes";
 import { useAuth } from "@/context/AuthContext";
 import MenuMyProfile from "./MenuMyProfile";
 import NotificationDropdown from "./NotificationDropdown";
+import ModalContacto from "../ModalContact/ModalContact";
 
 const UserAuth = () => {
   const { isAuth } = useAuth();
@@ -28,17 +29,15 @@ const UserAuth = () => {
     );
   }
   return (
-    <div className="w-2/3 flex h-16 items-center justify-between px-6 ">
-      <nav className="hidden gap-6 md:flex pl-32">
-        <Link href="#" className="text-sm font-medium hover:underline">
+    <div className="w-2/3 flex h-16 items-center justify-between px-6">
+      <nav className="hidden gap-6 lg:flex">
+        <Link href={routes.productDetails} className="text-sm font-medium hover:underline">
           Características
         </Link>
-        <Link href="#" className="text-sm font-medium hover:underline">
+        <Link href={routes.productDetails} className="text-sm font-medium hover:underline">
           Precios
         </Link>
-        <Link href="#" className="text-sm font-medium hover:underline">
-          Contacto
-        </Link>
+        <ModalContacto type="text" text="Contacto" className="font-medium text-gray-950"/>
       </nav>
       <div className="flex gap-4 absolute right-1">
         <Link href={routes.login}>

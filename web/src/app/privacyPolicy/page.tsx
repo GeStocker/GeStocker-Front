@@ -1,10 +1,10 @@
 import PrivacyPolicyView from '@/views/PrivacyPolicy/PrivacidadPolicy'
 import React from 'react'
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = async () => {
   return (
     <div>
-        <PrivacyPolicyView />
+        <PrivacyPolicyView/>
     </div>
   )
 }
