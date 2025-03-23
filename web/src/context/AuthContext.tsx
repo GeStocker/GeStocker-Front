@@ -5,7 +5,8 @@ import { getCookie, setCookie, deleteCookie} from 'cookies-next/client';
 interface AuthContextType {
     isAuth: boolean | null,
     token: string | null,
-
+    userPicture: string | null
+    saveUserPicture: (picture: string) => void,
     saveUserData: (token: string) => void,
     resetUserData: () => void,
 }
@@ -16,12 +17,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({children} : {children: ReactNode}) => {
     const [token, setToken] = useState<string | null>(null);
     const [isAuth, setIsAuth] = useState<boolean | null>(null);
+    const [userPicture, setUserPicture] = useState<string | null>(null);
 
     const saveUserData = (token: string) => {
         setCookie("token", token)
         setToken(token)
         setIsAuth(true)
     };
+
+    const saveUserPicture = (picture: string) => {
+        setUserPicture(picture)
+    }
+
     const resetUserData = () => {
         deleteCookie("token")
         setToken(null)
@@ -37,7 +44,7 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
         setToken(token)
     },[])
 
-    return <AuthContext.Provider value={{isAuth, saveUserData, resetUserData, token}}>
+    return <AuthContext.Provider value={{isAuth, saveUserData, resetUserData, token, userPicture, saveUserPicture}}>
         {children}
     </AuthContext.Provider>
 };

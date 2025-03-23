@@ -39,7 +39,7 @@ const registerSchema = Yup.object({
 });
 
 const PerfilView = () => {
-  const { token, saveUserData } = useAuth();
+  const { token, saveUserData, saveUserPicture } = useAuth();
 
   const [userData, setUserData] = useState({
     name: "",
@@ -118,6 +118,7 @@ const PerfilView = () => {
         return;
       }
       setUserImage(img);
+      saveUserPicture(img)
     } catch (error) {
       console.warn("Error al obtener los datos del usuario", error);
     }

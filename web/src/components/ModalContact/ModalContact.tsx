@@ -1,17 +1,38 @@
-// ModalContacto.tsx
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { Button } from "../ui/button";
+import { twMerge } from "tailwind-merge";
 
-const ModalContacto = ({ isOpen, closeModal }: { isOpen: boolean, closeModal: () => void }) => {
-  if (!isOpen) return null;
+const ModalContacto = ({
+  type,
+  text,
+  className
+}: {
+  type: "button" | "text";
+  text: string;
+  className?: string;
+}) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const onClickModal = () => setModalOpen((prev) => !prev);
+
+  if (!isModalOpen)
+    return type === "button" ? (
+      <Button size="lg" variant="outline" className={twMerge("", className)} onClick={onClickModal}>
+        {text}
+      </Button>
+    ) : (
+      <span onClick={onClickModal} className={twMerge("text-sm text-custom-textSubtitle hover:underline", className)}>{text}</span>
+    );
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
         <div
-          onClick={closeModal}
-          className="cursor-pointer text-gray-900 flex justify-end ">
-            <IoClose className="w-6 h-6"/>
+          onClick={onClickModal}
+          className="cursor-pointer text-gray-900 flex justify-end "
+        >
+          <IoClose className="w-6 h-6" />
         </div>
         <h2 className="text-xl font-semibold mb-4">Contacto</h2>
         <form>
