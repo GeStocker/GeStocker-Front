@@ -27,12 +27,14 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
 
     const saveUserPicture = (picture: string) => {
         setUserPicture(picture)
+        setCookie("userPicture", picture)
     }
 
     const resetUserData = () => {
         deleteCookie("token")
         setToken(null)
         setIsAuth(false)
+        deleteCookie("userPicture")
     };
 
     useEffect(()=>{
@@ -42,6 +44,8 @@ export const AuthProvider = ({children} : {children: ReactNode}) => {
             return};
         setIsAuth(true)
         setToken(token)
+        const picture = getCookie("userPicture") ?? null
+        setUserPicture(picture)
     },[])
 
     return <AuthContext.Provider value={{isAuth, saveUserData, resetUserData, token, userPicture, saveUserPicture}}>

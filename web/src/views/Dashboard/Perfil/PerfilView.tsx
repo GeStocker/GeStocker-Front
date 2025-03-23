@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { format } from "date-fns";
 import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getCookie} from 'cookies-next/client';
+import { getCookie } from "cookies-next/client";
 
 interface FormData {
   name: string;
@@ -46,12 +46,12 @@ const PerfilView = () => {
     email: "",
     city: "",
     address: "",
-    phone: ""
+    phone: "",
   });
   const [accountData, setAccountData] = useState({
     createdAt: "",
     roles: "",
-    country: ""
+    country: "",
   });
   const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
   const [fileImage, setFileImage] = useState<File | null>(null);
@@ -74,10 +74,15 @@ const PerfilView = () => {
     try {
       const userId = getUserIdFromToken(token ?? "") ?? "";
       await uploadImageUser(userId, token ?? "", fileImage);
-      toast.info("Se han actualizado la imagen correctamente");
-    } catch (error) {
-      console.warn("Error al subir la imagen:", error);
-      toast.error("Error al guardar los datos");
+      toast.info("Se ha actualizado la imagen correctamente");
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn("Error al subir la imagen:", e.message);
+        toast.error(`Error: ${e.message}`);
+      } else {
+        console.warn("Error al subir la imagen:", e);
+        toast.error("Error al subir la imagen");
+      }
     }
   };
 
@@ -111,22 +116,29 @@ const PerfilView = () => {
       setAccountData({
         createdAt: createdAt ?? "",
         roles: roles?.[0] ?? "",
-        country: country ?? ""
+        country: country ?? "",
       });
       if (!img) {
         setUserImage("/sadImage.png");
         return;
       }
       setUserImage(img);
-      saveUserPicture(img)
-    } catch (error) {
-      console.warn("Error al obtener los datos del usuario", error);
+      saveUserPicture(img);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn("Error al guardar los datos:", e.message);
+
+        toast.error(`Error: ${e.message}`);
+      } else {
+        console.warn("Error al guardar los datos:", e);
+        toast.error("Error al guardar los datos");
+      }
     }
   };
   useEffect(() => {
-    const cookie = getCookie("token")
-    if(!cookie) return;
-    saveUserData(cookie)
+    const cookie = getCookie("token");
+    if (!cookie) return;
+    saveUserData(cookie);
     fetchUserData();
   }, [token]);
 

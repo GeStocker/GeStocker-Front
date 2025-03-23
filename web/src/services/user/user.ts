@@ -42,7 +42,8 @@ export const getUserById = async (
     return user;
   } catch (error) {
     console.warn("Error al obtener usuario:", error);
-    throw new Error("Error al obtener usuario");
+    const errorMessage = (axios.isAxiosError(error) && error.response?.data?.message) || "No se pudo obtener usuario";
+    throw new Error(errorMessage);
   }
 };
 
@@ -59,8 +60,9 @@ export const updateUser = async (
     });
     return "SUCCES_UPDATE";
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al guardar los datos");
+    console.warn("Error al actualizar datos:", error);
+    const errorMessage = (axios.isAxiosError(error) && error.response?.data?.message) || "No se pudo actualizar datos";
+    throw new Error(errorMessage);
   }
 };
 
@@ -81,7 +83,8 @@ export const uploadImageUser = async (
     });
     return response.data.url;
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al subir foto");
+    console.warn("Error al subir foto", error);
+    const errorMessage = (axios.isAxiosError(error) && error.response?.data?.message) || "No se pudo subir foto";
+    throw new Error(errorMessage);
   }
 };
