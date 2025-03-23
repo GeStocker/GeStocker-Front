@@ -8,8 +8,9 @@ export const registerUser = async (userData: Partial<IUser>) => {
     await axios.post(`${API}/auth/signup`, userData);
     return "SUCCESS_REGISTER";
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al registrar el usuario");
+    console.warn("Error al registrar el usuario:", error);
+    const errorMessage = (axios.isAxiosError(error) && error.response?.data?.message) || "No se pudo registrar el usuario";
+    throw new Error(errorMessage);
   }
 };
 
@@ -21,7 +22,8 @@ export const loginUser = async (
     return user.data;
   } catch (error) {
     console.warn("Error al iniciar sesión:", error);
-    throw new Error("Error al iniciar sesión");
+    const errorMessage = (axios.isAxiosError(error) && error.response?.data?.message) || "No se pudo iniciar sesión";
+    throw new Error(errorMessage);
   }
 };
 
