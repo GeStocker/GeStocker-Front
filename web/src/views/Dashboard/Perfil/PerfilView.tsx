@@ -161,7 +161,7 @@ const PerfilView = () => {
             <div className="flex flex-col items-center">
               <div className=" relative">
                 <img
-                  src={userImage}
+                  src={userImage ?? "/sadImage.png"}
                   alt="User Profile"
                   className="w-40 h-40 rounded-full"
                 />
