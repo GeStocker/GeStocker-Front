@@ -110,6 +110,7 @@ const LandingPage = () => {
           Elige el plan que mejor se ajuste a las necesidades de tu empresa
         </p>
         <div className="flex flex-col lg:flex-row flex-wrap gap-4 lg:gap-16 my-2 lg:my-8">
+          <div className="relative">
           <SuscriptionCard
             title="Básico"
             price="19"
@@ -119,7 +120,9 @@ const LandingPage = () => {
               "2 usuarios",
               "2 Soporte por email",
             ]}
-          />
+            />
+            <span className="rounded-lg px-4 border bg-green-100 absolute text-green-500 -right-8 top-1 rotate-12 font-medium text-2xl">7 dias gratuitos</span>
+            </div>
           <SuscriptionCard
             title="Profesional"
             price="49"
