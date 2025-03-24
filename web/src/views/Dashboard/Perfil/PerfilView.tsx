@@ -13,6 +13,8 @@ import { format } from "date-fns";
 import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCookie } from "cookies-next/client";
+import { FaPencil, FaXmark } from "react-icons/fa6";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 interface FormData {
   name: string;
@@ -40,6 +42,20 @@ const registerSchema = Yup.object({
 
 const PerfilView = () => {
   const { token, saveUserData, saveUserPicture } = useAuth();
+
+  const [modifyEnable, setModifyEnable] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogFotoOpen, setDialogFotoOpen] = useState(false);
+
+  const onClickSetDialog = () => {
+    setDialogOpen((prev) => !prev);
+  };
+  const onClickSetFotoDialog = () => {
+    setDialogFotoOpen((prev) => !prev);
+  };
+  const onClickSetModify = () => {
+    setModifyEnable((prev) => !prev);
+  };
 
   const [userData, setUserData] = useState({
     name: "",
@@ -195,12 +211,23 @@ const PerfilView = () => {
               </div>
               {userImage && (
                 <div className="mt-4 flex gap-2">
-                  <Button variant="outline" size="sm" onClick={sendImageToBack}>
+                  <Button variant="outline" size="sm" onClick={onClickSetFotoDialog}>
                     Guardar foto
                   </Button>
+                  {dialogFotoOpen && (
+                        <ConfirmDialog
+                          aceptFunction={() => {
+                            sendImageToBack();
+                            onClickSetFotoDialog();
+                          }}
+                          cancelFunction={onClickSetFotoDialog}
+                          title="¿Quieres guardar esta foto?"
+                          
+                        />
+                      )}
                   <Button variant="outline" size="sm" onClick={removeImage}>
                     <Trash2 className="h-4 w-4" />
-                    Eliminar foto
+                    Descartar
                   </Button>
                 </div>
               )}
@@ -242,12 +269,23 @@ const PerfilView = () => {
 
           <TabsContent value="Informacion personal">
             <section className="w-full p-4 border rounded-md">
-              <h2 className="text-xl text-gray-950 font-bold">
-                Datos personales
-              </h2>
-              <h3 className="text-base text-custom-textGris">
-                Actualiza tus informacion personal
-              </h3>
+              <div className="flex justify-between mb-4">
+                <div>
+                  <h2 className="text-xl text-gray-950 font-bold">
+                    Datos personales
+                  </h2>
+                  <h3 className="text-base text-custom-textGris">
+                    Actualiza tus informacion personal
+                  </h3>
+                </div>
+                <div>
+                  {modifyEnable ? (
+                    <FaXmark onClick={onClickSetModify} className="w-6 h-6" />
+                  ) : (
+                    <FaPencil onClick={onClickSetModify} className="w-6 h-6" />
+                  )}
+                </div>
+              </div>
               <div>
                 <Formik
                   initialValues={userData}
@@ -278,6 +316,7 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.name}
+                            disabled={!modifyEnable}
                             className=" w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.name && touched.name && (
@@ -299,6 +338,7 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
+                            disabled={!modifyEnable}
                             className=" w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.email && touched.email && (
@@ -322,6 +362,7 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.city}
+                            disabled={!modifyEnable}
                             className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.city && touched.city && (
@@ -369,6 +410,7 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.address}
+                            disabled={!modifyEnable}
                             className=" w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.address && touched.address && (
@@ -390,6 +432,7 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.phone}
+                            disabled={!modifyEnable}
                             className=" w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.phone && touched.phone && (
@@ -401,13 +444,25 @@ const PerfilView = () => {
                       </div>
                       <div className="w-full flex justify-center items-center mt-4">
                         <button
-                          type="submit"
+                          type="button"
                           className="w-48 bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300 disabled:bg-custom-GrisOscuro"
-                          // disabled
+                          disabled={!modifyEnable}
+                          onClick={onClickSetDialog}
                         >
                           Guardar Datos
                         </button>
                       </div>
+                      {dialogOpen && (
+                        <ConfirmDialog
+                          aceptFunction={() => {
+                            handleSubmit();
+                            onClickSetDialog();
+                          }}
+                          cancelFunction={onClickSetDialog}
+                          title="Confirmar cambios"
+                          message="¿Seguro de que quieres guardar estos cambios?"
+                        />
+                      )}
                     </form>
                   )}
                 </Formik>
