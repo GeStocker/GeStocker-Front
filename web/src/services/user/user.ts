@@ -74,7 +74,6 @@ export const uploadImageUser = async (
 ) => {
   try {
     const file = new FormData();
-    console.log("Archivo enviado:", fileImage);
     file.append("file", fileImage);
     const response = await axios.patch(`${API}/users/${userId}`, file, {
       headers: {

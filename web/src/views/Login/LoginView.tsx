@@ -38,7 +38,6 @@ const LoginView: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     try {
       const res = await loginUser(values);
-      console.log(res.token);
       saveUserData(res.token);
       toast.success("Inicio de sesión exitoso");
 
