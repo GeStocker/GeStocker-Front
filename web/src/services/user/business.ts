@@ -9,6 +9,7 @@ export const createBusiness = async (
   ): Promise<string> => {
     try {
             await axios.post(`${API}/bussines/`, businessData, {
+              withCredentials: true,
               headers: {
                 Authorization: `Bearer ${token}`,
               },
