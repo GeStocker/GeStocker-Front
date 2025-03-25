@@ -22,6 +22,7 @@ interface FormData {
   city: string;
   address: string;
   phone: string;
+  country: string;
 }
 
 const registerSchema = Yup.object({
@@ -38,6 +39,7 @@ const registerSchema = Yup.object({
     .matches(/^\d+$/, "Debe ser un número válido")
     .min(10, "Debe tener al menos 10 dígitos")
     .required("El teléfono es obligatorio"),
+  country: Yup.string().required("El pais es obligatorio"),
 });
 
 const PerfilView = () => {
@@ -63,11 +65,11 @@ const PerfilView = () => {
     city: "",
     address: "",
     phone: "",
+    country: "",
   });
   const [accountData, setAccountData] = useState({
     createdAt: "",
     roles: "",
-    country: "",
   });
   const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
   const [fileImage, setFileImage] = useState<File | null>(null);
@@ -128,11 +130,11 @@ const PerfilView = () => {
         city: city ?? "",
         address: address ?? "",
         phone: phone ?? "",
+        country: country ?? "",
       });
       setAccountData({
         createdAt: createdAt ?? "",
         roles: roles?.[0] ?? "",
-        country: country ?? "",
       });
       if (!img) {
         setUserImage("/sadImage.png");
@@ -211,20 +213,23 @@ const PerfilView = () => {
               </div>
               {userImage && (
                 <div className="mt-4 flex gap-2">
-                  <Button variant="outline" size="sm" onClick={onClickSetFotoDialog}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onClickSetFotoDialog}
+                  >
                     Guardar foto
                   </Button>
                   {dialogFotoOpen && (
-                        <ConfirmDialog
-                          aceptFunction={() => {
-                            sendImageToBack();
-                            onClickSetFotoDialog();
-                          }}
-                          cancelFunction={onClickSetFotoDialog}
-                          title="¿Quieres guardar esta foto?"
-                          
-                        />
-                      )}
+                    <ConfirmDialog
+                      aceptFunction={() => {
+                        sendImageToBack();
+                        onClickSetFotoDialog();
+                      }}
+                      cancelFunction={onClickSetFotoDialog}
+                      title="¿Quieres guardar esta foto?"
+                    />
+                  )}
                   <Button variant="outline" size="sm" onClick={removeImage}>
                     <Trash2 className="h-4 w-4" />
                     Descartar
@@ -374,7 +379,7 @@ const PerfilView = () => {
 
                         <div className="flex flex-col w-1/2">
                           <label
-                            htmlFor="city"
+                            htmlFor="country"
                             className="font-semibold text-base"
                           >
                             País
@@ -383,16 +388,16 @@ const PerfilView = () => {
                             type="text"
                             name="country"
                             onChange={handleChange}
-                            // onBlur={handleBlur}
-                            value={accountData.country}
-                            disabled
-                            className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito disabled:text-custom-textGris"
+                            onBlur={handleBlur}
+                            value={values.country}
+                            disabled={!modifyEnable}
+                            className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
                           />
-                          {/* {errors.country && touched.country && (
+                          {errors.country && touched.country && (
                             <p className="text-red-500 text-sm">
                               {errors.country}
                             </p>
-                            )} */}
+                          )}
                         </div>
                       </div>
 
