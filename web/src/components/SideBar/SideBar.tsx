@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
@@ -16,10 +17,12 @@ const SideBar = () => {
         </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
-            <div className="flex items-center gap-2 pl-2">
-                <LuClipboardList />
-                <h3>Inventario</h3>
-            </div>
+                <Link href="/dashboard/inventory">
+                <div className="flex items-center gap-2 pl-2">
+                    <LuClipboardList />
+                    <h3>Inventario</h3>
+                </div>
+                </Link>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
                 <h3>Estadisticas</h3>
