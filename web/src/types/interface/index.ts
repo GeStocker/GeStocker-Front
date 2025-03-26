@@ -33,3 +33,9 @@ export interface BusinessDTO {
   address: string;
   description: string;
 }
+
+export interface ICategory {
+  id: string;
+  name: string;
+}
+

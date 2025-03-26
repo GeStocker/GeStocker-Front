@@ -1,9 +1,9 @@
-import FormBusiness from '@/views/Dashboard/FormBusiness'
+import CreateCategory from '@/components/CreateCategory/CreateCategory'
 import React from 'react'
 
 const page = () => {
   return (
-    <FormBusiness/>
+    <CreateCategory/>
   )
 }
 
