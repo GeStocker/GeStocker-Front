@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
-import { loginUser } from "@/services/user/user";
+import { loginUser } from "@/services/user/auth";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";

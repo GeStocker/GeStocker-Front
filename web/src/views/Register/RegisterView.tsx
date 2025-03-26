@@ -6,7 +6,7 @@ import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import { MdCheck } from "react-icons/md";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
-import { registerUser } from "@/services/user/user";
+import { registerUser } from "@/services/user/auth"
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import SelectCountry from "@/components/SelectCountry/SelectCountry";
