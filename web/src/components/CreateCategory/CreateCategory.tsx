@@ -55,12 +55,13 @@ const CreateCategory = () => {
     fetchCategories();
   }, [businessId]);
 
-  const handleOnSubmitCreate = async (values: FormData) => {
+  const handleOnSubmitCreate = async (values: FormData,  { resetForm }: { resetForm: () => void }) => {
     if (!businessId || !token) return;
     try {
       await createCategory(values, businessId, token);
       toast.success("Categoría creada con exito");
       fetchCategories();
+      resetForm()
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al crear categoria", e.message);
@@ -72,12 +73,13 @@ const CreateCategory = () => {
       }
     }
   };
-  const handleOnSubmitEdit = async (values: FormData) => {
+  const handleOnSubmitEdit = async (values: FormData,  { resetForm }: { resetForm: () => void }) => {
     if (!token || selectedCategory.id === "" || !businessId) return;
     try {
       await updateCategory(values, businessId, selectedCategory.id, token);
       toast.success("Categoría editada con exito");
       fetchCategories();
+      resetForm()
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al editar categoria", e.message);

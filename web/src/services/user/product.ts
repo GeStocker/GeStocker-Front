@@ -7,7 +7,7 @@ export interface productDto {
   name: string;
   category: string;
   description: string;
-  file?: File;
+  fileImage?: File;
 }
 
 export const getAllProducts = async (
@@ -39,7 +39,16 @@ export const createProduct = async (
   token: string
 ): Promise<string> => {
   try {
-    await axios.post(`${API}/products/${businessId}`, productData, {
+    const { name, category, description, fileImage } = productData;
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("category", category);
+    formData.append("description", description);
+    if (fileImage) {
+      formData.append("file", fileImage);
+    }
+    await axios.post(`${API}/products/${businessId}`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -61,7 +70,14 @@ export const updateProduct = async (
   token: string
 ): Promise<string> => {
   try {
-    await axios.put(`${API}/products/${id}`, productData, {
+    const { name, description, fileImage } = productData;
+    const formData = new FormData();
+    
+    if (name) formData.append("name", name);
+    if (description) formData.append("description", description);
+    if (fileImage) formData.append("file", fileImage);
+
+    await axios.put(`${API}/products/${id}`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
