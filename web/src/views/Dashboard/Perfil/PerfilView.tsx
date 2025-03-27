@@ -154,9 +154,13 @@ const PerfilView = () => {
     }
   };
   useEffect(() => {
-    const cookie = getCookie("token");
-    if (!cookie) return;
-    saveUserData(cookie);
+    // const cookie = getCookie("token");
+    const urlParams = new URLSearchParams(window.location.search)
+    const token = urlParams.get("token")
+    if (!token) return;
+    saveUserData(token);
+    // if (!cookie) return;
+    // saveUserData(cookie);
     fetchUserData();
   }, [token]);
 
