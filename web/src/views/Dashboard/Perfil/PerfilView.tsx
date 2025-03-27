@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { format } from "date-fns";
 import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getCookie } from "cookies-next/client";
+// import { getCookie } from "cookies-next/client";
 import { FaPencil, FaXmark } from "react-icons/fa6";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
