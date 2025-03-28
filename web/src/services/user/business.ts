@@ -44,3 +44,17 @@ export const getAllBusiness = async (token: string): Promise<IBusiness[]> => {
     throw new Error(errorMessage);
   }
 };
+
+export const getProductsByBusiness = async (businessId: string, token: string) => {
+    try {
+        const response = await axios.get(`${API}/products/business/${businessId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener productos", error);
+        throw new Error("Error al obtener productos");
+    }
+};

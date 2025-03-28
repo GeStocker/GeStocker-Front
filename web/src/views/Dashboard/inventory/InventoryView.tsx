@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FiShoppingCart } from "react-icons/fi";
-import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
-import { CiFilter } from "react-icons/ci";
-import ProductTable from '@/components/ProductTable/ProductTable';
 import StatCard from '@/components/StatCard/StatCard';
 import mockProduct from '@/types/mockproduct';
+import ProductTableInventory from '@/components/ProductTable/ProductTableInventory';
 
 
 
@@ -37,23 +35,8 @@ const InventoryView = () => {
             <StatCard title="Valor del inventario" value={inventoryValue.toFixed(2)} description="Valor total del stock" isCurrency />
          </section>
         <section className='border border-gray-300 rounded-md'>
-            <div className='flex items-center mx-6 p-3'>
-                <div className='flex items-center h-7'>
-                    <HiOutlineMagnifyingGlass className='mx-3'/>
-                    <input type='text' placeholder='Buscar producto' className='border rounded-md p-1  h-7' />
-                </div>
-                <div className='flex items-center border border-gray-300 rounded-md p-1 h-7 mx-4'>
-                    <CiFilter />
-                    <select>
-                        <option>Filtrar por</option>
-                        <option>Categoría</option>
-                        <option>Precio</option>
-                        <option>Estado de stock</option>
-                    </select>
-                </div>
-            </div>
             <div>
-                <ProductTable />
+                <ProductTableInventory />
             </div>
         </section>
     </div>

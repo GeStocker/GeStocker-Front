@@ -1,4 +1,4 @@
-'use client'
+"use client"; 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { getCookie, setCookie, deleteCookie} from 'cookies-next/client';
 

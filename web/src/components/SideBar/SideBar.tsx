@@ -9,18 +9,21 @@ import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
 import { LuClipboardList } from 'react-icons/lu'
 import { toast } from 'sonner'
+import { Button } from '../ui/button'
+import { routes } from '@/routes/routes'
+import BusinessSelect from '../BusinessSelect/BusinessSelect'
 
 const SideBar = () => {
     const { saveBusinessId} = useBusiness();
-    const [business, setBusiness] = useState<string>("")
+    const [businesses, setBusinesses] = useState<{ id: string; name: string }[]>([]);
      const { token } = useAuth();
 
     const fetchBusiness = async () => {
         if (!token) return;
         try {
-            const business = await getAllBusiness(token);
-            saveBusinessId(business[0].id)
-            setBusiness(business[0].name)
+            const businessList = await getAllBusiness(token);
+            saveBusinessId(businessList[0].id);
+            setBusinesses(businessList);
             
         } catch (e: unknown) {
             if (e instanceof Error) {
@@ -40,11 +43,7 @@ const SideBar = () => {
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
         <div className="flex items-center justify-center m-5 h-6">
-            <select className=" bg-background  text-center border border-black rounded-md p-2">
-                <option>{business}</option>
-                <option>Sucursal 1</option>
-                <option>Sucursal 2</option>
-            </select>
+           <BusinessSelect businesses={businesses} />
         </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
@@ -69,6 +68,12 @@ const SideBar = () => {
                 <DiAptana />
                 <h3>Configuracion</h3>
             </div>
+        </div>
+        <div className="flex flex-col gap-2 mt-6">
+            <Link href={routes.createBusiness}>   
+            <Button variant={'outline'}>Agregar Negocio</Button>
+            </Link>
+            <Button variant={'outline'}>Agregar inventario</Button>
         </div>
         <div className="flex-grow"></div>
 

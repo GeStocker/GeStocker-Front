@@ -40,12 +40,14 @@ export interface ICategory {
 }
 
 export interface IProduct {
-  id: string;
-  name: string;
-  description: string;
-  img: string;
-  isActive: boolean;
-  createAt: string;
-  business: IBusiness;
-  category: ICategory;
+  product_id: string;
+  product_name: string;
+  product_description: string;
+  product_img: string;
+  product_isActive: boolean;
+  product_createdAt: string;
+  product_businessId: string;
+  product_productCategory_id: string;
+  category_name: string;
+  inventoryProduct_stock: number | null;
 }

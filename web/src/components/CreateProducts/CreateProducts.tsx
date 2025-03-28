@@ -185,22 +185,22 @@ const CreateProducts = () => {
         <div className="flex flex-col h-fit w-[300] max-h-96 overflow-y-auto">
           {products ? (
             products
-              .sort((a, b) => a.name.localeCompare(b.name))
+              .sort((a, b) => a.product_name.localeCompare(b.product_name))
               .map((product) => (
                 <span
-                  key={product.id}
+                  key={product.product_id}
                   onClick={() => {
                     setSelectedProduct({
-                      id: product.id,
-                      name: product.name,
-                      description: product.description,
-                      fileImage: product.img,
+                      id: product.product_id,
+                      name: product.product_name,
+                      description: product.product_description,
+                      fileImage: product.product_img,
                       // category: "product.category"
                     });
                   }}
                   className="cursor-pointer hover:text-teal-800 text-lg"
                 >
-                  {product.name}
+                  {product.product_name}
                 </span>
               ))
           ) : (

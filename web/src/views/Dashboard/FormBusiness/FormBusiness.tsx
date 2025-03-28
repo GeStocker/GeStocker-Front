@@ -32,7 +32,7 @@ const FormBusiness: React.FC = () => {
       await createBusiness(token  ?? "", values);
       toast.success("Negocio agregado con exito");
       setTimeout(() => {
-        router.push(routes.dashboard);
+        router.push(routes.business);
       }, 2000);
     } catch (e: unknown) {
       if (e instanceof Error) {
