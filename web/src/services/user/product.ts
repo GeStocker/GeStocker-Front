@@ -65,16 +65,17 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  productData: Partial<productDto>,
+  productData: productDto,
   id: string,
   token: string
 ): Promise<string> => {
   try {
-    const { name, description, fileImage } = productData;
+    const { name, description, category, fileImage } = productData;
     const formData = new FormData();
     
     if (name) formData.append("name", name);
     if (description) formData.append("description", description);
+    if (category) formData.append("category", category);
     if (fileImage) formData.append("file", fileImage);
 
     await axios.put(`${API}/products/${id}`, formData, {
