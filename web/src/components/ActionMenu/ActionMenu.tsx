@@ -23,12 +23,6 @@ const ActionMenu =({ onEdit }: ActionMenuProps) => {
           <DropdownMenuItem  onClick={onEdit}>
             Editar
           </DropdownMenuItem>
-<<<<<<< HEAD
-=======
-          <DropdownMenuItem onClick={() => console.log("Duplicar")}>
-            Duplicar
-          </DropdownMenuItem>
->>>>>>> 9a62230c5394fbc85c060173eee72dd1ce1a50e1
           <DropdownMenuItem
             className="text-red-500"
             onClick={() => console.log("Eliminar")}

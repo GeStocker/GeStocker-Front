@@ -12,8 +12,6 @@ import { getAllProducts } from '@/services/user/product';
 import { toast } from 'sonner';
 import { IProduct } from '@/types/interface';
 
-
-
 const BusinessView = () => {
     const { businessId } = useBusiness();
     const [products, setProducts] = useState<IProduct[]>([]);

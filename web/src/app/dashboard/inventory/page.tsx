@@ -9,4 +9,4 @@ const Inventory = () => {
   )
 }
 
-export default page
+export default Inventory
