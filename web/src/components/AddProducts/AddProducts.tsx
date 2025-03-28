@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { addProduct } from "@/services/user/inventory_product";
 
 const productSchema = Yup.object({
   stock: Yup.number()
@@ -20,6 +21,7 @@ const productSchema = Yup.object({
 });
 
 interface FormData {
+  id: string;
   stock: number;
   price: number;
 }
@@ -29,6 +31,8 @@ interface ISelectProduct {
   name: string;
   stock: number;
   price: number;
+  newStock?: number;
+  newPrice?: number;
 }
 
 const AddProducts = () => {
@@ -81,7 +85,34 @@ const AddProducts = () => {
     values: FormData
     // { resetForm }: { resetForm: () => void }
   ) => {
-    console.log(values);
+    setSelectedProducts((prev) =>
+      prev.map((p) =>
+        p.id === values.id
+          ? { ...p, newStock: values.stock, newPrice: values.price }
+          : p
+      )
+    );
+    console.log(selectedProducts);
+  };
+
+  const handleSendProducts = async () => {
+    if (!token || !businessId) return;
+    try {
+      const productos = selectedProducts.map((p) => {
+        const { id, newPrice, newStock} = p
+        return { productId: id, sellingPrice: newPrice ?? 1, purchasePrice: newPrice ?? 1, quantity: newStock ?? 0 };
+      });
+      await addProduct(
+        productos,
+        "ae2f9f59-e37c-4359-90b8-3bb3a6886c4e",
+        businessId,
+        token
+      );
+      toast.success("Se añadieron con exito");
+    } catch (error) {
+      console.log(error);
+      toast.error("Problemones");
+    }
   };
 
   return (
@@ -108,14 +139,14 @@ const AddProducts = () => {
                     .map((product) => (
                       <div
                         key={product.product_id}
-                        className="grid grid-cols-3  text-lg gap-1"
+                        className="grid grid-cols-3 text-lg gap-1"
                       >
                         <label className="flex gap-1 cursor-pointer hover:text-teal-800">
                           <input
                             type="checkbox"
                             onClick={onClickSelectProduct({
                               id: product.product_id,
-                              name: product.category_name,
+                              name: product.product_name,
                               stock: product.inventoryProduct_stock ?? 0,
                               price: product.inventoryProduct_price ?? 0,
                             })}
@@ -137,22 +168,22 @@ const AddProducts = () => {
           <div className="flex flex-col gap-1 justify-center">
             {selectedProducts ? (
               <div className="flex flex-col gap-1">
-                <div className="grid grid-cols-3 text-center">
+                <div className="grid grid-cols-4 text-center">
                   <span>Producto</span>
                   <span>Stock actual</span>
                   {/* <span>Stock final</span> */}
-                  <div className="flex justify-between">
-                    <span>Añadir stock</span>
-                    <span>Precio</span>
-                  </div>
+                  {/* <div className="flex justify-between"> */}
+                  <span>Añadir stock</span>
+                  <span>Precio</span>
+                  {/* </div> */}
                 </div>
                 {selectedProducts.map((p) => {
                   return (
-                    <div key={p.id} className="grid grid-cols-3 text-center">
-                      <span>{p.name}</span>
-                      <span>{p.stock}</span>
+                    <div key={p.id}>
                       <Formik
+                        className="grid grid-cols-4 text-center"
                         initialValues={{
+                          id: p.id,
                           stock: 0,
                           price: p.price,
                         }}
@@ -172,6 +203,8 @@ const AddProducts = () => {
                             onSubmit={handleSubmit}
                             className="flex gap-2 justify-between"
                           >
+                            <span>{p.name}</span>
+                            <span>{p.stock}</span>
                             <input
                               type="number"
                               name="stock"
@@ -204,6 +237,9 @@ const AddProducts = () => {
                           </form>
                         )}
                       </Formik>
+                      <Button size="lg" onClick={handleSendProducts}>
+                        Enviar data
+                      </Button>
                     </div>
                   );
                 })}
