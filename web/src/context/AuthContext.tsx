@@ -85,9 +85,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             secure: true, // Solo para HTTPS
             // sameSite: "strict", // Evita problemas con requests cruzadas
           });
+        }
         setToken(token);
         setIsAuth(true);
-      }
     } catch (error) {
       console.error("Error al decodificar el token:", error);
     }
