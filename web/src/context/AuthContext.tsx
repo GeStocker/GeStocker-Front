@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const saveUserData = (token: string) => {
     if (!token) return;
     try {
-      const userId = getUserIdFromToken(token)
+      const userId = getUserIdFromToken(token);
       if (!userId) {
         console.warn("Token no válido, no es un token enviado del backend");
         return;
@@ -62,8 +62,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuth(false);
       return;
     }
-    setIsAuth(true);
-    setToken(token);
+    try {
+      const userId = getUserIdFromToken(token);
+      if (!userId) {
+        console.warn("Token no válido, no es un token enviado del backend");
+        return;
+      }
+      const existingToken = getCookie("token");
+      if (existingToken !== token) {
+        setCookie("token", token);
+        setToken(token);
+        setIsAuth(true);
+      }
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+    }
     const picture = getCookie("userPicture") ?? null;
     setUserPicture(picture);
   }, []);
