@@ -1,15 +1,46 @@
-import React from 'react'
+"use client"
+import { useAuth } from '@/context/AuthContext'
+import { useBusiness } from '@/context/BusinessContext'
+import { getAllBusiness } from '@/services/user/business'
+import React, { useEffect, useState } from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
 import { LuClipboardList } from 'react-icons/lu'
+import { toast } from 'sonner'
 
 const SideBar = () => {
+    const { saveBusinessId} = useBusiness();
+    const [business, setBusiness] = useState<string>("")
+     const { token } = useAuth();
+
+    const fetchBusiness = async () => {
+        if (!token) return;
+        try {
+            const business = await getAllBusiness(token);
+            saveBusinessId(business[0].id)
+            setBusiness(business[0].name)
+            
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+              console.warn("Error al traer las categorias:", e.message);
+      
+              toast.error(`Error: ${e.message}`);
+            } else {
+              console.warn("Error al traer las categorias:", e);
+              toast.error("Error al traer las categorias");
+            }
+          }
+    }
+    useEffect(()=>{
+        fetchBusiness()
+    }, [token])
+
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
-        <div className="flex items-center justify-center m-5 h-6 border border-black">
+        <div className="flex items-center justify-center m-5 h-6">
             <select className=" bg-background  text-center border border-black rounded-md p-2">
-                <option>Negocio Principal</option>
+                <option>{business}</option>
                 <option>Sucursal 1</option>
                 <option>Sucursal 2</option>
             </select>

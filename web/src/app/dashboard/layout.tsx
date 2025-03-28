@@ -1,4 +1,5 @@
-import SideBar from '@/components/SideBar/SideBar'
+import SideBar from "@/components/SideBar/SideBar";
+import { BusinessProvider } from "@/context/BusinessContext";
 
 export default function DashboardLayout({
   children,
@@ -7,8 +8,10 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex">
-       <SideBar/>
-      <div className='w-full'>{children}</div>
+      <BusinessProvider>
+        <SideBar />
+        <div className="w-full">{children}</div>
+      </BusinessProvider>
     </div>
   );
 }
