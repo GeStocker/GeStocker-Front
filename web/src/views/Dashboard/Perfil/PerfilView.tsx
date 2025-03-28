@@ -153,6 +153,9 @@ const PerfilView = () => {
     }
   };
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenUrl = urlParams.get("token");
+    if (tokenUrl) saveUserData(tokenUrl);
     if (token) fetchUserData();
   }, [token]);
 
