@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Formik, FormikHelpers } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { getAllProducts } from "@/services/user/product";
 import { IProduct } from "@/types/interface";
