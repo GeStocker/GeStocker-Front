@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [userPicture, setUserPicture] = useState<string | null>(null);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const saveUserData = (token: string) => {
     if (!token) return;
@@ -39,11 +39,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const existingToken = getCookie("token");
       if (existingToken !== token) {
         setCookie("token", token, {
-            path: "/", // Asegura que sea accesible en toda la app
-            domain: "ge-stocker.vercel.app", // Fija el dominio principal
-            secure: true, // Solo para HTTPS
-            // sameSite: "strict", // Evita problemas con requests cruzadas
-          });
+          path: "/", // Asegura que sea accesible en toda la app
+          secure: true, // Solo para HTTPS
+          sameSite: "strict", // Evita problemas con requests cruzadas
+        });
         setToken(token);
         setIsAuth(true);
         router.replace("/dashboard/perfil");
@@ -59,7 +58,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resetUserData = () => {
-    deleteCookie("token");
+    deleteCookie("token", { path: "/" });
+    deleteCookie("token", { path: "/", domain: ".ge-stocker.vercel.app" });
+    deleteCookie("token", { path: "/", domain: "ge-stocker.vercel.app" });
+    
     setToken(null);
     setIsAuth(false);
     deleteCookie("userPicture");
@@ -80,14 +82,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const existingToken = getCookie("token");
       if (existingToken !== token) {
         setCookie("token", token, {
-            path: "/", // Asegura que sea accesible en toda la app
-            domain: "ge-stocker.vercel.app", // Fija el dominio principal
-            secure: true, // Solo para HTTPS
-            // sameSite: "strict", // Evita problemas con requests cruzadas
-          });
-        }
-        setToken(token);
-        setIsAuth(true);
+          path: "/", // Asegura que sea accesible en toda la app
+          secure: true, // Solo para HTTPS
+          sameSite: "strict", // Evita problemas con requests cruzadas
+        });
+      }
+      setToken(token);
+      setIsAuth(true);
     } catch (error) {
       console.error("Error al decodificar el token:", error);
     }
