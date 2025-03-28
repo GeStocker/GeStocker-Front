@@ -1,15 +1,10 @@
 "use client";
 import { API } from '@/services/user/user';
-// import axios from 'axios';
 import React from 'react';
 import { FcGoogle } from "react-icons/fc";
 
 
 const ButtonGoogle: React.FC = () => {
-  // const api = axios.create({
-  //   baseURL: API,
-  //   withCredentials: true
-  // })
   return (
     <div className="w-full flex justify-center items-center mt-4">
     <a
