@@ -8,6 +8,7 @@ import {
 } from "react";
 import { getCookie, setCookie, deleteCookie } from "cookies-next/client";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   isAuth: boolean | null;
@@ -25,6 +26,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [userPicture, setUserPicture] = useState<string | null>(null);
 
+  const router = useRouter()
+
   const saveUserData = (token: string) => {
     if (!token) return;
     try {
@@ -35,9 +38,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       const existingToken = getCookie("token");
       if (existingToken !== token) {
-        setCookie("token", token);
+        setCookie("token", token, {
+            path: "/", // Asegura que sea accesible en toda la app
+            domain: "ge-stocker.vercel.app", // Fija el dominio principal
+            secure: true, // Solo para HTTPS
+            // sameSite: "strict", // Evita problemas con requests cruzadas
+          });
         setToken(token);
         setIsAuth(true);
+        router.replace("/dashboard/perfil");
       }
     } catch (error) {
       console.error("Error al decodificar el token:", error);
@@ -70,7 +79,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       const existingToken = getCookie("token");
       if (existingToken !== token) {
-        setCookie("token", token);
+        setCookie("token", token, {
+            path: "/", // Asegura que sea accesible en toda la app
+            domain: "ge-stocker.vercel.app", // Fija el dominio principal
+            secure: true, // Solo para HTTPS
+            // sameSite: "strict", // Evita problemas con requests cruzadas
+          });
         setToken(token);
         setIsAuth(true);
       }
