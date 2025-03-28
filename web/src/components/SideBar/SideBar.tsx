@@ -53,6 +53,12 @@ const SideBar = () => {
                     <h3>Inventario</h3>
                 </div>
                 </Link>
+                <Link href="/dashboard/inventory">
+                <div className="flex items-center gap-2 pl-2">
+                    <LuClipboardList />
+                    <h3>Inventario</h3>
+                </div>
+                </Link>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
                 <h3>Estadisticas</h3>
