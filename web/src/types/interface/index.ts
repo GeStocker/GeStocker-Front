@@ -45,9 +45,9 @@ export interface IProduct {
   product_description: string;
   product_img: string;
   product_isActive: boolean;
-  product_createdAt: string;
+  product_createAt: string;
   product_businessId: string;
-  product_productCategory_id: string;
   category_name: string;
-  inventoryProduct_stock: number | null;
+  inventoryProduct_stock: number | null
+  inventoryProduct_price: number | null
 }

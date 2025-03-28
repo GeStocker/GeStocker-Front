@@ -12,7 +12,6 @@ import * as Yup from "yup";
 import { format } from "date-fns";
 import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getCookie } from "cookies-next/client";
 import { FaPencil, FaXmark } from "react-icons/fa6";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
@@ -154,10 +153,10 @@ const PerfilView = () => {
     }
   };
   useEffect(() => {
-    const cookie = getCookie("token");
-    if (!cookie) return;
-    saveUserData(cookie);
-    fetchUserData();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenUrl = urlParams.get("token");
+    if (tokenUrl) saveUserData(tokenUrl);
+    if (token) fetchUserData();
   }, [token]);
 
   const handleOnSubmit = async (values: FormData) => {
