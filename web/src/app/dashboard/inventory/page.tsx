@@ -1,10 +1,14 @@
-import FormBusiness from '@/views/Dashboard/FormBusiness/FormBusiness'
+import AddSellProducts from '@/components/AddProducts/AddSellProducts'
+import InventoryView from '@/views/Dashboard/inventory/InventoryView'
 import React from 'react'
 
-const page = () => {
+const Inventory = () => {
   return (
-    <FormBusiness/>
+    <div>
+      {/* <InventoryView/> */}
+      <AddSellProducts type="sell"/>
+    </div>
   )
 }
 
-export default page
+export default Inventory

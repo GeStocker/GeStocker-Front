@@ -1,10 +1,13 @@
-'use client'
+"use client"; 
+import { IProduct } from "@/types/interface";
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface BusinessContextType {
     businessId: string | null,
+    productsBusiness: IProduct[];
     saveBusinessId: (businessId: string) => void,
     resetBusiness: () => void,
+    saveProductsBusiness: (products: IProduct[]) => void;
 }
 
 const BusinessContext = createContext<BusinessContextType | undefined>(undefined)
@@ -12,16 +15,29 @@ const BusinessContext = createContext<BusinessContextType | undefined>(undefined
 
 export const BusinessProvider = ({children} : {children: ReactNode}) => {
     const [businessId, setBusinessId] = useState<string | null>(null);
+    const [productsBusiness, setProductsBusiness] = useState<IProduct[]>([]);
 
     const saveBusinessId = (businessId: string) => {
         setBusinessId(businessId)
     };
 
     const resetBusiness = () => {
-        setBusinessId(null)
+        setBusinessId(null);
+        setProductsBusiness([]);
     };
 
-    return <BusinessContext.Provider value={{businessId, saveBusinessId, resetBusiness}}>
+    const saveProductsBusiness = (products: IProduct[]) => {
+        setProductsBusiness(products);
+    };
+
+    return <BusinessContext.Provider
+     value={{
+        businessId, 
+        productsBusiness, 
+        saveBusinessId, 
+        resetBusiness, 
+        saveProductsBusiness 
+     }}>
         {children}
     </BusinessContext.Provider>
 };

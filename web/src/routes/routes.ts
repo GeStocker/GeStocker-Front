@@ -1,3 +1,4 @@
+
 export const routes = {
    home: "/",
    login: "/login",
@@ -8,5 +9,10 @@ export const routes = {
    privacyPolicy: "/privacyPolicy",
    cookiePolicy: "/cookiePolicy",
    howItWorks: "/howItWorks",
-   contact: "/contact"
+   contact: "/contact",
+   createBusiness: "/createBusiness",
+   business: "dashboard/business",
+   inventory: "/dashboard/inventory",
+   createProducts: "/dashboard/business/createProducts",
+   createCategory: "/dashboard/business/createCategory",
 }
