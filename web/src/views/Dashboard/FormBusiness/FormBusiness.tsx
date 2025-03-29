@@ -2,7 +2,6 @@
 import React  from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { routes } from "@/routes/routes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -32,7 +31,7 @@ const FormBusiness: React.FC = () => {
       await createBusiness(token  ?? "", values);
       toast.success("Negocio agregado con exito");
       setTimeout(() => {
-        router.push(routes.business);
+        router.push("/dashboard/business/[id]");
       }, 2000);
     } catch (e: unknown) {
       if (e instanceof Error) {

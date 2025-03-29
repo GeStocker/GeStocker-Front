@@ -32,3 +32,22 @@ export const addProduct = async (
     throw new Error(errorMessage);
   }
 };
+
+
+export const getProductsByInventory = async (InventoryId: string, token: string) => {
+  try {
+      const response = await axios.get(`${API}/inventory-products/${InventoryId}`, {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      });
+      console.log("productos del inventario", response)
+      return response.data;
+  } catch (error) {
+      console.error("Error al obtener productos", error);
+      throw new Error("Error al obtener productos");
+  }
+};
+
+
+

@@ -11,6 +11,7 @@ export const routes = {
    howItWorks: "/howItWorks",
    contact: "/contact",
    createBusiness: "/createBusiness",
+   createInventory:  "/createInventory",
    business: "dashboard/business",
    inventory: "/dashboard/inventory",
    createProducts: "/dashboard/business/createProducts",

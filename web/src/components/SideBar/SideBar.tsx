@@ -7,36 +7,30 @@ import React, { useEffect, useState } from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
-import { LuClipboardList } from 'react-icons/lu'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { routes } from '@/routes/routes'
 import BusinessSelect from '../BusinessSelect/BusinessSelect'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import InventoryList from '../InventoryList/InventoryList'
 
 const SideBar = () => {
     const { saveBusinessId } = useBusiness();
     const [businesses, setBusinesses] = useState<{ id: string; name: string }[]>([]);
-    const [selectedBusinessId, setSelectedBusinessId] = useState<string>(""); // Estado para el negocio seleccionado
+    const [selectedBusinessId, setSelectedBusinessId] = useState<string>(""); 
     const { token } = useAuth();
     const router = useRouter();
+    const pathname = usePathname(); 
 
     const fetchBusiness = async () => {
         if (!token) return;
         try {
             const businessList = await getAllBusiness(token);
-
-            // Leer el businessId almacenado en localStorage
             const storedBusinessId = localStorage.getItem("selectedBusinessId");
-
-            // Si hay un businessId almacenado, seleccionarlo; de lo contrario, seleccionar el primero
             const initialBusinessId = storedBusinessId || businessList[0]?.id || "";
-
-            saveBusinessId(initialBusinessId); // Guardar en el contexto
-            setBusinesses(businessList); // Actualizar la lista de negocios
-            setSelectedBusinessId(initialBusinessId); // Actualizar el estado del negocio seleccionado
-
-            // Guardar el businessId seleccionado en localStorage
+            saveBusinessId(initialBusinessId); 
+            setBusinesses(businessList);
+            setSelectedBusinessId(initialBusinessId);
             localStorage.setItem("selectedBusinessId", initialBusinessId);
         } catch (e: unknown) {
             if (e instanceof Error) {
@@ -53,15 +47,25 @@ const SideBar = () => {
         fetchBusiness();
     }, [token]);
 
+    useEffect(() => {
+        const isBusinessRoute = /^\/dashboard\/business\/[^/]+$/.test(pathname);
+        if (!isBusinessRoute) {
+            localStorage.removeItem("selectedBusinessId");
+            saveBusinessId("");
+            setSelectedBusinessId(""); 
+        }
+    }, [pathname]); 
+
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedBusinessId = event.target.value;
         if (selectedBusinessId) {
-            saveBusinessId(selectedBusinessId); // Guardar en el contexto
-            setSelectedBusinessId(selectedBusinessId); // Actualizar el estado
-            localStorage.setItem("selectedBusinessId", selectedBusinessId); // Guardar en localStorage
-            router.push(`/dashboard/business/${selectedBusinessId}`); // Redirigir
+            saveBusinessId(selectedBusinessId); 
+            setSelectedBusinessId(selectedBusinessId); 
+            localStorage.setItem("selectedBusinessId", selectedBusinessId);
+            router.push(`/dashboard/business/${selectedBusinessId}`);
         }
     };
+
 
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
@@ -69,17 +73,15 @@ const SideBar = () => {
                 <BusinessSelect
                     businesses={businesses}
                     onChange={handleChange}
-                    value={selectedBusinessId} // Pasar el valor seleccionado
+                    value={selectedBusinessId}
                 />
             </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
-                <Link href="/dashboard/inventory">
                 <div className="flex items-center gap-2 pl-2">
-                    <LuClipboardList />
-                    <h3>Inventario</h3>
+                    <InventoryList/>
+                    
                 </div>
-                </Link>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
                 <h3>Estadisticas</h3>
@@ -100,7 +102,9 @@ const SideBar = () => {
             <Link href={routes.createBusiness}>   
             <Button variant={'outline'}>Agregar Negocio</Button>
             </Link>
+            <Link href={routes.createInventory}>
             <Button variant={'outline'}>Agregar inventario</Button>
+            </Link>
         </div>
         <div className="flex-grow"></div>
 

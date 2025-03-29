@@ -25,7 +25,7 @@ export interface IBusiness {
   description: string;
   createdAt: string;
   isActive: boolean;
-  inventories: []; //ARREGLO DE INVENTARIOS HACER INTERFACE Y ACOMODARLA
+  inventories: []; 
 }
 
 export interface BusinessDTO {
@@ -33,6 +33,13 @@ export interface BusinessDTO {
   address: string;
   description: string;
 }
+
+export interface InventoryDTO {
+  name: string;
+  address: string;
+  description: string;
+}
+
 
 export interface ICategory {
   id: string;
