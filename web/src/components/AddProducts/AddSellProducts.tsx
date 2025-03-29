@@ -3,38 +3,49 @@ import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import * as Yup from "yup";
 import { getAllProducts } from "@/services/user/product";
-import { IProduct } from "@/types/interface";
+import { IProduct, IStockProduct } from "@/types/interface";
 import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { addProduct } from "@/services/user/inventory_product";
+import { addProduct, getProductsByInventory, saveSellOrder } from "@/services/user/inventory_product";
 
 const productSchema = Yup.object({
   newStock: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
-    .required("Hay un campo vacío"),
+    .required("Este campo es obligatorio"),
   purchasePrice: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
-    .required("Hay un campo vacío"),
+    .required("Este campo es obligatorio"),
   sellingPrice: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
-    .required("Hay un campo vacío"),
+    .required("Este campo es obligatorio"),
 });
+
+const sellSchema = Yup.object({
+  sellQuantity: Yup.number()
+    .min(1, "Debe ser mayor o igual a 1")
+    .required("Este campo es obligatorio")
+});
+
 
 interface ISelectProduct {
   id: string;
+  productInventoryId: string;
   name: string;
   stock: number;
   price: number;
   newStock?: number;
   purchasePrice?: number;
   sellingPrice?: number;
+  sellQuantity?: number;
 }
 
-const AddSellProducts = () => {
+const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
+
+
   const { token } = useAuth();
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IStockProduct[]>([]);
   const { businessId } = useBusiness();
   const [selectedProducts, setSelectedProducts] = useState<ISelectProduct[]>(
     []
@@ -45,11 +56,14 @@ const AddSellProducts = () => {
     []
   );
 
+  const [discount, setDiscount] = useState(0);
+  const [discountError, setDiscountError] = useState<string | null>(null);
+
   const fetchProducts = async () => {
     if (!token) return;
     try {
-      if (!businessId) return;
-      const products = await getAllProducts(businessId, token);
+      if (!inventoryId) return;
+      const products = await getProductsByInventory(inventoryId, token);
       setProducts(products);
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -74,6 +88,7 @@ const AddSellProducts = () => {
         ...prev,
         {
           id: product.id,
+          productInventoryId: product.productInventoryId,
           stock: product.stock,
           name: product.name,
           price: product.price,
@@ -115,8 +130,14 @@ const AddSellProducts = () => {
     }
   };
 
+  const handleChangeDiscount = async (
+    value: string
+  ) => {
+    setDiscount(parseFloat(value));
+  };
+
   const sendProducts = async (selectedProducts: ISelectProduct[]) => {
-    if (!token || !businessId) return;
+    if (!token || !businessId || !inventoryId) return;
     try {
       const productos = selectedProducts.map((p) => {
         const { id, purchasePrice, sellingPrice, newStock } = p;
@@ -128,7 +149,7 @@ const AddSellProducts = () => {
         };
       });
       await addProduct(productos, inventoryId, businessId, token);
-      setSelectedProducts([])
+      setSelectedProducts([]);
       toast.success("Se añadieron con exito");
       fetchProducts();
     } catch (error) {
@@ -136,16 +157,43 @@ const AddSellProducts = () => {
       toast.error("No se pudo añadir los productos");
     }
   };
-
+  const sendSellOrder = async (selectedProducts: ISelectProduct[]) => {
+    if (!token || !inventoryId) return;
+    try {
+      const productos = selectedProducts.map((p) => {
+        const { productInventoryId, sellQuantity } = p;
+        return {
+          inventoryProductId: productInventoryId,
+          quantity: sellQuantity ?? 0,
+        };
+      });
+      console.log(discount)
+      await saveSellOrder(
+        { outgoingProducts: productos, discount },
+        inventoryId,
+        token
+      );
+      setSelectedProducts([]);
+      toast.success("Se creo venta con exito");
+      fetchProducts();
+    } catch (error) {
+      console.warn(error);
+      toast.error("No se pudo crear la venta");
+    }
+  };
 
   const handleSendProducts = async () => {
     let hasErrors = false; // Bandera para verificar si hay errores
-  
+
     // Validamos todos los productos con Yup
     await Promise.all(
       selectedProducts.map(async (product, index) => {
         try {
-          await productSchema.validate(product, { abortEarly: false });
+          if(type === "add") {
+            await productSchema.validate(product, { abortEarly: false });
+          }
+          if (type === "sell")
+            await sellSchema.validate(product, { abortEarly: false });
           // Si pasa la validación, limpiamos los errores para este producto
           setErrors((prev) => {
             const newErrors = { ...prev };
@@ -169,21 +217,34 @@ const AddSellProducts = () => {
         }
       })
     );
-  
+
     // Si hay errores, mostramos un mensaje y detenemos el envío
     if (hasErrors) {
-      toast.error("Revisa los errores antes de enviar");
+      toast.warning("Revisa los errores antes de enviar");
+      console.log(errors);
       return;
     }
-  
+
     // Si no hay errores, enviamos los productos
     try {
-      await sendProducts(selectedProducts);
-      toast.success("Productos enviados con éxito");
-      setErrors([]); // Limpia los errores después de enviar
+      if (type === "add") {
+        await sendProducts(selectedProducts);
+        // toast.success("Productos agregados con éxito");
+        setErrors([]);
+      }
+      if (type === "sell") {
+        if(discount < 0) {
+          setDiscountError("Debe ser mayor o igual a 0")
+          return;
+        }
+        await sendSellOrder(selectedProducts);
+        // toast.success("Productos agregados con éxito");
+        setErrors([]);
+        setDiscountError(null)
+      }
     } catch (error) {
-      console.error("Error al enviar los productos:", error);
-      toast.error("Hubo un problema al enviar los productos");
+      console.error("Error al agregados los productos:", error);
+      toast.error("Hubo un problema al agregados los productos");
     }
   };
 
@@ -206,28 +267,30 @@ const AddSellProducts = () => {
                 {products.length > 0 ? (
                   products
                     .sort((a, b) =>
-                      a.product_name.localeCompare(b.product_name)
+                      a.product.name.localeCompare(b.product.name)
                     )
                     .map((product) => (
                       <div
-                        key={product.product_id}
+                        key={product.product.id}
                         className="grid grid-cols-3 text-lg gap-1"
                       >
                         <label className="flex gap-1 cursor-pointer hover:text-teal-800">
                           <input
                             type="checkbox"
+                            checked = {selectedProducts.some((p)=> product.product.id === p.id) || false}
                             onClick={onClickSelectProduct({
-                              id: product.product_id,
-                              name: product.product_name,
-                              stock: product.inventoryProduct_stock ?? 0,
-                              price: product.inventoryProduct_price ?? 0,
+                              id: product.product.id ?? "",
+                              productInventoryId: product.id ?? "",
+                              name: product.product.name,
+                              stock: product.stock ?? 0,
+                              price: parseFloat(product.price) ?? 0,
                             })}
                           />
-                          <span>{product.product_name}</span>
+                          <span>{product.product.name}</span>
                         </label>
-                        <span>{product.category_name}</span>
+                        <span>{product.product.category.name}</span>
                         <span>{`${
-                          product.inventoryProduct_stock ?? 0
+                          product.stock ?? 0
                         } unidades en stock`}</span>
                       </div>
                     ))
@@ -244,9 +307,10 @@ const AddSellProducts = () => {
                 <div className="grid grid-cols-5 bg-gray-100 p-2 rounded-md font-semibold text-center">
                   <span>Producto</span>
                   <span>Stock actual</span>
-                  <span>Añadir stock</span>
-                  <span>Precio de compra</span>
+                  {type === "add" && <span>Añadir stock</span>}
+                  {type === "add" && <span>Precio de compra</span>}
                   <span>Precio de venta</span>
+                  {type === "sell" && <span>Cantidad de venta</span>}
                 </div>
 
                 {/* Filas de productos */}
@@ -258,58 +322,104 @@ const AddSellProducts = () => {
                     <span>{p.name}</span>
                     <span>{p.stock}</span>
 
-                    <div>
-                      <input
-                        type="number"
-                        value={p.newStock ?? 0}
-                        onChange={(e) =>
-                          handleChange(index, "newStock", e.target.value)
-                        }
-                        className="w-20 p-1 border border-gray-400 rounded text-center"
-                      />
-                      {errors[index]?.newStock && (
-                        <p className="text-red-500 text-sm">
-                          {errors[index].newStock}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <input
-                        type="number"
-                        value={p.purchasePrice ?? 0}
-                        onChange={(e) =>
-                          handleChange(index, "purchasePrice", e.target.value)
-                        }
-                        className="w-20 p-1 border border-gray-400 rounded text-center"
-                      />
-                      {errors[index]?.purchasePrice && (
-                        <p className="text-red-500 text-sm">
-                          {errors[index].purchasePrice}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <input
-                        type="number"
-                        value={p.sellingPrice ?? 0}
-                        onChange={(e) =>
-                          handleChange(index, "sellingPrice", e.target.value)
-                        }
-                        className="w-20 p-1 border border-gray-400 rounded text-center"
-                      />
-                      {errors[index]?.sellingPrice && (
-                        <p className="text-red-500 text-sm">
-                          {errors[index].sellingPrice}
-                        </p>
-                      )}
-                    </div>
+                    {type === "add" && (
+                      <div>
+                        <input
+                          type="number"
+                          value={p.newStock ?? 0}
+                          onChange={(e) =>
+                            handleChange(index, "newStock", e.target.value)
+                          }
+                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                        />
+                        {errors[index]?.newStock && (
+                          <p className="text-red-500 text-sm">
+                            {errors[index].newStock}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {type === "add" && (
+                      <div>
+                        <input
+                          type="number"
+                          value={p.purchasePrice ?? 0}
+                          onChange={(e) =>
+                            handleChange(index, "purchasePrice", e.target.value)
+                          }
+                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                        />
+                        {errors[index]?.purchasePrice && (
+                          <p className="text-red-500 text-sm">
+                            {errors[index].purchasePrice}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {type === "add" && (
+                      <div>
+                        <input
+                          type="number"
+                          value={p.sellingPrice ?? 0}
+                          onChange={(e) =>
+                            handleChange(index, "sellingPrice", e.target.value)
+                          }
+                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                        />
+                        {errors[index]?.sellingPrice && (
+                          <p className="text-red-500 text-sm">
+                            {errors[index].sellingPrice}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {type === "sell" && <span>{`$${p.sellingPrice}`}</span>}
+                    {type === "sell" && (
+                      <div>
+                        <input
+                          type="number"
+                          value={p.sellQuantity ?? 0}
+                          onChange={(e) =>
+                            handleChange(index, "sellQuantity", e.target.value)
+                          }
+                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                        />
+                        {errors[index]?.sellQuantity && (
+                          <p className="text-red-500 text-sm">
+                            {errors[index].sellQuantity}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
+                {type === "sell" && (
+                  <div className="mt-4 mx-auto">
+                    <label className="flex gap-4 items-center text-xl">
+                      Descuento general:
+                      <input
+                        type="number"
+                        value={discount ?? 0}
+                        onChange={(e) =>
+                          handleChangeDiscount(e.target.value)
+                        }
+                        className="w-20 p-1 border border-gray-400 rounded text-center"
+                      />
+                      %
+                    </label>
+                    {discountError && (
+                      <p className="text-red-500 text-sm">
+                        {discountError}
+                      </p>
+                    )}
+                  </div>
+                )}
 
-                {/* Botón único para enviar todo */}
-                <Button size="lg" onClick={handleSendProducts} className="mt-4 w-fit mx-auto">
+                <Button
+                  size="lg"
+                  onClick={handleSendProducts}
+                  className="mt-4 w-fit mx-auto"
+                >
                   Agregar productos
                 </Button>
               </div>
