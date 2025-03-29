@@ -102,7 +102,7 @@ const CreateCategory = () => {
           </h2>
           <div className="border-t border-stone-300 my-1 " />
           <div className="flex flex-col h-fit max-h-56 overflow-y-auto">
-            {categories ? (
+            {categories.length > 0 ? (
               categories
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((category) => (

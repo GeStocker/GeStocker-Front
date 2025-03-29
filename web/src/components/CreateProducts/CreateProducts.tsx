@@ -191,7 +191,7 @@ const CreateProducts = () => {
         <h2 className="text-lg text-custom-textGris">Productos ya cargados</h2>
         <div className="border-t border-stone-300 my-1 " />
         <div className="flex flex-col h-fit w-[300] max-h-96 overflow-y-auto">
-          {products ? (
+          {products.length > 0 ? (
             products
               .sort((a, b) => a.product_name.localeCompare(b.product_name))
               .map((product) => (

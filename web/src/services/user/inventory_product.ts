@@ -16,7 +16,6 @@ export const addProduct = async (
   token: string
 ): Promise<string> => {
   try {
-    console.log(products)
     await axios.post(`${API}/incoming-shipment/${businessId}/${inventoryId}`, {products}, {
       withCredentials: true,
       headers: {

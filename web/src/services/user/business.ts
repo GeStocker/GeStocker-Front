@@ -26,7 +26,6 @@ export const createBusiness = async (
 
 export const getAllBusiness = async (token: string): Promise<IBusiness[]> => {
   try {
-    console.log(token)
     const business = (
       await axios.get(`${API}/bussines/`, {
         withCredentials: true,
