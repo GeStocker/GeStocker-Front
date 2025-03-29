@@ -57,12 +57,12 @@ export const createCategory = async (
 
 export const updateCategory = async (
   categoryData: categoryDto,
-  id: string,
   businessId: string,
+  id: string,
   token: string
 ): Promise<string> => {
   try {
-      await axios.patch(`${API}/categories-product/${id}/${businessId}`, categoryData, {
+      await axios.patch(`${API}/categories-product/${businessId}/${id}`, categoryData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,

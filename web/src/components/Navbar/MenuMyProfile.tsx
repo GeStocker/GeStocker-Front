@@ -10,17 +10,15 @@ import {
 import { FaRegUser } from "react-icons/fa6";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { routes } from "@/routes/routes";
 
 const MenuMyProfile = () => {
   const { resetUserData, userPicture } = useAuth();
-  const router = useRouter();
 
   const onClickCloseSesion = () => {
     resetUserData();
     setTimeout(() => {
-      router.push(routes.home);
+      window.location.reload();
     }, 500);
   };
   return (

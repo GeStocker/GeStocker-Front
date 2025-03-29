@@ -58,3 +58,25 @@ export interface IProduct {
   inventoryProduct_stock: number | null
   inventoryProduct_price: number | null
 }
+
+export interface IProduct2 {
+    id: string;
+    name: string;
+    description: string;
+    img: string;
+    isActive: boolean;
+    createdAt: string;
+    category: {
+      id: string;
+      name: string;
+    }
+    
+  }
+  
+  export interface IStockProduct {
+    id: string;
+    price: string; 
+    stock: number;
+    addedAt: string;
+    product: IProduct2;
+  }
