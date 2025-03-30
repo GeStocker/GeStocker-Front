@@ -61,7 +61,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     deleteCookie("token", { path: "/" });
     deleteCookie("token", { path: "/", domain: ".ge-stocker.vercel.app" });
     deleteCookie("token", { path: "/", domain: "ge-stocker.vercel.app" });
-    
+
+    localStorage.clear();
+
     setToken(null);
     setIsAuth(false);
     deleteCookie("userPicture");

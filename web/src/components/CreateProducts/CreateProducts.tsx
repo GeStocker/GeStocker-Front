@@ -67,7 +67,8 @@ const CreateProducts = () => {
   const [previewImage, setPreviewImage] = useState("/sadImage.png");
   const [previewEditImage, setPreviewEditImage] = useState<string | null>(null);
   const router = useRouter();
-  const businessIdBusiness = localStorage.getItem("selectedBusinessId"); // Obtener el negocio guardado
+ // Obtener el negocio guardado
+   const [businessIdBusiness, setBusinessIdBusiness] = useState<string | null>(null)
 
   const handleGoBack = () => {
       if (businessIdBusiness) {
@@ -113,6 +114,8 @@ const CreateProducts = () => {
   };
 
   useEffect(() => {
+    const businessIdBusiness = localStorage.getItem("selectedBusinessId");
+    if(businessIdBusiness) setBusinessIdBusiness(businessIdBusiness)
     fetchProducts();
     fetchCategories();
   }, [businessId]);
