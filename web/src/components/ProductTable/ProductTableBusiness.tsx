@@ -76,6 +76,7 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                       ? "Stock bajo"
                       : "Stock alto"}
                   </td>
+
                   <td className={`p-2 text-center font-semibold ${
                     product.product_isActive ? "text-green-600" : "text-red-600"
                   }`}>
