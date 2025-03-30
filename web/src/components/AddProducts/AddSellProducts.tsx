@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import * as Yup from "yup";
-import { IStockProduct } from "@/types/interface";
+import { getAllProducts } from "@/services/user/product";
+import { IProduct, IStockProduct } from "@/types/interface";
 import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { addProduct, getProductsByInventory, saveSellOrder } from "@/services/user/inventory_product";
+import {
+  addProduct,
+  getProductsByInventory,
+  saveSellOrder,
+} from "@/services/user/inventory_product";
 
 const productSchema = Yup.object({
   newStock: Yup.number()
@@ -24,9 +29,8 @@ const productSchema = Yup.object({
 const sellSchema = Yup.object({
   sellQuantity: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
-    .required("Este campo es obligatorio")
+    .required("Este campo es obligatorio"),
 });
-
 
 interface ISelectProduct {
   id: string;
@@ -41,15 +45,13 @@ interface ISelectProduct {
 }
 
 const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
-
-
   const { token } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
-  const { businessId } = useBusiness();
+  const [productsBusiness, setProductsBusiness] = useState<IProduct[]>([]);
+  const { businessId, inventoryId } = useBusiness();
   const [selectedProducts, setSelectedProducts] = useState<ISelectProduct[]>(
     []
   );
-  const [inventoryId, setInventoryId] = useState("");
 
   const [errors, setErrors] = useState<Record<number, Record<string, string>>>(
     []
@@ -61,9 +63,15 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
   const fetchProducts = async () => {
     if (!token) return;
     try {
-      if (!inventoryId) return;
-      const products = await getProductsByInventory(inventoryId, token);
-      setProducts(products);
+      if (!inventoryId || !businessId) return;
+      if ((type = "add")) {
+        const products = await getAllProducts(businessId, token);
+        setProductsBusiness(products);
+      }
+      if ((type = "sell")) {
+        const products = await getProductsByInventory(inventoryId, token);
+        setProducts(products);
+      }
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al traer los productos:", e.message);
@@ -76,9 +84,8 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     }
   };
   useEffect(() => {
-    setInventoryId("2892edec-75d1-4c2b-b57f-5e4a5de0fbff"); //HARDCODEADO PARA TESTEAR
     fetchProducts();
-  }, [businessId]);
+  }, [businessId, inventoryId]);
 
   const onClickSelectProduct = (product: ISelectProduct) => () => {
     const alreadySelected = selectedProducts.some((p) => p.id === product.id);
@@ -129,9 +136,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     }
   };
 
-  const handleChangeDiscount = async (
-    value: string
-  ) => {
+  const handleChangeDiscount = async (value: string) => {
     setDiscount(parseFloat(value));
   };
 
@@ -166,7 +171,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
           quantity: sellQuantity ?? 0,
         };
       });
-      console.log(discount)
+      console.log(discount);
       await saveSellOrder(
         { outgoingProducts: productos, discount },
         inventoryId,
@@ -188,7 +193,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     await Promise.all(
       selectedProducts.map(async (product, index) => {
         try {
-          if(type === "add") {
+          if (type === "add") {
             await productSchema.validate(product, { abortEarly: false });
           }
           if (type === "sell")
@@ -232,14 +237,14 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
         setErrors([]);
       }
       if (type === "sell") {
-        if(discount < 0) {
-          setDiscountError("Debe ser mayor o igual a 0")
+        if (discount < 0) {
+          setDiscountError("Debe ser mayor o igual a 0");
           return;
         }
         await sendSellOrder(selectedProducts);
         // toast.success("Productos agregados con éxito");
         setErrors([]);
-        setDiscountError(null)
+        setDiscountError(null);
       }
     } catch (error) {
       console.error("Error al agregados los productos:", error);
@@ -249,11 +254,13 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
 
   return (
     <div className="flex flex-col gap-1 items-center">
-      <h1 className="text-2xl font-semibold text-left">Añadir productos</h1>
+      {type==="add" &&<h1 className="text-2xl font-semibold text-left">Añadir productos</h1>}
+      {type==="sell" &&<h1 className="text-2xl font-semibold text-left">Añadir venta</h1>}
+      
       <Tabs defaultValue="seleccionar" className="w-4/5 p-2">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="seleccionar">Seleccionar productos</TabsTrigger>
-          <TabsTrigger value="excel">Subir excel</TabsTrigger>
+          {type==="add" && <TabsTrigger value="excel">Subir excel</TabsTrigger>}
         </TabsList>
         <TabsContent value="seleccionar">
           <div className="flex w-full flex-row-reverse justify-center gap-x-8 my-2">
@@ -263,34 +270,76 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
               </h2>
               <div className="border-t border-stone-300 my-1 " />
               <div className="flex flex-col h-fit w-full max-h-96 overflow-y-auto">
-                {products.length > 0 ? (
-                  products
+                {type === "sell" ? (
+                  products.length > 0 ? ( //Listado de productos para venta
+                    products
+                      .sort((a, b) =>
+                        a.product.name.localeCompare(b.product.name)
+                      )
+                      .map((product) => (
+                        <div
+                          key={product.product.id}
+                          className="grid grid-cols-3 text-lg gap-1"
+                        >
+                          <label className="flex gap-1 cursor-pointer hover:text-teal-800">
+                            <input
+                              type="checkbox"
+                              checked={
+                                selectedProducts.some(
+                                  (p) => product.product.id === p.id
+                                ) || false
+                              }
+                              onClick={onClickSelectProduct({
+                                id: product.product.id ?? "",
+                                productInventoryId: product.id ?? "",
+                                name: product.product.name,
+                                stock: product.stock ?? 0,
+                                price: parseFloat(product.price) ?? 0,
+                              })}
+                              onChange={() => {}}
+                            />
+                            <span>{product.product.name}</span>
+                          </label>
+                          <span>{product.product.category.name}</span>
+                          <span>{`${
+                            product.stock ?? 0
+                          } unidades en stock`}</span>
+                        </div>
+                      ))
+                  ) : (
+                    <span>No hay productos agregados</span>
+                  )
+                ) : productsBusiness.length > 0 ? ( //Listado de productos para añadir a inventario
+                  productsBusiness
                     .sort((a, b) =>
-                      a.product.name.localeCompare(b.product.name)
+                      a.product_name.localeCompare(b.product_name)
                     )
                     .map((product) => (
                       <div
-                        key={product.product.id}
+                        key={product.product_id}
                         className="grid grid-cols-3 text-lg gap-1"
                       >
                         <label className="flex gap-1 cursor-pointer hover:text-teal-800">
                           <input
                             type="checkbox"
-                            checked = {selectedProducts.some((p)=> product.product.id === p.id) || false}
+                            checked={
+                              selectedProducts.some(
+                                (p) => product.product_id === p.id
+                              ) || false
+                            }
                             onClick={onClickSelectProduct({
-                              id: product.product.id ?? "",
-                              productInventoryId: product.id ?? "",
-                              name: product.product.name,
-                              stock: product.stock ?? 0,
-                              price: parseFloat(product.price) ?? 0,
+                              id: product.product_id ?? "",
+                              productInventoryId: "",
+                              name: product.product_name,
+                              stock: product.inventoryProduct_stock?? 0,
+                              price: product.inventoryProduct_price ?? 0,
                             })}
+                            onChange={() => {}}
                           />
-                          <span>{product.product.name}</span>
+                          <span>{product.product_name}</span>
                         </label>
-                        <span>{product.product.category.name}</span>
-                        <span>{`${
-                          product.stock ?? 0
-                        } unidades en stock`}</span>
+                        <span>{product.category_name}</span>
+                        <span>{`${product.inventoryProduct_stock ?? 0} unidades en stock`}</span>
                       </div>
                     ))
                 ) : (
@@ -327,7 +376,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           type="number"
                           value={p.newStock ?? 0}
                           onChange={(e) =>
-                            handleChange(index, "newStock", e.target.value)
+                            handleChange(index, "newStock", e.target.value ?? "0")
                           }
                           className="w-20 p-1 border border-gray-400 rounded text-center"
                         />
@@ -344,7 +393,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           type="number"
                           value={p.purchasePrice ?? 0}
                           onChange={(e) =>
-                            handleChange(index, "purchasePrice", e.target.value)
+                            handleChange(index, "purchasePrice", e.target.value ?? "0")
                           }
                           className="w-20 p-1 border border-gray-400 rounded text-center"
                         />
@@ -361,7 +410,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           type="number"
                           value={p.sellingPrice ?? 0}
                           onChange={(e) =>
-                            handleChange(index, "sellingPrice", e.target.value)
+                            handleChange(index, "sellingPrice", e.target.value ?? "0")
                           }
                           className="w-20 p-1 border border-gray-400 rounded text-center"
                         />
@@ -379,7 +428,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           type="number"
                           value={p.sellQuantity ?? 0}
                           onChange={(e) =>
-                            handleChange(index, "sellQuantity", e.target.value)
+                            handleChange(index, "sellQuantity", e.target.value ?? "0")
                           }
                           className="w-20 p-1 border border-gray-400 rounded text-center"
                         />
@@ -399,17 +448,13 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                       <input
                         type="number"
                         value={discount ?? 0}
-                        onChange={(e) =>
-                          handleChangeDiscount(e.target.value)
-                        }
+                        onChange={(e) => handleChangeDiscount(e.target.value ?? 0)}
                         className="w-20 p-1 border border-gray-400 rounded text-center"
                       />
                       %
                     </label>
                     {discountError && (
-                      <p className="text-red-500 text-sm">
-                        {discountError}
-                      </p>
+                      <p className="text-red-500 text-sm">{discountError}</p>
                     )}
                   </div>
                 )}
@@ -419,7 +464,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                   onClick={handleSendProducts}
                   className="mt-4 w-fit mx-auto"
                 >
-                  Agregar productos
+                  {type==="add" ? "Agregar productos": "Agregar venta"}
                 </Button>
               </div>
             ) : (
@@ -427,9 +472,9 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
             )}
           </div>
         </TabsContent>
-        <TabsContent value="excel">
+        {type==="add" && <TabsContent value="excel">
           <p>excel</p>
-        </TabsContent>
+        </TabsContent>}
       </Tabs>
     </div>
   );

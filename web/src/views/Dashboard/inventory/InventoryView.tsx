@@ -55,10 +55,12 @@ const InventoryView = () => {
           <h3>Gestiona tus productos y controla tu stock</h3>
         </div>
         <div className="flex">
+          <Link href={"/dashboard/inventory/sellProducts"}>
           <Button className="bg-white text-gray-800 border border-gray-300 mr-2">
             <FiShoppingCart />
             Registrar venta
           </Button>
+          </Link>
           <Link href={"/dashboard/inventory/createProduct"}>
             <Button>+ Añadir producto</Button>
           </Link>
