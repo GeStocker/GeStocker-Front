@@ -8,7 +8,7 @@ interface BusinessFilterProps {
   categories: Array<{ id: string; name: string }>;
 }
 
-const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => {
+const ProductBusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -59,7 +59,7 @@ const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => 
 
   return (
     <div className="flex flex-col md:flex-row gap-4 items-center p-4 bg-gray-50 rounded-lg">
-      {/* Campo de búsqueda */}
+      {/* Input de búsqueda */}
       <div className="relative flex-1 w-full">
         <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <input
@@ -71,7 +71,7 @@ const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => 
         />
       </div>
 
-      {/* Filtro por categorías */}
+      {/* Dropdown de categorías */}
       <div className="w-full md:w-auto relative">
         <div className="flex items-center gap-2">
           <CiFilter className="text-gray-600" />
@@ -98,10 +98,8 @@ const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => 
           </button>
         </div>
 
-        {/* Dropdown de categorías */}
         {isDropdownOpen && (
           <div className="dropdown absolute z-10 mt-2 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-            {/* Campo de búsqueda dentro del dropdown */}
             <div className="p-2 border-b">
               <input
                 type="text"
@@ -112,7 +110,6 @@ const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => 
               />
             </div>
 
-            {/* Lista de categorías */}
             <div>
               {filteredCategories.map((category) => (
                 <div
@@ -146,4 +143,4 @@ const BusinessFilter = ({ onFilterChange, categories }: BusinessFilterProps) => 
   );
 };
 
-export default BusinessFilter;
+export default ProductBusinessFilter;

@@ -15,15 +15,17 @@ const InventoryView = () => {
   const { inventoryId } = useBusiness();
   const { token } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
+  const [filters, setFilters] = useState({
+        search: '',
+        categoryIds: [],
+      });
 
   useEffect(() => {
     const fetchProductsInventory = async () => {
       if (!token || !inventoryId) return;
 
       try {
-        console.log("Obteniendo productos para inventoryId:", inventoryId);
-        const productsInventory = await getProductsByInventory(inventoryId, token);
-        console.log("Productos del inventario:", productsInventory);
+        const productsInventory = await getProductsByInventory(inventoryId, token, filters);
         setProducts(productsInventory);
       } catch (e: unknown) {
         if (e instanceof Error) {
@@ -37,9 +39,11 @@ const InventoryView = () => {
     };
 
     fetchProductsInventory();
-  }, [inventoryId, token]);
+  }, [inventoryId, token, filters]);
 
-  
+  const handleSearchChange = (value: string): void => {
+        setFilters({ ...filters, search: value });
+      };
 
   const totalProducts = products.length;
   const outOfStockProducts = products.filter(p => p.stock <= 0).length;
@@ -73,7 +77,7 @@ const InventoryView = () => {
       </section>
       <section className="border border-gray-300 rounded-md">
         <div>
-          <ProductTableInventory products={products} />
+          <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} />
         </div>
       </section>
     </div>

@@ -59,6 +59,7 @@ export interface IProduct {
   category_name: string;
   inventoryProduct_stock: number | null;
   inventoryProduct_price: number | null;
+  totalStock: number | null;
 }
 
 export interface IProduct2 {

@@ -26,7 +26,7 @@ export const createBusiness = async (
     };
     
   } catch (error) {
-    console.error("Error al crear negocio", error);
+    console.warn("Error al crear negocio", error);
     const errorMessage =
       (axios.isAxiosError(error) && error.response?.data?.message) ||
       "Error al crear negocio";

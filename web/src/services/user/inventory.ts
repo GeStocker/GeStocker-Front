@@ -29,10 +29,10 @@ export const createInventory = async ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Error al crear el inventario:", error.response?.data || error.message);
+        console.warn("Error al crear el inventario:", error.response?.data || error.message);
         throw new Error(error.response?.data?.message || "Error al crear el inventario");
       } else {
-        console.error("Error desconocido al crear el inventario:", error);
+        console.warn("Error desconocido al crear el inventario:", error);
         throw new Error("Error desconocido al crear el inventario");
       }
     }
@@ -49,7 +49,6 @@ export const getAllInventory = async (token: string, businessId: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log("responde del inventory", response)
     return response.data;
   } catch (error) {
     console.warn("Error al obtener inventario", error);

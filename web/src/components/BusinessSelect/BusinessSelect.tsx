@@ -1,52 +1,14 @@
-import React, { useRef } from "react";
-
-interface IBusiness {
-  id: string;
-  name: string;
-}
-
 interface BusinessSelectProps {
-  businesses: IBusiness[];
-  onChange: (businessId: string) => void; 
-  value: string;
-  onViewBusiness: (businessId: string) => void; 
+  businesses: { id: string; name: string }[];
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  value: string; 
 }
 
-const BusinessSelect: React.FC<BusinessSelectProps> = ({
-  businesses,
-  onChange,
-  value,
-  onViewBusiness,
-}) => {
-  const selectRef = useRef<HTMLSelectElement>(null);
-  let timeoutId: NodeJS.Timeout | null = null;
-
-  const handleSelectClick = () => {
-    timeoutId = setTimeout(() => {
-      if (selectRef.current && selectRef.current.value === value) {
-        onViewBusiness(value);
-      }
-    }, 200); 
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-
-    if (timeoutId) {
-      clearTimeout(timeoutId); 
-    }
-
-    if (selectedValue !== value) {
-      onChange(selectedValue);
-    }
-  };
-
+const BusinessSelect: React.FC<BusinessSelectProps> = ({ businesses, onChange, value }) => {
   return (
     <select
-      ref={selectRef}
       className="bg-background text-center border border-black rounded-md p-2"
-      onChange={handleChange}
-      onClick={handleSelectClick} 
+      onChange={onChange}
       value={value}
     >
       <option value="">Selecciona un negocio</option>

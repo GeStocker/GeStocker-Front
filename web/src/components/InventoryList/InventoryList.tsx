@@ -28,7 +28,7 @@ const InventoryList = () => {
           saveInventoryId(inventoryId);
         }
       } catch (error) {
-        console.error("Error cargando inventarios:", error);
+        console.warn("Error cargando inventarios:", error);
       }
     };
 

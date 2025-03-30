@@ -7,11 +7,13 @@ import React, { useEffect} from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
+import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { routes } from '@/routes/routes'
 import BusinessSelect from '../BusinessSelect/BusinessSelect'
 import { usePathname, useRouter } from 'next/navigation'
 import InventoryList from '../InventoryList/InventoryList'
+import { MdBusinessCenter } from 'react-icons/md'
 
 const SideBar = () => {
     const { 
@@ -20,73 +22,86 @@ const SideBar = () => {
         saveBusinessId,
         setBusinessList,
         resetBusiness
-    } = useBusiness();
+    } = useBusiness()
     
-    const { token } = useAuth();
-    const router = useRouter();
-    const pathname = usePathname();
+    const { token } = useAuth()
+    const router = useRouter()
+    const pathname = usePathname()
     
     const isBusinessRoute = () => {
-        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname);
-    };
+        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname)
+    }
 
     useEffect(() => {
         if (isBusinessRoute() && businessId) {
-            router.push(`/dashboard/business/${businessId}`);
+            router.push(`/dashboard/business/${businessId}`)
         }
-    }, []);
+    }, [])
 
     const fetchBusiness = async () => {
-        if (!token) return;
+        if (!token) return
         try {
-            const businessList = await getAllBusiness(token);
-            setBusinessList(businessList);
+            const businessList = await getAllBusiness(token)
+            setBusinessList(businessList)
             
             if (isBusinessRoute()) {
-                const storedBusinessId = localStorage.getItem("selectedBusinessId") || "";
+                const storedBusinessId = localStorage.getItem("selectedBusinessId") || ""
                 if (storedBusinessId && storedBusinessId !== businessId) {
-                    saveBusinessId(storedBusinessId);
+                    saveBusinessId(storedBusinessId)
                 }
             }
         } catch (e: unknown) {
-            console.warn("Error al traer los negocios:", e);
+            if (e instanceof Error) {
+                console.warn("Error al traer los negocios:", e.message)
+                toast.error(`Error: ${e.message}`)
+            } else {
+                console.warn("Error al traer los negocios:", e)
+                toast.error("Error al traer los negocios")
+            }
         }
-    };
+    }
 
     useEffect(() => {
-        fetchBusiness();
-    }, [token]);
+        fetchBusiness()
+    }, [token])
 
     useEffect(() => {
         if (!isBusinessRoute() && businessId) {
-            resetBusiness();
+            resetBusiness()
         }
-    }, [pathname]);
+    }, [pathname])
 
-    const handleBusinessChange = (selectedId: string) => {
-        if (!selectedId) return;
-      
-        saveBusinessId(selectedId); 
-      };
-      
-      const handleViewBusiness = (selectedId: string) => {
-        if (selectedId === businessId) {
-          router.push(`/dashboard/business/${selectedId}`); 
+    const handleBusinessChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = e.target.value
+        if (!selectedId) return
+
+        saveBusinessId(selectedId)
+        router.push(`/dashboard/business/${selectedId}`)
+        
+        if (pathname?.startsWith('/dashboard/business/')) {
+            router.refresh()
         }
-      };
+    }
 
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
             <div className="flex items-center justify-center m-5 h-6">
-            <BusinessSelect
+                <BusinessSelect
                     businesses={businessList}
                     onChange={handleBusinessChange}
                     value={isBusinessRoute() ? businessId || "" : ""}
-                    onViewBusiness={handleViewBusiness}
                 />
             </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
+            {businessId && (
+                <Link href={`/dashboard/business/${businessId}`}>
+                    <div className="flex items-center gap-2 pl-2">
+                    <MdBusinessCenter />
+                    <h3>Volver a Negocio</h3>
+                    </div>
+                </Link>
+                )}
                     <InventoryList/>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
@@ -96,8 +111,12 @@ const SideBar = () => {
         <div className="flex flex-col gap-1 my-5">
             <h2 className="text-gray-700">ADMINISTRACION</h2>
             <div className="flex items-center gap-2 pl-2">
-                <FiUsers />
-                <h3>Colaboradores</h3>
+                <Link href={routes.collaborators}>
+                    <div className='flex items-center gap-2'>
+                        <FiUsers />
+                        <h3>Colaboradores</h3>
+                    </div>
+                </Link>
             </div>
             <div className="flex items-center gap-2 pl-2">
                 <DiAptana />

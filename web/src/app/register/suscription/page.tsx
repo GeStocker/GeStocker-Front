@@ -1,12 +1,12 @@
-import Suscription from '@/views/Register/suscription/Suscription'
+import SubscriptionSuccessPage from '@/views/Register/SuscriptionSucess/Suscription'
 import React from 'react'
 
-const Suscriptionpage = () => {
+const Subscription = () => {
   return (
     <div>
-        <Suscription/> 
+        <SubscriptionSuccessPage/>
     </div>
   )
 }
 
-export default Suscriptionpage
+export default Subscription

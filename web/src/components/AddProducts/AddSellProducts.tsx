@@ -64,10 +64,10 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     if (!token) return;
     try {
       if (!inventoryId || !businessId) return;
-        const productsGeneral = await getAllProducts(businessId, token);
+        const productsGeneral = await getAllProducts(businessId, token, {});
         setProductsBusiness(productsGeneral);
 
-        const productsInventory = await getProductsByInventory(inventoryId, token);
+        const productsInventory = await getProductsByInventory(inventoryId, token, {});
         setProducts(productsInventory);
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -110,7 +110,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     }
     setSelectedProducts((prev) => prev.filter((p) => p.id !== product.id));
   };
-  console.log(selectedProducts)
 
   const handleChange = async (index: number, field: string, value: string) => {
     setSelectedProducts((prev) =>
@@ -175,7 +174,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
           quantity: sellQuantity ?? 0,
         };
       });
-      console.log(discount);
       await saveSellOrder(
         { outgoingProducts: productos, discount },
         inventoryId,
@@ -229,7 +227,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     // Si hay errores, mostramos un mensaje y detenemos el envío
     if (hasErrors) {
       toast.warning("Revisa los errores antes de enviar");
-      console.log(errors);
       return;
     }
 
@@ -251,7 +248,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
         setDiscountError(null);
       }
     } catch (error) {
-      console.error("Error al agregados los productos:", error);
+      console.warn("Error al agregados los productos:", error);
       toast.error("Hubo un problema al agregados los productos");
     }
   };

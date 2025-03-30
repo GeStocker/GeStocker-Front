@@ -12,7 +12,8 @@ export interface productDto {
 
 export const getAllProducts = async (
   businessId: string,
-  token: string
+  token: string,
+  filters: { search?: string; categoryIds?: string[] }
 ): Promise<IProduct[]> => {
   try {
     const products = (
@@ -21,9 +22,9 @@ export const getAllProducts = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: filters,
       })
     ).data;
-    console.log("lo que trae en el neogico", products)
     return products;
   } catch (error) {
     console.warn("Error al obtener los productos", error);

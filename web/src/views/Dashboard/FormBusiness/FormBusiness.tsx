@@ -39,7 +39,6 @@ const FormBusiness: React.FC = () => {
       
 
 
-      console.log("responde el servicio de creacion", response)
       setBusinessList(prev => [...prev, {
         id: response.id,
         name: response.name,
@@ -65,7 +64,7 @@ const FormBusiness: React.FC = () => {
       }, 1500);
       
     } catch (error: unknown) {
-      console.error("Error al crear negocio:", error);
+      console.warn("Error al crear negocio:", error);
       
       let errorMessage = "Error al crear negocio";
       if (error instanceof Error) {

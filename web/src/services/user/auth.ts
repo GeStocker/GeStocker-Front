@@ -33,3 +33,19 @@ export const loginUser = async (
     throw new Error(errorMessage);
   }
 };
+
+
+export const completeSubscription = async (sessionId: string) => {
+  try {
+    const response = await axios.post(`${API}/purchases/subscribe/success/${sessionId}`);
+    return response.data; // Suponemos que el backend devuelve un objeto JSON
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      // Si el backend responde con un error (por ejemplo, 400 o 500)
+      throw new Error(error.response.data?.message || "Hubo un error al procesar tu suscripción.");
+    } else {
+      // Si hay un error de red
+      throw new Error("Hubo un error en la conexión con el servidor.");
+    }
+  }
+};

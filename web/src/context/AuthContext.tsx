@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         router.replace("/dashboard/perfil");
       }
     } catch (error) {
-      console.error("Error al decodificar el token:", error);
+      console.warn("Error al decodificar el token:", error);
     }
   };
 
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(token);
       setIsAuth(true);
     } catch (error) {
-      console.error("Error al decodificar el token:", error);
+      console.warn("Error al decodificar el token:", error);
     }
     const picture = getCookie("userPicture") ?? null;
     setUserPicture(picture);
