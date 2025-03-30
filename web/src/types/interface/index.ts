@@ -18,6 +18,7 @@ export interface IUser {
   roles: UserRole[];
 }
 
+
 export interface IBusiness {
   id: string;
   name: string;
@@ -25,7 +26,7 @@ export interface IBusiness {
   description: string;
   createdAt: string;
   isActive: boolean;
-  inventories: []; //ARREGLO DE INVENTARIOS HACER INTERFACE Y ACOMODARLA
+  inventories: []; 
 }
 
 export interface BusinessDTO {
@@ -33,6 +34,13 @@ export interface BusinessDTO {
   address: string;
   description: string;
 }
+
+export interface InventoryDTO {
+  name: string;
+  address: string;
+  description: string;
+}
+
 
 export interface ICategory {
   id: string;
@@ -47,9 +55,10 @@ export interface IProduct {
   product_isActive: boolean;
   product_createAt: string;
   product_businessId: string;
+  category_id: string;
   category_name: string;
-  inventoryProduct_stock: number | null
-  inventoryProduct_price: number | null
+  inventoryProduct_stock: number | null;
+  inventoryProduct_price: number | null;
 }
 
 export interface IProduct2 {

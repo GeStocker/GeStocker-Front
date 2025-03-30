@@ -1,7 +1,7 @@
 interface BusinessSelectProps {
   businesses: { id: string; name: string }[];
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  value: string; // Nueva prop para el valor seleccionado
+  value: string; 
 }
 
 const BusinessSelect: React.FC<BusinessSelectProps> = ({ businesses, onChange, value }) => {
@@ -9,7 +9,7 @@ const BusinessSelect: React.FC<BusinessSelectProps> = ({ businesses, onChange, v
     <select
       className="bg-background text-center border border-black rounded-md p-2"
       onChange={onChange}
-      value={value} // Usar el valor actual
+      value={value}
     >
       <option value="">Selecciona un negocio</option>
       {businesses.length > 0 ? (

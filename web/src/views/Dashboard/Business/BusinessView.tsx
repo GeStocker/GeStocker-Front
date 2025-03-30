@@ -12,17 +12,19 @@ import { getAllProducts } from '@/services/user/product';
 import { toast } from 'sonner';
 import { IProduct } from '@/types/interface';
 
+
+
 const BusinessView = () => {
     const { businessId } = useBusiness();
     const [products, setProducts] = useState<IProduct[]>([]);
-    const { token } = useAuth(); 
+    const { token } = useAuth(); // Si es necesario
 
     const fetchProducts = async () => {
         if (!token) return;
         try {
-            if (!businessId) return;
-            const productsBusiness = await getAllProducts(businessId, token);
-            console.log("Productos:", productsBusiness);
+          if (!businessId) return;
+          const productsBusiness = await getAllProducts(businessId, token);
+          console.log("Productos:", productsBusiness);
             setProducts(productsBusiness);
         } catch (e: unknown) {
           if (e instanceof Error) {
@@ -38,7 +40,7 @@ const BusinessView = () => {
     
     useEffect(() => {
         fetchProducts();
-    }, [businessId, token]);
+    }, []);
 
     const totalProducts = products.length;
 
@@ -49,15 +51,15 @@ const BusinessView = () => {
                     <h1 className="text-4xl font-semibold text-gray-800">Negocio</h1>
                     <h3>Gestiona tus productos y controla tu stock</h3>
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex'>
                     <Link href={routes.createCategory}>
-                        <Button variant={'outline'} size="lg">
+                        <Button className='bg-white text-gray-800 border border-gray-300 mr-2'>
                             <FiShoppingCart />
                             Agregar categorías
                         </Button>
                     </Link>
                     <Link  href={routes.createProducts} >
-                        <Button size="lg">+ Crear productos</Button>
+                        <Button>+ Crear productos</Button>
                     </Link>
                 </div>
         </section>

@@ -10,9 +10,11 @@ export const routes = {
    cookiePolicy: "/cookiePolicy",
    howItWorks: "/howItWorks",
    contact: "/contact",
-   createBusiness: "/createBusiness",
+   createBusiness: "/dashboard//createBusiness",
+   createInventory:  "/dashboard/createInventory",
    business: "dashboard/business",
    inventory: "/dashboard/inventory",
    createProducts: "/dashboard/business/createProducts",
    createCategory: "/dashboard/business/createCategory",
+   Suscription: "register/suscription"
 }

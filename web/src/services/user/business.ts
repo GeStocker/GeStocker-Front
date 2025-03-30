@@ -6,17 +6,27 @@ export const API = process.env.NEXT_PUBLIC_API_URL;
 export const createBusiness = async (
   token: string,
   businessData: BusinessDTO
-): Promise<string> => {
+): Promise<IBusiness> => { 
   try {
-    await axios.post(`${API}/bussines/`, businessData, {
+    const response = await axios.post(`${API}/bussines/`, businessData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return "SUCCESS_BUSINESS_CREATE";
+    
+    return {
+      id: response.data.id, 
+      name: response.data.name,
+      address: response.data.address,
+      description: response.data.description,
+      createdAt: response.data.createdAt,
+      isActive: response.data.isActive || true,
+      inventories: response.data.inventories || []
+    };
+    
   } catch (error) {
-    console.warn("Error al crear negocio", error);
+    console.error("Error al crear negocio", error);
     const errorMessage =
       (axios.isAxiosError(error) && error.response?.data?.message) ||
       "Error al crear negocio";
@@ -42,18 +52,4 @@ export const getAllBusiness = async (token: string): Promise<IBusiness[]> => {
       "Error al obtener negocios";
     throw new Error(errorMessage);
   }
-};
-
-export const getProductsByBusiness = async (businessId: string, token: string) => {
-    try {
-        const response = await axios.get(`${API}/products/business/${businessId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Error al obtener productos", error);
-        throw new Error("Error al obtener productos");
-    }
 };

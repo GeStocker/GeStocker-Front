@@ -1,0 +1,65 @@
+import axios from "axios";
+
+export const API = process.env.NEXT_PUBLIC_API_URL;
+
+export const createInventory = async ({
+    token,
+    inventoryData,
+  }: {
+    token: string;
+    inventoryData: {
+      name: string;
+      address: string;
+      description: string;
+      businessId: string;
+    };
+  }) => {
+    try {
+      const response = await axios.post(
+        `${API}/inventory/${inventoryData.businessId}`,
+        inventoryData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+  
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error al crear el inventario:", error.response?.data || error.message);
+        throw new Error(error.response?.data?.message || "Error al crear el inventario");
+      } else {
+        console.error("Error desconocido al crear el inventario:", error);
+        throw new Error("Error desconocido al crear el inventario");
+      }
+    }
+};
+
+export const getAllInventory = async (token: string, businessId: string) => {
+  try {
+    if (!businessId) {
+      throw new Error("El ID del negocio es requerido.");
+    }
+
+    const response = await axios.get(`${API}/inventory/${businessId}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("responde del inventory", response)
+    return response.data;
+  } catch (error) {
+    console.warn("Error al obtener inventario", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al obtener inventario";
+    throw new Error(errorMessage);
+  }
+};
+  
+  
