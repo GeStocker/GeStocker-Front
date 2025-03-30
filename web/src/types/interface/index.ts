@@ -59,6 +59,7 @@ export interface IProduct {
   category_name: string;
   inventoryProduct_stock: number | null;
   inventoryProduct_price: number | null;
+  totalStock: number | null;
 }
 
 export interface IProduct2 {
@@ -81,4 +82,21 @@ export interface IProduct2 {
     stock: number;
     addedAt: string;
     product: IProduct2;
+  }
+
+  export interface IInventory {
+    id: string;
+    name: string;
+    description: string;
+    address: string;
+    createdAt: string;
+    isActive: boolean;
+  }
+
+  export interface ICollaborator {
+    id: string;
+    email: string;
+    username: string;
+    isActive: boolean;
+    inventory: IInventory;  
   }

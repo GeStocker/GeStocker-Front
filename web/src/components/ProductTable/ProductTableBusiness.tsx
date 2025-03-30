@@ -49,7 +49,7 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({ products })
                   <td className="p-2">{product.product_name}</td>
                   <td className="p-2">{product.product_description}</td>
                   <td className="p-2">{product.category_name || "Sin categoría"}</td>
-                  <td className="p-2">{product.inventoryProduct_stock ?? "No disponible"}</td>
+                  <td className="p-2">{product.totalStock ?? "No disponible"}</td>
                   <td className={`p-2 text-center font-semibold ${
                     product.product_isActive ? "text-green-600" : "text-red-600"
                   }`}>
