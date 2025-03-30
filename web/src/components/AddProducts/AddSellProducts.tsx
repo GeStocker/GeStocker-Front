@@ -64,14 +64,11 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     if (!token) return;
     try {
       if (!inventoryId || !businessId) return;
-      if ((type = "add")) {
-        const products = await getAllProducts(businessId, token);
-        setProductsBusiness(products);
-      }
-      if ((type = "sell")) {
-        const products = await getProductsByInventory(inventoryId, token);
-        setProducts(products);
-      }
+        const productsGeneral = await getAllProducts(businessId, token);
+        setProductsBusiness(productsGeneral);
+
+        const productsInventory = await getProductsByInventory(inventoryId, token);
+        setProducts(productsInventory);
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al traer los productos:", e.message);
@@ -88,34 +85,32 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
   }, [businessId, inventoryId]);
 
   const onClickSelectProduct = (product: ISelectProduct) => () => {
-  const alreadySelected = selectedProducts.find((p) => p.id === product.id);
+    const alreadySelected = selectedProducts.some((p) => p.id === product.id);
+    if (!alreadySelected) {
+      const matchingProduct = products.find(
+        (p) => p.product.id === product.id
+      );
 
-  if (alreadySelected) {
-    // Si el producto ya está seleccionado, suma el stock
-    setSelectedProducts((prev) =>
-      prev.map((p) =>
-        p.id === product.id
-          ? { ...p, newStock: (p.newStock || 0) + (product.newStock || 0) }
-          : p
-      )
-    );
-  } else {
-    // Si el producto no está seleccionado, agrégalo a la lista
-    setSelectedProducts((prev) => [
-      ...prev,
-      {
-        id: product.id,
-        productInventoryId: product.productInventoryId,
-        stock: product.stock,
-        name: product.name,
-        price: product.price,
-        newStock: product.newStock || 0,
-        purchasePrice: product.purchasePrice || 0,
-        sellingPrice: product.sellingPrice || 0,
-      },
-    ]);
-  }
-};
+      setSelectedProducts((prev) => [
+        ...prev,
+        {
+          id: product.id,
+          productInventoryId: product.productInventoryId,
+          stock: matchingProduct ? matchingProduct.stock : 0,
+          name: product.name,
+          price: matchingProduct ? parseFloat(matchingProduct.price) : 0,
+          newStock: 0,
+          purchasePrice: 0,
+          sellingPrice: matchingProduct
+          ? parseFloat(matchingProduct.price)
+          : 0,
+        },
+      ]);
+      return;
+    }
+    setSelectedProducts((prev) => prev.filter((p) => p.id !== product.id));
+  };
+  console.log(selectedProducts)
 
   const handleChange = async (index: number, field: string, value: string) => {
     setSelectedProducts((prev) =>
@@ -288,7 +283,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                       .map((product) => (
                         <div
                           key={product.product.id}
-                          className="grid grid-cols-3 text-lg gap-1"
+                          className="grid grid-cols-4 text-lg gap-1"
                         >
                           <label className="flex gap-1 cursor-pointer hover:text-teal-800">
                             <input
@@ -310,6 +305,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                             <span>{product.product.name}</span>
                           </label>
                           <span>{product.product.category.name}</span>
+                          <img src={product.product.img} alt={`foto ${product.product.name}`} className="w-6 h-6 m-auto"/>
                           <span>{`${
                             product.stock ?? 0
                           } unidades en stock`}</span>
@@ -326,7 +322,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                     .map((product) => (
                       <div
                         key={product.product_id}
-                        className="grid grid-cols-3 text-lg gap-1"
+                        className="grid grid-cols-4 text-lg gap-1 items-center"
                       >
                         <label className="flex gap-1 cursor-pointer hover:text-teal-800">
                           <input
@@ -348,7 +344,8 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           <span>{product.product_name}</span>
                         </label>
                         <span>{product.category_name}</span>
-                        <span>{`${product.inventoryProduct_stock ?? 0} unidades en stock`}</span>
+                        <img src={product.product_img} alt={`foto ${product.product_name}`} className="w-6 h-6 m-auto"/>
+                        <span className="text-base">{product.product_description}</span>
                       </div>
                     ))
                 ) : (
@@ -471,7 +468,8 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                 <Button
                   size="lg"
                   onClick={handleSendProducts}
-                  className="mt-4 w-fit mx-auto"
+                  className="mt-4 w-fit mx-auto disabled:bg-stone-600"
+                  disabled = {!(selectedProducts.length > 0)}
                 >
                   {type==="add" ? "Agregar productos": "Agregar venta"}
                 </Button>
