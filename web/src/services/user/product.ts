@@ -23,6 +23,7 @@ export const getAllProducts = async (
         },
       })
     ).data;
+    console.log("lo que trae en el neogico", products)
     return products;
   } catch (error) {
     console.warn("Error al obtener los productos", error);

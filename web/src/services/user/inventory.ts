@@ -43,15 +43,13 @@ export const getAllInventory = async (token: string, businessId: string) => {
     if (!businessId) {
       throw new Error("El ID del negocio es requerido.");
     }
-
     const response = await axios.get(`${API}/inventory/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log("responde del inventory", response)
+    // console.log("responde del inventory", response)
     return response.data;
   } catch (error) {
     console.warn("Error al obtener inventario", error);

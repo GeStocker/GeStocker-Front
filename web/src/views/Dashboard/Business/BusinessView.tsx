@@ -15,9 +15,9 @@ import { IProduct } from '@/types/interface';
 
 
 const BusinessView = () => {
-    const { businessId } = useBusiness();
+    const { businessId} = useBusiness();
     const [products, setProducts] = useState<IProduct[]>([]);
-    const { token } = useAuth(); // Si es necesario
+    const { token } = useAuth();
 
     const fetchProducts = async () => {
         if (!token) return;

@@ -88,25 +88,34 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
   }, [businessId, inventoryId]);
 
   const onClickSelectProduct = (product: ISelectProduct) => () => {
-    const alreadySelected = selectedProducts.some((p) => p.id === product.id);
-    if (!alreadySelected) {
-      setSelectedProducts((prev) => [
-        ...prev,
-        {
-          id: product.id,
-          productInventoryId: product.productInventoryId,
-          stock: product.stock,
-          name: product.name,
-          price: product.price,
-          newStock: 0,
-          purchasePrice: 0,
-          sellingPrice: Number(product.price),
-        },
-      ]);
-      return;
-    }
-    setSelectedProducts((prev) => prev.filter((p) => p.id !== product.id));
-  };
+  const alreadySelected = selectedProducts.find((p) => p.id === product.id);
+
+  if (alreadySelected) {
+    // Si el producto ya está seleccionado, suma el stock
+    setSelectedProducts((prev) =>
+      prev.map((p) =>
+        p.id === product.id
+          ? { ...p, newStock: (p.newStock || 0) + (product.newStock || 0) }
+          : p
+      )
+    );
+  } else {
+    // Si el producto no está seleccionado, agrégalo a la lista
+    setSelectedProducts((prev) => [
+      ...prev,
+      {
+        id: product.id,
+        productInventoryId: product.productInventoryId,
+        stock: product.stock,
+        name: product.name,
+        price: product.price,
+        newStock: product.newStock || 0,
+        purchasePrice: product.purchasePrice || 0,
+        sellingPrice: product.sellingPrice || 0,
+      },
+    ]);
+  }
+};
 
   const handleChange = async (index: number, field: string, value: string) => {
     setSelectedProducts((prev) =>

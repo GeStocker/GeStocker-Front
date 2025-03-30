@@ -7,7 +7,6 @@ import React, { useEffect} from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
-import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { routes } from '@/routes/routes'
 import BusinessSelect from '../BusinessSelect/BusinessSelect'
@@ -21,74 +20,69 @@ const SideBar = () => {
         saveBusinessId,
         setBusinessList,
         resetBusiness
-    } = useBusiness()
+    } = useBusiness();
     
-    const { token } = useAuth()
-    const router = useRouter()
-    const pathname = usePathname()
+    const { token } = useAuth();
+    const router = useRouter();
+    const pathname = usePathname();
     
     const isBusinessRoute = () => {
-        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname)
-    }
+        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname);
+    };
 
     useEffect(() => {
         if (isBusinessRoute() && businessId) {
-            router.push(`/dashboard/business/${businessId}`)
+            router.push(`/dashboard/business/${businessId}`);
         }
-    }, [])
+    }, []);
 
     const fetchBusiness = async () => {
-        if (!token) return
+        if (!token) return;
         try {
-            const businessList = await getAllBusiness(token)
-            setBusinessList(businessList)
+            const businessList = await getAllBusiness(token);
+            setBusinessList(businessList);
             
             if (isBusinessRoute()) {
-                const storedBusinessId = localStorage.getItem("selectedBusinessId") || ""
+                const storedBusinessId = localStorage.getItem("selectedBusinessId") || "";
                 if (storedBusinessId && storedBusinessId !== businessId) {
-                    saveBusinessId(storedBusinessId)
+                    saveBusinessId(storedBusinessId);
                 }
             }
         } catch (e: unknown) {
-            if (e instanceof Error) {
-                console.warn("Error al traer los negocios:", e.message)
-                toast.error(`Error: ${e.message}`)
-            } else {
-                console.warn("Error al traer los negocios:", e)
-                toast.error("Error al traer los negocios")
-            }
+            console.warn("Error al traer los negocios:", e);
         }
-    }
+    };
 
     useEffect(() => {
-        fetchBusiness()
-    }, [token])
+        fetchBusiness();
+    }, [token]);
 
     useEffect(() => {
         if (!isBusinessRoute() && businessId) {
-            resetBusiness()
+            resetBusiness();
         }
-    }, [pathname])
+    }, [pathname]);
 
-    const handleBusinessChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedId = e.target.value
-        if (!selectedId) return
-
-        saveBusinessId(selectedId)
-        router.push(`/dashboard/business/${selectedId}`)
-        
-        if (pathname?.startsWith('/dashboard/business/')) {
-            router.refresh()
+    const handleBusinessChange = (selectedId: string) => {
+        if (!selectedId) return;
+      
+        saveBusinessId(selectedId); 
+      };
+      
+      const handleViewBusiness = (selectedId: string) => {
+        if (selectedId === businessId) {
+          router.push(`/dashboard/business/${selectedId}`); 
         }
-    }
+      };
 
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
             <div className="flex items-center justify-center m-5 h-6">
-                <BusinessSelect
+            <BusinessSelect
                     businesses={businessList}
                     onChange={handleBusinessChange}
                     value={isBusinessRoute() ? businessId || "" : ""}
+                    onViewBusiness={handleViewBusiness}
                 />
             </div>
         <div className="flex flex-col gap-1 mt-5">
