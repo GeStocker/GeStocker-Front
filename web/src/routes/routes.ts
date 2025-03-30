@@ -16,5 +16,6 @@ export const routes = {
    inventory: "/dashboard/inventory",
    createProducts: "/dashboard/business/createProducts",
    createCategory: "/dashboard/business/createCategory",
-   Suscription: "register/suscription"
+   Suscription: "register/suscription",
+   collaborators: "/dashboard/collaborators"
 }

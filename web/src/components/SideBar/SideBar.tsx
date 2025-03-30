@@ -13,6 +13,7 @@ import { routes } from '@/routes/routes'
 import BusinessSelect from '../BusinessSelect/BusinessSelect'
 import { usePathname, useRouter } from 'next/navigation'
 import InventoryList from '../InventoryList/InventoryList'
+import { MdBusinessCenter } from 'react-icons/md'
 
 const SideBar = () => {
     const { 
@@ -93,6 +94,14 @@ const SideBar = () => {
             </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
+            {businessId && (
+                <Link href={`/dashboard/business/${businessId}`}>
+                    <div className="flex items-center gap-2 pl-2">
+                    <MdBusinessCenter />
+                    <h3>Volver a Negocio</h3>
+                    </div>
+                </Link>
+                )}
                     <InventoryList/>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
@@ -102,8 +111,12 @@ const SideBar = () => {
         <div className="flex flex-col gap-1 my-5">
             <h2 className="text-gray-700">ADMINISTRACION</h2>
             <div className="flex items-center gap-2 pl-2">
-                <FiUsers />
-                <h3>Colaboradores</h3>
+                <Link href={routes.collaborators}>
+                    <div className='flex items-center gap-2'>
+                        <FiUsers />
+                        <h3>Colaboradores</h3>
+                    </div>
+                </Link>
             </div>
             <div className="flex items-center gap-2 pl-2">
                 <DiAptana />

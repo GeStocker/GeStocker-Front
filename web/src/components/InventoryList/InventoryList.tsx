@@ -28,7 +28,7 @@ const InventoryList = () => {
           saveInventoryId(inventoryId);
         }
       } catch (error) {
-        console.error("Error cargando inventarios:", error);
+        console.warn("Error cargando inventarios:", error);
       }
     };
 
@@ -73,8 +73,8 @@ const InventoryList = () => {
               onClick={() => saveInventoryId(inventory.id)}
             >
               <div className={`
-                flex items-center gap-2 pl-2 p-1 rounded-md transition-colors
-                ${inventoryId === inventory.id ? 'bg-gray-200 font-medium' : 'hover:bg-gray-100'}
+                flex items-center gap-2 pl-2 p-1 rounded-md
+                ${inventoryId === inventory.id ? '' : ''}
                 cursor-pointer
               `}>
                 <span className="truncate">{inventory.name}</span>

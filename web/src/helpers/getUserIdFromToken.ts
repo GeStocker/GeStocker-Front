@@ -12,7 +12,7 @@ export const getUserIdFromToken = (token: string) => {
       const userId = decoded.id; 
       return userId;
     } catch (error) {
-      console.error("Error al decodificar el token:", error);
+      console.warn("Error al decodificar el token:", error);
     }
   } else {
     console.warn("No hay token disponible");

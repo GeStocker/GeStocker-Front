@@ -22,7 +22,7 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ setFieldValue, value }) =
                 setCountries(countryList);
                 setFilteredCountries(countryList);
             } catch (error) {
-                console.error('Error al cargar los países:', error);
+                console.warn('Error al cargar los países:', error);
             }
         };
         fetchCountries();

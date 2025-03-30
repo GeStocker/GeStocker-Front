@@ -12,7 +12,8 @@ export interface productDto {
 
 export const getAllProducts = async (
   businessId: string,
-  token: string
+  token: string,
+  filters: { search?: string; categoryIds?: string[] }
 ): Promise<IProduct[]> => {
   try {
     const products = (
@@ -21,6 +22,7 @@ export const getAllProducts = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: filters,
       })
     ).data;
     return products;

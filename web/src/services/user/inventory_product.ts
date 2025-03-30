@@ -55,7 +55,6 @@ export const saveSellOrder = async (
   token: string
 ): Promise<string> => {
   try {
-    console.log("LO QUE LLEGA",sellOrder)
     await axios.post(
       `${API}/sales-order/${inventoryId}`,
        sellOrder ,
@@ -76,17 +75,21 @@ export const saveSellOrder = async (
   }
 };
 
-export const getProductsByInventory = async (InventoryId: string, token: string): Promise<IStockProduct[]> => {
+export const getProductsByInventory = async (
+  InventoryId: string, 
+  token: string,
+  filters: { search?: string; categoryIds?: string[] }
+): Promise<IStockProduct[]> => {
   try {
       const response = await axios.get(`${API}/inventory-products/${InventoryId}`, {
           headers: {
-              Authorization: `Bearer ${token}`
-          }
+              Authorization: `Bearer ${token}`,
+          },
+          params: filters
       });
-      // console.log("productos del inventario")
       return response.data;
   } catch (error) {
-      console.error("Error al obtener productos", error);
+      console.warn("Error al obtener productos", error);
       throw new Error("Error al obtener productos");
   }
 };
