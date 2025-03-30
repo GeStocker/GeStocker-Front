@@ -29,7 +29,7 @@ const SideBar = () => {
     const pathname = usePathname()
     
     const isBusinessRoute = () => {
-        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname)
+        return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator)(\/[^/]+)*$/.test(pathname)
     }
 
     useEffect(() => {

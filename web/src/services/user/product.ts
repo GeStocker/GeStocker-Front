@@ -13,7 +13,7 @@ export interface productDto {
 export const getAllProducts = async (
   businessId: string,
   token: string,
-  filters: { search?: string; categoryIds?: string[] }
+  filters?: { search?: string; categoryIds?: string[] }
 ): Promise<IProduct[]> => {
   try {
     const products = (
