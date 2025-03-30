@@ -1,60 +1,93 @@
-"use client"; 
-import { IProduct } from "@/types/interface";
+"use client"; // <-- Esto es lo que necesitas agregar
+
+import { IBusiness, IProduct } from "@/types/interface";
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface BusinessContextType {
-    businessId: string | null,
-    inventoryId: string | null,
+    // Estados de Negocio
+    businessId: string | null;
+    businessList: IBusiness[];
+    // Estados de Inventario
+    inventories: Array<{ id: string; name: string }>;
+    inventoryId: string | null;
+    // Estados de Productos
     productsBusiness: IProduct[];
-    saveBusinessId: (businessId: string) => void,
-    saveInventoryId: (businessId: string) => void,
-    resetBusiness: () => void,
+    
+    // Funciones de Negocio
+    saveBusinessId: (businessId: string) => void;
+    resetBusiness: () => void;
+    setBusinessList: (businesses: IBusiness[] | ((prev: IBusiness[]) => IBusiness[])) => void;
+    
+    // Funciones de Inventario
+    setInventories: (inventories: Array<{ id: string; name: string }>) => void;
+    saveInventoryId: (id: string) => void;
+    
+    // Funciones de Productos
     saveProductsBusiness: (products: IProduct[]) => void;
-}
-
-const BusinessContext = createContext<BusinessContextType | undefined>(undefined)
-
-
-export const BusinessProvider = ({children} : {children: ReactNode}) => {
+  }
+  
+  const BusinessContext = createContext<BusinessContextType | undefined>(undefined);
+  
+  export const BusinessProvider = ({ children }: { children: ReactNode }) => {
+    // Estados de Negocio
     const [businessId, setBusinessId] = useState<string | null>(null);
-    const [productsBusiness, setProductsBusiness] = useState<IProduct[]>([]);
+    const [businessList, setBusinessList] = useState<IBusiness[]>([]);
+    
+    // Estados de Inventario
+    const [inventories, setInventories] = useState<Array<{ id: string; name: string }>>([]);
     const [inventoryId, setInventoryId] = useState<string | null>(null);
-
-    const saveBusinessId = (businessId: string) => {
-        setBusinessId(businessId)
+    
+    // Estados de Productos
+    const [productsBusiness, setProductsBusiness] = useState<IProduct[]>([]);
+  
+    // Funciones de Negocio
+    const saveBusinessId = (id: string) => {
+      setBusinessId(id);
+      localStorage.setItem("selectedBusinessId", id);
     };
-
+  
     const resetBusiness = () => {
-        setBusinessId(null);
-        setProductsBusiness([]);
+      setBusinessId(null);
+      setProductsBusiness([]);
+      localStorage.removeItem("selectedBusinessId");
     };
-
+  
+    // Funciones de Inventario
+    const saveInventoryId = (id: string) => {
+      setInventoryId(id);
+      localStorage.setItem("selectedInventoryId", id);
+    };
+  
+    // Funciones de Productos
     const saveProductsBusiness = (products: IProduct[]) => {
-        setProductsBusiness(products);
+      setProductsBusiness(products);
     };
 
-    const saveInventoryId = () => {
-        setInventoryId(inventoryId)
-    }
-
-    return <BusinessContext.Provider
-     value={{
-        businessId, 
+  return (
+    <BusinessContext.Provider
+      value={{
+        businessId,
         inventoryId,
-        productsBusiness, 
-        saveBusinessId, 
+        businessList,
+        productsBusiness,
+        inventories,
+        saveBusinessId,
+        setInventories,
         saveInventoryId,
-        resetBusiness, 
-        saveProductsBusiness 
-     }}>
-        {children}
+        resetBusiness,
+        saveProductsBusiness,
+        setBusinessList
+      }}
+    >
+      {children}
     </BusinessContext.Provider>
+  );
 };
 
-export const useBusiness = () =>{
-    const context = useContext(BusinessContext);
-    if (!context) {
-        throw new Error ("useBusiness debe usarse dentro de un BusinessProvider")
-    }
-    return context;
-}
+export const useBusiness = () => {
+  const context = useContext(BusinessContext);
+  if (!context) {
+    throw new Error("useBusiness debe usarse dentro de un BusinessProvider");
+  }
+  return context;
+};

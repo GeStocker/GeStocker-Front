@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useBusiness } from '@/context/BusinessContext'
 import { getAllBusiness } from '@/services/user/business'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { BiBarChart } from 'react-icons/bi'
 import { DiAptana } from 'react-icons/di'
 import { FiUsers } from 'react-icons/fi'
@@ -15,73 +15,85 @@ import { usePathname, useRouter } from 'next/navigation'
 import InventoryList from '../InventoryList/InventoryList'
 
 const SideBar = () => {
-    const { saveBusinessId } = useBusiness();
-    const [businesses, setBusinesses] = useState<{ id: string; name: string }[]>([]);
-    const [selectedBusinessId, setSelectedBusinessId] = useState<string>(""); 
-    const { token } = useAuth();
-    const router = useRouter();
-    const pathname = usePathname(); 
+    const { 
+        businessId,
+        businessList,
+        saveBusinessId,
+        setBusinessList,
+        resetBusiness
+    } = useBusiness()
+    
+    const { token } = useAuth()
+    const router = useRouter()
+    const pathname = usePathname()
+    
+    const isBusinessRoute = () => {
+        return /^\/dashboard\/(business|inventory|createInventory)(\/[^/]+)*$/.test(pathname)
+    }
+
+    useEffect(() => {
+        if (isBusinessRoute() && businessId) {
+            router.push(`/dashboard/business/${businessId}`)
+        }
+    }, [])
 
     const fetchBusiness = async () => {
-        if (!token) return;
+        if (!token) return
         try {
-            const businessList = await getAllBusiness(token);
-            const storedBusinessId = localStorage.getItem("selectedBusinessId");
-            const initialBusinessId = storedBusinessId || businessList[0]?.id || "";
-            saveBusinessId(initialBusinessId); 
-            setBusinesses(businessList);
-            setSelectedBusinessId(initialBusinessId);
-            localStorage.setItem("selectedBusinessId", initialBusinessId);
+            const businessList = await getAllBusiness(token)
+            setBusinessList(businessList)
+            
+            if (isBusinessRoute()) {
+                const storedBusinessId = localStorage.getItem("selectedBusinessId") || ""
+                if (storedBusinessId && storedBusinessId !== businessId) {
+                    saveBusinessId(storedBusinessId)
+                }
+            }
         } catch (e: unknown) {
             if (e instanceof Error) {
-                console.warn("Error al traer los negocios:", e.message);
-                toast.error(`Error: ${e.message}`);
+                console.warn("Error al traer los negocios:", e.message)
+                toast.error(`Error: ${e.message}`)
             } else {
-                console.warn("Error al traer los negocios:", e);
-                toast.error("Error al traer los negocios");
+                console.warn("Error al traer los negocios:", e)
+                toast.error("Error al traer los negocios")
             }
         }
-    };
+    }
 
     useEffect(() => {
-        fetchBusiness();
-    }, [token]);
+        fetchBusiness()
+    }, [token])
 
     useEffect(() => {
-        const isBusinessRoute = /^\/dashboard\/business\/[^/]+$/.test(pathname);
-        if (!isBusinessRoute) {
-            localStorage.removeItem("selectedBusinessId");
-            saveBusinessId("");
-            setSelectedBusinessId(""); 
+        if (!isBusinessRoute() && businessId) {
+            resetBusiness()
         }
-    }, [pathname]); 
+    }, [pathname])
 
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedBusinessId = event.target.value;
-        if (selectedBusinessId) {
-            saveBusinessId(selectedBusinessId); 
-            setSelectedBusinessId(selectedBusinessId); 
-            localStorage.setItem("selectedBusinessId", selectedBusinessId);
-            router.push(`/dashboard/business/${selectedBusinessId}`);
+    const handleBusinessChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = e.target.value
+        if (!selectedId) return
+
+        saveBusinessId(selectedId)
+        router.push(`/dashboard/business/${selectedId}`)
+        
+        if (pathname?.startsWith('/dashboard/business/')) {
+            router.refresh()
         }
-    };
-
+    }
 
   return (
     <div className="flex flex-col bg-gray-100 w-56 h-screen p-3">
-        <div className="flex items-center justify-center m-5 h-6">
+            <div className="flex items-center justify-center m-5 h-6">
                 <BusinessSelect
-                    businesses={businesses}
-                    onChange={handleChange}
-                    value={selectedBusinessId}
+                    businesses={businessList}
+                    onChange={handleBusinessChange}
+                    value={isBusinessRoute() ? businessId || "" : ""}
                 />
             </div>
         <div className="flex flex-col gap-1 mt-5">
             <h2 className="text-gray-700">GENERAL</h2>
-                <div className="flex items-center gap-2 pl-2">
                     <InventoryList/>
-                    
-                </div>
             <div className="flex items-center gap-2 pl-2">
                 <BiBarChart />
                 <h3>Estadisticas</h3>
@@ -100,10 +112,10 @@ const SideBar = () => {
         </div>
         <div className="flex flex-col gap-2 mt-6">
             <Link href={routes.createBusiness}>   
-            <Button variant={'outline'}>Agregar Negocio</Button>
+            <Button variant={'outline'}  className="w-full" >Agregar Negocio</Button>
             </Link>
             <Link href={routes.createInventory}>
-            <Button variant={'outline'}>Agregar inventario</Button>
+            <Button variant={'outline'}  className="w-full"  >Agregar inventario</Button>
             </Link>
         </div>
         <div className="flex-grow"></div>

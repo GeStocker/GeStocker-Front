@@ -1,4 +1,4 @@
-import { IProduct } from "@/types/interface";
+import { ICategory, IProduct } from "@/types/interface";
 import axios from "axios";
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
@@ -29,6 +29,29 @@ export const getAllProducts = async (
     const errorMessage =
       (axios.isAxiosError(error) && error.response?.data?.message) ||
       "Error al obtener los productos";
+    throw new Error(errorMessage);
+  }
+};
+
+export const getCategories = async (
+  businessId: string,
+  token: string
+): Promise<ICategory[]> => {
+  try {
+    const category = (
+      await axios.get(`${API}/categories-product/business/${businessId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).data;
+    return category;
+  } catch (error) {
+    console.warn("Error al obtener las categorias", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al obtener las categorias";
     throw new Error(errorMessage);
   }
 };

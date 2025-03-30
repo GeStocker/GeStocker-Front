@@ -17,40 +17,59 @@ const registerSchema = Yup.object({
     .required("La descripcion es obligatoria"),
 });
 
+interface InventoryFormValues {
+  name: string;
+  address: string;
+  description: string;
+}
 
-const FormInventory: React.FC = () => {
-    const router = useRouter();
-    const { token } = useAuth();
-    const { businessId } = useBusiness();
-  
-    const handleOnSubmit = async (values: { name: string; address: string; description: string }) => {
-        try {
-          if (!businessId) {
-            toast.error("No hay ningún negocio seleccionado. Por favor, selecciona un negocio.");
-            return;
-          }
-      
-          const inventoryData = {
-            ...values,
-            businessId,
-          };
-      
-          await createInventory({ token: token ?? "", inventoryData });
-          toast.success("Inventario agregado con éxito");
-      
-          setTimeout(() => {
-            router.push("/dashboard/inventory/[id]");
-          }, 2000);
-        } catch (e: unknown) {
-          if (e instanceof Error) {
-            console.warn("Error al agregar inventario:", e.message);
-            toast.error(`Error: ${e.message}`);
-          } else {
-            console.warn("Error al agregar inventario:", e);
-            toast.error("Error al agregar inventario");
-          }
-        }
-      };
+interface InventoryFormProps {
+  onSuccess?: () => void;
+}
+
+const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
+  const router = useRouter();
+  const { token } = useAuth();
+  const { businessId, inventories, setInventories } = useBusiness();
+
+  const handleOnSubmit = async (values: InventoryFormValues) => {
+    try {
+      if (!businessId) {
+        toast.error("No hay ningún negocio seleccionado");
+        return;
+      }
+
+      const newInventory = await createInventory({ 
+        token: token ?? "", 
+        inventoryData: {
+          ...values,
+          businessId
+        } 
+      });
+
+      setInventories([...inventories, {
+        id: newInventory.id,
+        name: newInventory.name
+      }]);
+
+      toast.success(`Inventario "${newInventory.name}" creado con éxito`, {
+        action: {
+          label: "Ver",
+          onClick: () => router.push(`/dashboard/inventory/${newInventory.id}`)
+        },
+      });
+
+      setTimeout(() => {
+        router.push(`/dashboard/inventory/${newInventory.id}`);
+      }, 1500);
+
+      onSuccess?.();
+
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+      toast.error(`Error al crear inventario: ${errorMessage}`);
+    }
+  };
       
   
     return (

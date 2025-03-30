@@ -1,51 +1,92 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getAllInventory } from "@/services/user/inventory";
 import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
-// import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LuClipboardList } from "react-icons/lu";
 
 const InventoryList = () => {
   const { token } = useAuth();
-  const { businessId } = useBusiness();
-//   const router = useRouter();
-  
-  const [inventories, setInventories] = useState<{ id: string; name: string }[]>([]);
+  const { 
+    businessId, 
+    inventories, 
+    setInventories,
+    inventoryId,
+    saveInventoryId
+  } = useBusiness();
 
   useEffect(() => {
-    const fetchInventories = async () => {
+    const loadInventories = async () => {
       if (!token || !businessId) return;
+      
       try {
         const data = await getAllInventory(token, businessId);
         setInventories(data);
+        
+        if (inventoryId && !data.some((inv: { id: string }) => inv.id === inventoryId)) {
+          saveInventoryId(inventoryId);
+        }
       } catch (error) {
-        console.error("Error al obtener los inventarios:", error);
+        console.error("Error cargando inventarios:", error);
       }
     };
 
-    fetchInventories();
+    loadInventories();
   }, [token, businessId]);
 
-  return (
-    <div className="flex flex-col gap-1 mt-5">
-        <div className="flex items-center gap-2 pl-2">
+  const isLoading = !businessId || (businessId && inventories === undefined);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-2 pl-2">
+        <div className="flex items-center gap-2">
           <LuClipboardList />
           <h3>Inventarios</h3>
         </div>
+      </div>
+    );
+  }
 
-      {inventories.length > 0 && (
-        <div className="pl-6">
-          {inventories.map((inventory) => (
-            <Link key={inventory.id} href={`/dashboard/inventory/${inventory.id}`}>
-              <div className="flex items-center gap-2 pl-2 hover:bg-gray-200 cursor-pointer rounded-md p-1">
-                <h3>{inventory.name}</h3>
+  if (!businessId) {
+    return (
+      <div className="flex items-center gap-2 pl-2">
+        <LuClipboardList />
+        <h3>Inventarios</h3>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center gap-2 pl-2">
+        <LuClipboardList />
+        <h3>Inventarios</h3>
+      </div>
+
+      <div className="pl-6 max-h-60 overflow-y-auto">
+        {inventories.length > 0 ? (
+          inventories.map((inventory) => (
+            <Link 
+              key={inventory.id} 
+              href={`/dashboard/inventory/${inventory.id}`}
+              onClick={() => saveInventoryId(inventory.id)}
+            >
+              <div className={`
+                flex items-center gap-2 pl-2 p-1 rounded-md transition-colors
+                ${inventoryId === inventory.id ? 'bg-gray-200 font-medium' : 'hover:bg-gray-100'}
+                cursor-pointer
+              `}>
+                <span className="truncate">{inventory.name}</span>
               </div>
             </Link>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <div className="text-sm text-gray-500 italic pl-2">
+            No hay inventarios creados
+          </div>
+        )}
+      </div>
     </div>
   );
 };

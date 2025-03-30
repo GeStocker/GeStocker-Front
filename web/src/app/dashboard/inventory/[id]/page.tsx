@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useBusiness } from "@/context/BusinessContext";
-import InventoryView from "@/views/inventory/InventoryView";
+import InventoryView from "@/views/Dashboard/inventory/InventoryView";
 
 const InventoryDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = React.use(params);

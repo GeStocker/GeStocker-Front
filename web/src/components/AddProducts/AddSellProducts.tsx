@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import * as Yup from "yup";
-import { getAllProducts } from "@/services/user/product";
-import { IProduct, IStockProduct } from "@/types/interface";
+import { IStockProduct } from "@/types/interface";
 import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { toast } from "sonner";

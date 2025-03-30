@@ -8,11 +8,13 @@ import { useBusiness } from "@/context/BusinessContext";
 import { useAuth } from "@/context/AuthContext";
 import { getProductsByInventory } from "@/services/user/inventory_product";
 import { toast } from "sonner";
+import { IStockProduct } from "@/types/interface";
+import Link from "next/link";
 
 const InventoryView = () => {
   const { inventoryId } = useBusiness();
   const { token } = useAuth();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<IStockProduct[]>([]);
 
   useEffect(() => {
     const fetchProductsInventory = async () => {
@@ -37,7 +39,13 @@ const InventoryView = () => {
     fetchProductsInventory();
   }, [inventoryId, token]);
 
+  
+
   const totalProducts = products.length;
+  const outOfStockProducts = products.filter(p => p.stock <= 0).length;
+  const totalInventoryValue = products
+    .reduce((sum, product) => sum + (Number(product.price) * Number(product.stock)), 0)
+    .toLocaleString('es-ES', { style: 'currency', currency: 'USD' });
 
   return (
     <div className="p-4 mr-16">
@@ -51,11 +59,15 @@ const InventoryView = () => {
             <FiShoppingCart />
             Registrar venta
           </Button>
-          <Button>+ Añadir producto</Button>
+          <Link href={"/dashboard/inventory/createProduct"}>
+            <Button>+ Añadir producto</Button>
+          </Link>
         </div>
       </section>
       <section className="grid grid-cols-3 gap-4 mb-6">
         <StatCard title="Total de productos" value={totalProducts} description="Cantidad total en inventario" />
+        <StatCard title="Productos sin stock" value={outOfStockProducts} description="Productos agotados" />
+        <StatCard title="Valor del inventario" value={totalInventoryValue} description="Total valor del stock" />
       </section>
       <section className="border border-gray-300 rounded-md">
         <div>
