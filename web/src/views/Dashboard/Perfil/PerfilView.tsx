@@ -247,7 +247,7 @@ const PerfilView = () => {
             </h3>
             <div className="flex justify-between">
               <span className="text-custom-textGris">Plan actual</span>
-              <span className="border border-gray-950 px-4 rounded-xl font-semibold">
+              <span className="border border-gray-950 px-4 rounded-xl font-semibold text-sm">
                 {accountData.roles.toUpperCase()}
               </span>
             </div>

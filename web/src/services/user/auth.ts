@@ -4,10 +4,10 @@ import axios from "axios";
 export const API = process.env.NEXT_PUBLIC_API_URL;
 export const registerUser = async (userData: Partial<IUser>) => {
   try {
-    await axios.post(`${API}/auth/signup`, userData, {
+    const response = await axios.post(`${API}/auth/signup`, userData, {
       withCredentials: true,
     });
-    return "SUCCESS_REGISTER";
+    return response;
   } catch (error) {
     console.warn("Error al registrar el usuario:", error);
     const errorMessage =
@@ -21,9 +21,9 @@ export const loginUser = async (
   userData: Partial<IUser>
 ): Promise<{ user: IUser; token: string }> => {
   try {
-    const user = await axios.post(`${API}/auth/login`, userData, {
+    const user = (await axios.post(`${API}/auth/login`, userData, {
       withCredentials: true,
-    });
+    })).data;
     return user.data;
   } catch (error) {
     console.warn("Error al iniciar sesión:", error);
@@ -37,8 +37,9 @@ export const loginUser = async (
 
 export const completeSubscription = async (sessionId: string) => {
   try {
-    const response = await axios.post(`${API}/purchases/subscribe/success/${sessionId}`);
+    const response = await axios.post(`${API}/purchases/success/${sessionId}`);
     return response.data; // Suponemos que el backend devuelve un objeto JSON
+
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       // Si el backend responde con un error (por ejemplo, 400 o 500)

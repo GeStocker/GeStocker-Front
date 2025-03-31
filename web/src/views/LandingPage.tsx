@@ -34,7 +34,7 @@ const LandingPage = () => {
           </div>
         </div>
         <img
-          src="hero.webp"
+          src="gestocker-azul.png"
           alt="Hero imagen"
           className="w-full lg:w-1/2 rounded-md"
         />
@@ -162,7 +162,7 @@ const LandingPage = () => {
           </div>
         </div>
         <img
-          src="hero2.webp"
+          src="inventory.png"
           alt="Hero imagen"
           className="w-full lg:w-1/2 rounded-md"
         />

@@ -83,3 +83,20 @@ export interface IProduct2 {
     addedAt: string;
     product: IProduct2;
   }
+
+  export interface IInventory {
+    id: string;
+    name: string;
+    description: string;
+    address: string;
+    createdAt: string;
+    isActive: boolean;
+  }
+
+  export interface ICollaborator {
+    id: string;
+    email: string;
+    username: string;
+    isActive: boolean;
+    inventory: IInventory;  
+  }

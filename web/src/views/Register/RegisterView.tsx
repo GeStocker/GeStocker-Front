@@ -39,13 +39,13 @@ const registerSchema = Yup.object({
 });
 export enum UserRole {
   BASIC = "basic",
-  PROFESIONAL = "profesional",
+  PROFESIONAL = "professional",
   BUSINESS = "business",
 }
 
 const roleByPlan: Record<string, UserRole> = {
   basic: UserRole.BASIC,
-  profesional: UserRole.PROFESIONAL,
+  professional: UserRole.PROFESIONAL,
   business: UserRole.BUSINESS,
 };
 
@@ -77,12 +77,15 @@ const RegisterView: React.FC = () => {
     setSelectedPlan(plan);
     const roles = roleByPlan[plan];
     setFieldValue("roles", [roles]);
+    setFieldValue("selectedPlan", plan);
   };
 
   const handleOnSubmit = async (values: FormData) => {
     try {
-      await registerUser(values);
+      const response = await registerUser(values);
+      const { checkoutUrl } = response.data;
 
+      router.push(checkoutUrl)
       toast.success("Registro exitoso");
       setTimeout(() => {
         router.push(routes.login);
@@ -107,6 +110,7 @@ const RegisterView: React.FC = () => {
           city: "",
           country: "",
           address: "",
+          selectedPlan: "",
           phone: "",
           password: "",
           passwordConfirmation: "",
@@ -325,7 +329,7 @@ const RegisterView: React.FC = () => {
                     ],
                   },
                   {
-                    plan: "profesional",
+                    plan: "professional",
                     title: "Profesional",
                     price: "$49/mes",
                     features: [
