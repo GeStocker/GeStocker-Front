@@ -136,7 +136,7 @@ const SideBar = () => {
         <div className="flex border border-black p-2 rounded-md my-5 gap-2 ">
             <div>
                 <div>
-                    <h3 className='text-sm font-bold'>Plan Básico</h3>
+                    {/* <h3 className='text-sm font-bold'>Plan Básico</h3> */}
                 </div>
                 <div className='flex flex-col text-xs '>
                     <h4 >Renovación:</h4>
