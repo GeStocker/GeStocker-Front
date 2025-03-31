@@ -117,8 +117,8 @@ const LandingPage = () => {
             items={[
               "Prueba gratuita por 7 días",
               "Hasta 500 productos",
-              "2 usuarios",
-              "2 Soporte por email",
+              "1 usuarios",
+              "Soporte por email",
             ]}
             />
             <span className="rounded-lg px-4 border bg-green-100 absolute text-green-500 -right-8 top-1 rotate-12 font-medium text-2xl">7 dias gratuitos</span>
