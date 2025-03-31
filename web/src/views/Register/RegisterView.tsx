@@ -82,7 +82,6 @@ const RegisterView: React.FC = () => {
 
   const handleOnSubmit = async (values: FormData) => {
     try {
-      console.log("ESTO ESTOY MANDANDO:",values)
       const response = await registerUser(values);
       const { checkoutUrl } = response.data;
 
