@@ -19,7 +19,7 @@ const BusinessSelect: React.FC<BusinessSelectProps> = ({ businesses, onChange, v
           </option>
         ))
       ) : (
-        <option value="">Cargando negocios...</option>
+        <option value="" className="text-sm text-gray-500 italic pl-2">No hay negocios creados</option>
       )}
     </select>
   );

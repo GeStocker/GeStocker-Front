@@ -83,8 +83,8 @@ const FormBusiness: React.FC = () => {
   return (
     <div className="flex flex-col gap-2 items-center justify-center border shadow-lg w-fit m-auto my-8 p-6 rounded-lg">
       <div className="text-center mb-4">
-        <h1 className="text-4xl text-gray-950 font-bold">No has agregado ningún negocio</h1>
-        <h2 className="text-xl text-custom-textSubtitle">Por favor agrega uno para iniciar tu camino en GeStocker</h2>
+        <h1 className="text-4xl text-gray-950 font-bold">Agregar un negocio</h1>
+        <h2 className="text-xl text-custom-textSubtitle">Por favor agrega un negocio en GeStocker</h2>
       </div>
       
       <Formik
