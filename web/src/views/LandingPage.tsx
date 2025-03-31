@@ -117,7 +117,7 @@ const LandingPage = () => {
             items={[
               "Prueba gratuita por 7 días",
               "Hasta 500 productos",
-              "1 usuarios",
+              "1 usuario",
               "Soporte por email",
             ]}
             />
