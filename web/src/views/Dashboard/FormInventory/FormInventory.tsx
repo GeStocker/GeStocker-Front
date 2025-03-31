@@ -94,7 +94,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
               <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="name" className="font-semibold text-xl self-start">
-                    Nombre del Inventory
+                    Nombre del Inventario
                   </label>
                   <input
                     type="text"
@@ -109,7 +109,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="address" className="font-semibold text-xl self-start">
-                    Dirección del Inventory
+                    Dirección del Inventario
                   </label>
                   <input
                     type="text"
