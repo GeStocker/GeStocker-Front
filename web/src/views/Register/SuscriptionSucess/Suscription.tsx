@@ -2,8 +2,9 @@
 import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { completeSubscription } from "@/services/user/auth";
+import { routes } from "@/routes/routes";
 
 const SubscriptionSuccess = () => {
   const searchParams = useSearchParams();
@@ -11,6 +12,8 @@ const SubscriptionSuccess = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  const router = useRouter()
 
   // Obtener el session_id de los parámetros de URL
   useEffect(() => {
@@ -31,6 +34,7 @@ const SubscriptionSuccess = () => {
       try {
         setLoading(true);
         await completeSubscription(sessionId); // Llamada al servicio
+        router.push(routes.login)
         setSuccess(true);
       } catch (err: unknown) {
         if (err instanceof Error) {

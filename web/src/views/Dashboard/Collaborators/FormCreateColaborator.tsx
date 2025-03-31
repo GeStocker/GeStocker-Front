@@ -79,8 +79,6 @@ const FormCreateColaborator = () => {
     }
   };
 
-  console.log(businessId)
-
   useEffect(() => {
     fetchInventories();
   }, [token, businessId]);
