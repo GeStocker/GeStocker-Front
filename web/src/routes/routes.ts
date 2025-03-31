@@ -10,7 +10,7 @@ export const routes = {
    cookiePolicy: "/cookiePolicy",
    howItWorks: "/howItWorks",
    contact: "/contact",
-   createBusiness: "/dashboard//createBusiness",
+   createBusiness: "/dashboard/createBusiness",
    createInventory:  "/dashboard/createInventory",
    business: "dashboard/business",
    inventory: "/dashboard/inventory",
