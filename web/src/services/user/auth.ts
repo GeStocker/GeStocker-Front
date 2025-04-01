@@ -19,7 +19,7 @@ export const registerUser = async (userData: Partial<IUser>) => {
 
 export const loginUser = async (
   userData: Partial<IUser>
-): Promise<{ user: IUser; token: string }> => {
+): Promise<{ user: IUser; token: string, checkoutUrl: string }> => {
   try {
     const user = (await axios.post(`${API}/auth/login`, userData, {
       withCredentials: true,

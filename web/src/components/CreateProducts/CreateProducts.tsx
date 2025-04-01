@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { ICategory, IProduct } from "@/types/interface";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -11,11 +11,13 @@ import * as Yup from "yup";
 import { getAllCategories } from "@/services/user/category";
 import {
   createProduct,
+  createProductExcel,
   getAllProducts,
   updateProduct,
 } from "@/services/user/product";
 import { Camera } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 
 const productSchema = Yup.object({
   name: Yup.string()
@@ -67,15 +69,18 @@ const CreateProducts = () => {
   const [previewImage, setPreviewImage] = useState("/sadImage.png");
   const [previewEditImage, setPreviewEditImage] = useState<string | null>(null);
   const router = useRouter();
- // Obtener el negocio guardado
-   const [businessIdBusiness, setBusinessIdBusiness] = useState<string | null>(null)
+  // Obtener el negocio guardado
+  const [businessIdBusiness, setBusinessIdBusiness] = useState<string | null>(
+    null
+  );
+  const [excelFile, setExcelFile] = useState<File | null>(null);
 
   const handleGoBack = () => {
-      if (businessIdBusiness) {
-          router.push(`/dashboard/business/${businessId}`); // Redirigir a la página correcta
-      } else {
-          router.push("/dashboard"); // Redirigir a un lugar seguro si no hay negocio seleccionado
-      }
+    if (businessIdBusiness) {
+      router.push(`/dashboard/business/${businessId}`); // Redirigir a la página correcta
+    } else {
+      router.push("/dashboard"); // Redirigir a un lugar seguro si no hay negocio seleccionado
+    }
   };
 
   const fetchCategories = async () => {
@@ -115,7 +120,7 @@ const CreateProducts = () => {
 
   useEffect(() => {
     const businessIdBusiness = localStorage.getItem("selectedBusinessId");
-    if(businessIdBusiness) setBusinessIdBusiness(businessIdBusiness)
+    if (businessIdBusiness) setBusinessIdBusiness(businessIdBusiness);
     fetchProducts();
     fetchCategories();
   }, [businessId]);
@@ -199,16 +204,40 @@ const CreateProducts = () => {
     category: selectedProduct?.product_category || "",
   };
 
+  const onSubmitExcel = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!excelFile || !token || !businessId) return;
+    try {
+      const userId = getUserIdFromToken(token);
+      if (!userId) return;
+      const formData = new FormData();
+      formData.append("file", excelFile);
+      await createProductExcel(excelFile, userId, businessId, token);
+      toast.success("Productos añadidos con exito");
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn("Error al añadir productos", e.message);
+
+        toast.error(`Error: ${e.message}`);
+      } else {
+        console.warn("Error al añadir producto", e);
+        toast.error("Error al editar producto");
+      }
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-end mr-48 mt-6">
-          <button onClick={handleGoBack} className="cursor-pointer">
-              Volver
-          </button>
+        <button onClick={handleGoBack} className="cursor-pointer">
+          Volver
+        </button>
       </div>
       <div className="flex flex-row-reverse justify-center gap-x-8 my-8">
         <div className="border rounded-md text-center w-fit h-fit p-1">
-          <h2 className="text-lg text-custom-textGris">Productos ya cargados</h2>
+          <h2 className="text-lg text-custom-textGris">
+            Productos ya cargados
+          </h2>
           <div className="border-t border-stone-300 my-1 " />
           <div className="flex flex-col h-fit w-[300] max-h-96 overflow-y-auto">
             {products.length > 0 ? (
@@ -237,11 +266,16 @@ const CreateProducts = () => {
           </div>
         </div>
         <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-1/2 p-6 rounded-lg">
-          <h1 className="text-left font-semibold text-2xl">Agregar productos</h1>
+          <h1 className="text-left font-semibold text-2xl">
+            Agregar productos
+          </h1>
 
           <Tabs defaultValue="añadir" className="min-w-11/12 my-2">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="editar">Editar producto existente</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="excel">Añadir mediante Excel</TabsTrigger>
+              <TabsTrigger value="editar">
+                Editar producto existente
+              </TabsTrigger>
               <TabsTrigger value="añadir">Añadir nuevo producto</TabsTrigger>
             </TabsList>
             <TabsContent value="añadir">
@@ -269,7 +303,10 @@ const CreateProducts = () => {
                         Agregar nuevo producto
                       </h2>
                       <div className="flex flex-col gap-1 w-full mt-4">
-                        <label htmlFor="name" className="font-semibold text-base">
+                        <label
+                          htmlFor="name"
+                          className="font-semibold text-base"
+                        >
                           Nombre:
                         </label>
                         <input
@@ -374,7 +411,9 @@ const CreateProducts = () => {
                           </p>
                         )}
                       </div>
-                      <h2 className="font-semibold text-base mt-4">Elegir foto</h2>  
+                      <h2 className="font-semibold text-base mt-4">
+                        Elegir foto
+                      </h2>
                       <div className=" relative">
                         <img
                           src={previewImage}
@@ -392,7 +431,9 @@ const CreateProducts = () => {
                             type="file"
                             accept="image/*"
                             className="hidden"
-                            onChange={(e) => handleImageUpload(e, setFieldValue)}
+                            onChange={(e) =>
+                              handleImageUpload(e, setFieldValue)
+                            }
                           />
                         </div>
                       </div>
@@ -456,7 +497,9 @@ const CreateProducts = () => {
                             className="w-full p-2 mb-2 border border-stone-400 bg-white rounded-lg"
                           />
                           {errors.name && touched.name && (
-                            <p className="text-red-500 text-sm">{errors.name}</p>
+                            <p className="text-red-500 text-sm">
+                              {errors.name}
+                            </p>
                           )}
                         </div>
                       </div>
@@ -582,11 +625,14 @@ const CreateProducts = () => {
                           )}
                         </div>
                       </div>
-                        <h2 className="font-semibold text-base mt-4">Elegir foto</h2>  
+                      <h2 className="font-semibold text-base mt-4">
+                        Elegir foto
+                      </h2>
                       <div className="relative">
                         <img
                           src={
-                            previewEditImage ?? selectedProduct.product_fileImage
+                            previewEditImage ??
+                            selectedProduct.product_fileImage
                           }
                           alt="File Profile"
                           className="w-40 h-40 rounded-full border"
@@ -619,6 +665,54 @@ const CreateProducts = () => {
                   </form>
                 )}
               </Formik>
+            </TabsContent>
+            <TabsContent value="excel">
+              <div className="p-4 border rounded-lg shadow-md w-96 m-auto text-center mt-4">
+                <h2 className="text-lg font-semibold mb-2">
+                  Subir Archivo Excel
+                </h2>
+                <form
+                  onSubmit={(e) => {
+                    onSubmitExcel(e);
+                  }}
+                  className="flex flex-col gap-3"
+                >
+                  <label className="text-stone-950">
+                    Recuerda el archivo debe tener las columnas en ingles
+                    <span className="text-orange-500 font-medium"> `Name`</span>
+                    ,
+                    <span className="text-orange-500 font-medium">
+                      {" "}
+                      `Description`
+                    </span>{" "}
+                    y
+                    <span className="text-orange-500 font-medium">
+                      {" "}
+                      `Category`
+                    </span>
+                  </label>
+                  <label
+                    htmlFor="excel"
+                    className="border p-2 rounded cursor-pointer text-stone-600 text-sm"
+                  >
+                    {excelFile
+                      ? `📄 ${excelFile.name}`
+                      : "📂 Seleccionar Archivo"}
+                  </label>
+
+                  <input
+                    id="excel"
+                    name="excel"
+                    type="file"
+                    accept=".xlsx, .xls"
+                    onChange={(e) => setExcelFile(e.target.files?.[0] || null)}
+                    className="hidden"
+                  />
+                  <Button type="submit" disabled={!excelFile}>
+                    {excelFile ? "Enviar" : "Subir Archivo"}
+                  </Button>
+                </form>
+              </div>
             </TabsContent>
           </Tabs>
         </div>

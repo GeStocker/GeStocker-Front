@@ -97,7 +97,7 @@ export const updateProduct = async (
   try {
     const { name, description, category, fileImage } = productData;
     const formData = new FormData();
-    
+
     if (name) formData.append("name", name);
     if (description) formData.append("description", description);
     if (category) formData.append("category", category);
@@ -115,6 +115,33 @@ export const updateProduct = async (
     const errorMessage =
       (axios.isAxiosError(error) && error.response?.data?.message) ||
       "Error al actualizar el producto";
+    throw new Error(errorMessage);
+  }
+};
+
+export const createProductExcel = async (
+  file: File,
+  userId: string,
+  businessId: string,
+  token: string
+): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
+    formData.append("businessId", businessId);
+    await axios.post(`${API}/excel-import`, formData, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return "SUCCESS_CREATE_PRODUCTS";
+  } catch (error) {
+    console.warn("Error al crear producto", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al crear producto";
     throw new Error(errorMessage);
   }
 };
