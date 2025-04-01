@@ -43,8 +43,8 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
         token: token ?? "", 
         inventoryData: {
           ...values,
-          businessId
-        } 
+        },
+        businessId
       });
 
       setInventories([...inventories, {
