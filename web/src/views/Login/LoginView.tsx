@@ -38,9 +38,13 @@ const LoginView: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     try {
       const res = await loginUser(values);
+      const { checkoutUrl } = res;
+      if (checkoutUrl) {
+        router.push(checkoutUrl);
+        return;
+      }
       saveUserData(res.token);
       toast.success("Inicio de sesión exitoso");
-
       setTimeout(() => {
         router.push(routes.dashboard);
       }, 2000);

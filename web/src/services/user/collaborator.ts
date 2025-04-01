@@ -16,7 +16,7 @@ export const getCollaboratorsByBusiness = async (
   businessId: string
 ): Promise<ICollaborator[]> => {
   try {
-    const response = await axios.get(`${API}/collaborators/${businessId}`, {
+    const response = await axios.get(`${API}/collaborators/business/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
