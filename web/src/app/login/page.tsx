@@ -32,7 +32,7 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center flex-1 ml-16 mt-12 mx-4">
           <h2 className="text-4xl font-bold mb-6">Iniciar sesión</h2>
           <div>
-              <ButtonGoogle />
+              <ButtonGoogle type='login' plan={null} />
           </div>
           <div className="relative w-full flex items-center px-60 my-3">
               <div className=" flex-grow h-px bg-gray-800"></div>
