@@ -119,8 +119,12 @@ const SideBar = () => {
                 </Link>
             </div>
             <div className="flex items-center gap-2 pl-2">
-                <DiAptana />
-                <h3>Configuracion</h3>
+                <Link href={routes.configuration}>
+                    <div className='flex items-center gap-2'>
+                        <DiAptana />
+                        <h3>Configuracion</h3>
+                    </div>
+                </Link>
             </div>
         </div>
         <div className="flex flex-col gap-2 mt-6">

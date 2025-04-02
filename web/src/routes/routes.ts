@@ -12,10 +12,10 @@ export const routes = {
    contact: "/contact",
    createBusiness: "/dashboard/createBusiness",
    createInventory:  "/dashboard/createInventory",
-   business: "dashboard/business",
    inventory: "/dashboard/inventory",
    createProducts: "/dashboard/business/createProducts",
    createCategory: "/dashboard/business/createCategory",
    Suscription: "register/suscription",
-   collaborators: "/dashboard/collaborators"
+   collaborators: "/dashboard/collaborators",
+   configuration: "configuration"
 }
