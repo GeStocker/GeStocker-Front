@@ -6,11 +6,12 @@ import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import { MdCheck } from "react-icons/md";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
-import { registerUser } from "@/services/user/auth"
+import { registerUser } from "@/services/user/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import SelectCountry from "@/components/SelectCountry/SelectCountry";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import ButtonGoogle from "@/components/Button Google/ButtonGoogle";
 
 const registerSchema = Yup.object({
   name: Yup.string().required("El nombre es obligatorio"),
@@ -85,7 +86,7 @@ const RegisterView: React.FC = () => {
       const response = await registerUser(values);
       const { checkoutUrl } = response.data;
 
-      router.push(checkoutUrl)
+      router.push(checkoutUrl);
       toast.success("Registro exitoso");
       setTimeout(() => {
         router.push(routes.login);
@@ -103,6 +104,21 @@ const RegisterView: React.FC = () => {
 
   return (
     <div>
+      <div>
+        {selectedPlan ? (
+          <ButtonGoogle type="register" plan={selectedPlan} />
+        ) : (
+          <div className="text-center text-orange-500">
+            <ButtonGoogle type="register" plan={null} />
+            <span>Selecciona un plan para registrarte con google</span>
+          </div>
+        )}
+      </div>
+      <div className="relative w-full flex items-center pr-10 my-6">
+        <div className="flex-grow h-px bg-gray-800"></div>
+        <span className="mx-4 text-black">O</span>
+        <div className="flex-grow h-px bg-gray-800"></div>
+      </div>
       <Formik
         initialValues={{
           name: "",
@@ -226,11 +242,11 @@ const RegisterView: React.FC = () => {
               </div>
             </div>
             <div className="flex gap-16">
-                <div className="flex flex-col">
-                  <label htmlFor="password" className="font-semibold text-xl">
-                    Contraseña
-                  </label>
-              <div className="relative">
+              <div className="flex flex-col">
+                <label htmlFor="password" className="font-semibold text-xl">
+                  Contraseña
+                </label>
+                <div className="relative">
                   <input
                     type={!showPassword ? "password" : "text"}
                     name="password"
@@ -256,7 +272,9 @@ const RegisterView: React.FC = () => {
                   </button>
                 </div>
                 {errors.password && touched.password && (
-                  <p className="text-red-500 text-sm w-[350px]">{errors.password}</p>
+                  <p className="text-red-500 text-sm w-[350px]">
+                    {errors.password}
+                  </p>
                 )}
                 {values.password && !errors.password && (
                   <p className="text-green-500 text-sm">Contraseña válida</p>

@@ -12,7 +12,8 @@ import { useEffect } from "react"
 
 export function ToggleTheme() {
     const setTheme = (theme: string) =>{
-        localStorage.theme = theme
+        document.documentElement.className = theme
+        localStorage.setItem("theme", theme)
     }
 
     useEffect (()=>{   
