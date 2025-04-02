@@ -60,7 +60,7 @@ const InventoryView = () => {
         </div>
         <div className="flex">
           <Link href={"/dashboard/inventory/sellProducts"}>
-          <Button className="bg-white text-gray-800 border border-gray-300 mr-2">
+          <Button variant="outline">
             <FiShoppingCart />
             Registrar venta
           </Button>

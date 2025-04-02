@@ -1,5 +1,6 @@
 "use client";
 import ConfigurarionBusiness from '@/components/Configuration/ConfigurarionBusiness';
+import ConfigurationExpor from '@/components/Configuration/ConfigurationExpor';
 import NotificationSettings from '@/components/Configuration/NotificationSettings';
 import React, { useState } from 'react';
 
@@ -61,8 +62,7 @@ const handleTabClick = (tab: 'notificaciones' | 'negocio' | 'exportacion'): void
 
         {activeTab === 'exportacion' && (
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">Configuración de Exportación</h2>
-            <p>Aquí puedes configurar las opciones de exportación de datos.</p>
+            <ConfigurationExpor/>
           </div>
         )}
       </div>

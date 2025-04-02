@@ -52,7 +52,7 @@ const BusinessView = () => {
                 </div>
                 <div className='flex'>
                     <Link href={routes.createCategory}>
-                        <Button className='bg-white text-gray-800 border border-gray-300 mr-2'>
+                        <Button variant="outline">
                             <FiShoppingCart />
                             Agregar categorías
                         </Button>
@@ -68,7 +68,7 @@ const BusinessView = () => {
          </section>
         <section className='border border-gray-300 rounded-md'>
             <div>
-                <ProductTableBusiness products={products} onSearchChange={handleSearchChange} // Pasar la función al hijo
+                <ProductTableBusiness products={products} onSearchChange={handleSearchChange} 
         searchValue={filters.search} />
             </div>
         </section>
