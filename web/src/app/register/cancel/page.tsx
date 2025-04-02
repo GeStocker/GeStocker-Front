@@ -1,8 +1,11 @@
+import SubscriptionCancelPage from '@/views/Register/SuscriptionCancel/SuscriptionCancel'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <SubscriptionCancelPage/>
+    </div>
   )
 }
 
