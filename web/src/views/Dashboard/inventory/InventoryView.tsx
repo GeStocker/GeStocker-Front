@@ -58,7 +58,7 @@ const InventoryView = () => {
           <h1 className="text-4xl font-semibold text-gray-800">Inventario</h1>
           <h3>Gestiona tus productos y controla tu stock</h3>
         </div>
-        <div className="flex">
+        <div className="flex gap-7">
           <Link href={"/dashboard/inventory/sellProducts"}>
           <Button variant="outline">
             <FiShoppingCart />

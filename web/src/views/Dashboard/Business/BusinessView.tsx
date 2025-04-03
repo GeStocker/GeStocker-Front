@@ -11,6 +11,7 @@ import { routes } from '@/routes/routes';
 import { getAllProducts } from '@/services/user/product';
 import { toast } from 'sonner';
 import { IProduct } from '@/types/interface';
+import ButtonGestionar from '@/components/ButtonGestionar/ButtonGestionar';
 
 
 const BusinessView = () => {
@@ -50,7 +51,7 @@ const BusinessView = () => {
                     <h1 className="text-4xl font-semibold text-gray-800">Negocio</h1>
                     <h3>Gestiona tus productos y controla tu stock</h3>
                 </div>
-                <div className='flex'>
+                <div className='flex gap-7'>
                     <Link href={routes.createCategory}>
                         <Button variant="outline">
                             <FiShoppingCart />
@@ -58,7 +59,7 @@ const BusinessView = () => {
                         </Button>
                     </Link>
                     <Link  href={routes.createProducts} >
-                        <Button>+ Crear productos</Button>
+                        <ButtonGestionar/>
                     </Link>
                 </div>
         </section>

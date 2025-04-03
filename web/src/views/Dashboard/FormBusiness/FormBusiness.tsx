@@ -31,6 +31,7 @@ const FormBusiness: React.FC = () => {
   const { token } = useAuth();
   const { setBusinessList, saveBusinessId } = useBusiness();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
 
   const handleOnSubmit = async (values: FormData) => {
     setIsSubmitting(true);
