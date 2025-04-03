@@ -34,8 +34,7 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
               <th className="p-2 border text-left">Categoría</th>
               <th className="py-2 border text-left">Stock</th>
               <th className="py-2 border text-center">Estado Stock</th>
-              <th className="p-2 border text-left">Precio</th>
-              <th className="p-2 border text-center">Estado</th>
+              <th className="p-2 border text-left">Precio</th> 
             </tr>
           </thead>
           <tbody>
@@ -69,15 +68,11 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
                   <td className="p-2">
                     {product.price ? `$${product.price}` : "No disponible"}
                   </td>
-                  <td className={`p-2 text-center font-semibold ${
-                    product.product.isActive ? "text-green-600" : "text-red-600"
-                  }`}>
-                    {product.product.isActive ? "Activo" : "Inactivo"}
-                  </td>
+
                 </tr>
               ))
             ) : (
-              <tr>
+              <tr className="w-full">
                 <td colSpan={4} className="text-center p-4">
                   No hay productos disponibles
                 </td>

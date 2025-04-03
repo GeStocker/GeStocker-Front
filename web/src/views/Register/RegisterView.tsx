@@ -66,6 +66,7 @@ const RegisterView: React.FC = () => {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePlanChange = (
     plan: string,
@@ -82,6 +83,7 @@ const RegisterView: React.FC = () => {
   };
 
   const handleOnSubmit = async (values: FormData) => {
+    setIsLoading(true);
     try {
       const response = await registerUser(values);
       const { checkoutUrl } = response.data;
@@ -99,6 +101,8 @@ const RegisterView: React.FC = () => {
         console.warn("Error al registrar el usuario:", e);
         toast.error("Error al registrar el usuario");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -407,7 +411,7 @@ const RegisterView: React.FC = () => {
                 type="submit"
                 className="w-[350px] bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300"
               >
-                Registrarse
+                {isLoading ? "Cargando..." : "Registrarse"}
               </button>
             </div>
           </form>

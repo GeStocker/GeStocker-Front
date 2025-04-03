@@ -1,5 +1,5 @@
 "use client";
-import React  from "react";
+import React, { useState }  from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
@@ -31,8 +31,10 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   const router = useRouter();
   const { token } = useAuth();
   const { businessId, inventories, setInventories } = useBusiness();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleOnSubmit = async (values: InventoryFormValues) => {
+    setIsSubmitting(true);
     try {
       if (!businessId) {
         toast.error("No hay ningún negocio seleccionado");
@@ -68,6 +70,8 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "Error desconocido";
       toast.error(`Error al crear inventario: ${errorMessage}`);
+    } finally{
+      setIsSubmitting(false);
     }
   };
       
@@ -89,7 +93,8 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
           validationSchema={registerSchema}
           onSubmit={handleOnSubmit}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isValid,
+          dirty }) => (
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-col w-[350px]">
@@ -122,31 +127,35 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                   {errors.address && touched.address && <p className="text-red-500 text-sm">{errors.address}</p>}
                 </div>
   
-                <div className="flex flex-col w-[350px]">
-                  <label htmlFor="description" className="font-semibold text-xl self-start">
-                    Descripción del Inventario
-                  </label>
-                  <input
-                    type="text"
-                    name="description"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.description}
-                    className="w-full p-3 mb-4 border border-black bg-gray-100 rounded-md"
-                  />
-                  {errors.description && touched.description && (
-                    <p className="text-red-500 text-sm">{errors.description}</p>
-                  )}
-                </div>
+                <div className="flex flex-col w-[350px] mb-6">
+                <label htmlFor="description" className="font-semibold text-xl self-start">
+                  Descripción del inventario
+                </label>
+                <textarea
+                  name="description"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.description}
+                  rows={3}
+                  className={`w-full p-3 border ${errors.description && touched.description ? 'border-red-500' : 'border-black'} bg-gray-100 rounded-md`}
+                  disabled={isSubmitting}
+                />
+                {errors.description && touched.description && (
+                  <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+                )}
               </div>
-              <div className="w-full flex justify-center items-center mt-4">
-                <button
-                  type="submit"
-                  className="w-fit bg-black text-center text-white font-normal py-2 px-3 rounded-md transition duration-300"
-                >
-                  Agregar Inventario
-                </button>
               </div>
+              <div className="w-full flex justify-center items-center">
+              <button
+                type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
+                className={`w-fit bg-black text-center text-white font-normal py-2 px-6 rounded-md transition duration-300 ${
+                  (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
+                }`}
+              >
+                {isSubmitting ? "Creando..." : "Agregar Negocio"}
+              </button>
+            </div>
             </form>
           )}
         </Formik>

@@ -1,6 +1,7 @@
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { IProduct } from "@/types/interface";
 import ScrollToTopButton from "../ScrollTop/ScrollToTopButton";
+import ActionMenu from "../ActionMenu/ActionMenu";
 
 interface ProductTableBusinessProps {
   products: IProduct[];
@@ -39,7 +40,7 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
               <th className="p-2 border text-left">Categoría</th>
               <th className="p-2 border text-left">Stock</th>
               <th className="p-2 border text-center">Estado Stock</th>
-              <th className="p-2 border text-center">Estado</th>
+              <th className="p-2 border text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -77,10 +78,8 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                       : "Stock alto"}
                   </td>
 
-                  <td className={`p-2 text-center font-semibold ${
-                    product.product_isActive ? "text-green-600" : "text-red-600"
-                  }`}>
-                    {product.product_isActive ? "Activo" : "Inactivo"}
+                  <td className="p-2 text-center font-semibold">
+                    <ActionMenu onEdit={() => console.log(`Editing product ${product.product_id}`)} />
                   </td>
                 </tr>
               ))

@@ -34,8 +34,10 @@ const LoginView: React.FC = () => {
   const router = useRouter();
   const { saveUserData } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async (values: FormData) => {
+    setIsLoading(true);
     try {
       const res = await loginUser(values);
       const { checkoutUrl } = res;
@@ -57,6 +59,8 @@ const LoginView: React.FC = () => {
         console.warn("Error al registrar el usuario:", e);
         toast.error("Error al registrar el usuario");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -138,7 +142,7 @@ const LoginView: React.FC = () => {
                 type="submit"
                 className="w-[250px] bg-black text-center text-white font-normal py-3 rounded-md transition duration-300"
               >
-                Ingresar
+                {isLoading ? "Cargando..." : "Ingresar"}
               </button>
             </div>
           </form>

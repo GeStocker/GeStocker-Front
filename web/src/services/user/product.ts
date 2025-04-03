@@ -73,6 +73,8 @@ export const createProduct = async (
     if (fileImage) {
       formData.append("file", fileImage);
     }
+
+    console.log("id del negocio en servicio", businessId)
     await axios.post(`${API}/products/${businessId}`, formData, {
       withCredentials: true,
       headers: {

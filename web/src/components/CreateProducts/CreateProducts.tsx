@@ -15,8 +15,7 @@ import {
   getAllProducts,
   updateProduct,
 } from "@/services/user/product";
-import { Camera } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Camera, Info } from "lucide-react";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 
 const productSchema = Yup.object({
@@ -68,20 +67,15 @@ const CreateProducts = () => {
   const [newCategoryOpen, setNewCategoryOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("/sadImage.png");
   const [previewEditImage, setPreviewEditImage] = useState<string | null>(null);
-  const router = useRouter();
+  const [isAdding, setIsAdding]=useState(false);
+  const [isSending, setIsSending]=useState(false);
+  const [isEdit, setIsEdit]=useState(false);
   // Obtener el negocio guardado
   const [businessIdBusiness, setBusinessIdBusiness] = useState<string | null>(
     null
   );
   const [excelFile, setExcelFile] = useState<File | null>(null);
 
-  const handleGoBack = () => {
-    if (businessIdBusiness) {
-      router.push(`/dashboard/business/${businessId}`); // Redirigir a la página correcta
-    } else {
-      router.push("/dashboard"); // Redirigir a un lugar seguro si no hay negocio seleccionado
-    }
-  };
 
   const fetchCategories = async () => {
     if (!token) return;
@@ -119,7 +113,6 @@ const CreateProducts = () => {
   };
 
   useEffect(() => {
-    const businessIdBusiness = localStorage.getItem("selectedBusinessId");
     if (businessIdBusiness) setBusinessIdBusiness(businessIdBusiness);
     fetchProducts();
     fetchCategories();
@@ -129,8 +122,10 @@ const CreateProducts = () => {
     values: FormData,
     { resetForm }: { resetForm: () => void }
   ) => {
+    setIsAdding(true);
     if (!businessId || !token) return;
     try {
+      console.log("este es el id del negocio", businessId)
       await createProduct(values, businessId, token);
       toast.success("Producto creado con exito");
       fetchCategories();
@@ -146,6 +141,8 @@ const CreateProducts = () => {
         console.warn("Error al crear producto", e);
         toast.error("Error al crear producto");
       }
+    }finally{
+      setIsAdding(false);
     }
   };
 
@@ -153,6 +150,7 @@ const CreateProducts = () => {
     values: FormData,
     { resetForm }: { resetForm: () => void }
   ) => {
+    setIsEdit(true);
     if (!token || selectedProduct.product_id === "" || !businessId) return;
     try {
       await updateProduct(values, selectedProduct.product_id, token);
@@ -175,6 +173,8 @@ const CreateProducts = () => {
         console.warn("Error al editar producto", e);
         toast.error("Error al editar producto");
       }
+    } finally {
+      setIsEdit(false);
     }
   };
 
@@ -206,6 +206,7 @@ const CreateProducts = () => {
 
   const onSubmitExcel = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSending(true);
     if (!excelFile || !token || !businessId) return;
     try {
       const userId = getUserIdFromToken(token);
@@ -223,23 +224,20 @@ const CreateProducts = () => {
         console.warn("Error al añadir producto", e);
         toast.error("Error al editar producto");
       }
+    }finally{
+      setIsSending(false)
     }
   };
 
   return (
     <div>
-      <div className="flex justify-end mr-48 mt-6">
-        <button onClick={handleGoBack} className="cursor-pointer">
-          Volver
-        </button>
-      </div>
       <div className="flex flex-row-reverse justify-center gap-x-8 my-8">
         <div className="border rounded-md text-center w-fit h-fit p-1">
           <h2 className="text-lg text-custom-textGris">
-            Productos ya cargados
+            Lista de productos
           </h2>
           <div className="border-t border-stone-300 my-1 " />
-          <div className="flex flex-col h-fit w-[300] max-h-96 overflow-y-auto">
+          <div className="flex flex-col h-fit w-[300] max-h-[1200px] overflow-y-auto">
             {products.length > 0 ? (
               products
                 .sort((a, b) => a.product_name.localeCompare(b.product_name))
@@ -267,16 +265,16 @@ const CreateProducts = () => {
         </div>
         <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-1/2 p-6 rounded-lg">
           <h1 className="text-left font-semibold text-2xl">
-            Agregar productos
+            Productos
           </h1>
 
           <Tabs defaultValue="añadir" className="min-w-11/12 my-2">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="excel">Añadir mediante Excel</TabsTrigger>
               <TabsTrigger value="editar">
-                Editar producto existente
+                Editar producto
               </TabsTrigger>
-              <TabsTrigger value="añadir">Añadir nuevo producto</TabsTrigger>
+              <TabsTrigger value="añadir">Añadir producto</TabsTrigger>
             </TabsList>
             <TabsContent value="añadir">
               <Formik
@@ -300,7 +298,7 @@ const CreateProducts = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="flex flex-col items-center justify-center gap-2">
                       <h2 className="font-semibold text-2xl text-left">
-                        Agregar nuevo producto
+                        Agregar producto
                       </h2>
                       <div className="flex flex-col gap-1 w-full mt-4">
                         <label
@@ -438,7 +436,7 @@ const CreateProducts = () => {
                         </div>
                       </div>
                       <Button size="lg" type="submit">
-                        Agregar nuevo producto
+                      {isAdding ? "Agregando..." : "Agregar producto"}
                       </Button>
                     </div>
                   </form>
@@ -466,6 +464,9 @@ const CreateProducts = () => {
                       <h2 className="font-semibold text-2xl text-left">
                         Editar producto
                       </h2>
+                      <span className="flex text-sm text-red-600 mt-1">
+                        <Info className="w-5 h-5 mr-2" />
+                      Selecciona el producto a editar de la lista de Productos</span>
                       <div className="flex gap-3 w-full">
                         <div className="flex flex-col gap-1 w-full mt-4">
                           <label
@@ -637,7 +638,7 @@ const CreateProducts = () => {
                           alt="File Profile"
                           className="w-40 h-40 rounded-full border"
                         />
-                        <div className="absolute -right-2 -bottom-2">
+                        <div className="absolute -right-2 -bottom-2 mb-7">
                           <label htmlFor="fileImage" className="cursor-pointer">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
                               <Camera className="h-4 w-4" />
@@ -654,13 +655,9 @@ const CreateProducts = () => {
                           />
                         </div>
                       </div>
-                      {selectedProduct.product_id === "" ? (
-                        <span>Debes seleccionar un producto</span>
-                      ) : (
-                        <Button variant="outline" size="lg" type="submit">
-                          Editar producto
+                        <Button size="lg" type="submit" disabled={!selectedProduct.product_id}>
+                          {isEdit  ? "Editando..." : "Editar producto"}
                         </Button>
-                      )}
                     </div>
                   </form>
                 )}
@@ -709,7 +706,7 @@ const CreateProducts = () => {
                     className="hidden"
                   />
                   <Button type="submit" disabled={!excelFile}>
-                    {excelFile ? "Enviar" : "Subir Archivo"}
+                    {isSending ? "Enviando..." : "Enviar archivo"}
                   </Button>
                 </form>
               </div>
