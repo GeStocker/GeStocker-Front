@@ -1,5 +1,4 @@
-'use client';
-
+import Developers from '@/components/Developers/Developers';
 import { routes } from '@/routes/routes';
 import Link from 'next/link';
 import React from 'react';
@@ -32,7 +31,9 @@ const AboutView = () => {
         En GeStocker, estamos comprometidos con la mejora continua y la innovación para ofrecerte la mejor
         experiencia en la gestión de inventarios. ¡Gracias por confiar en nosotros!
       </p>
+      <Developers/>
     </div>
+    
   );
 };
 

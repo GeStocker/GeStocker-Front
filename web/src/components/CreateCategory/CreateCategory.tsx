@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Info } from "lucide-react";
 
 const categorySchema = Yup.object({
   name: Yup.string()
@@ -28,6 +29,7 @@ const CreateCategory = () => {
   const { token } = useAuth();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const { businessId } = useBusiness();
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{
     id: string;
     name: string;
@@ -56,6 +58,7 @@ const CreateCategory = () => {
   }, [businessId]);
 
   const handleOnSubmitCreate = async (values: FormData,  { resetForm }: { resetForm: () => void }) => {
+    setIsLoading(true);
     if (!businessId || !token) return;
     try {
       await createCategory(values, businessId, token);
@@ -71,9 +74,12 @@ const CreateCategory = () => {
         console.warn("Error al crear categoria", e);
         toast.error("Error al crear categoria");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleOnSubmitEdit = async (values: FormData,  { resetForm }: { resetForm: () => void }) => {
+    setIsLoading(true);
     if (!token || selectedCategory.id === "" || !businessId) return;
     try {
       await updateCategory(values, businessId, selectedCategory.id, token);
@@ -89,6 +95,8 @@ const CreateCategory = () => {
         console.warn("Error al editar categoria", e);
         toast.error("Error al editar categoria");
       }
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -165,7 +173,7 @@ const CreateCategory = () => {
                       )}
                     </div>
                     <Button size="lg" type="submit">
-                      Agregar nueva categoría
+                      {isLoading? "agregando..." : "Agregar nueva categoría"}
                     </Button>
                   </div>
                 </form>
@@ -189,6 +197,10 @@ const CreateCategory = () => {
                 handleSubmit,
               }) => (
                 <form onSubmit={handleSubmit}>
+                  <span className="flex justify-center text-sm text-red-600 mt-1">
+                        <Info className="w-5 h-5 mr-2" />
+                      Selecciona una categoría de la lista para editarla
+                      </span>
                   <div className="flex flex-col items-center justify-center gap-2">
                     <div className="flex flex-row gap-3">
                       <div className="flex flex-col gap-1 w-1/2 mt-4">
@@ -226,13 +238,17 @@ const CreateCategory = () => {
                         )}
                       </div>
                     </div>
-                    {selectedCategory.id === "" ? (
-                      <span>Debes seleccionar una categoría</span>
-                    ) : (
-                      <Button variant="outline" size="lg" type="submit">
-                        Editar categoría
-                      </Button>
-                    )}
+                    <Button
+                      size="lg"
+                      type="submit"
+                      disabled={selectedCategory.id === "" || isLoading}
+                    >
+                      {selectedCategory.id === ""
+                        ? "Selecciona una categoría"
+                        : isLoading
+                        ? "Editando..."
+                        : "Editar categoría"}
+                    </Button>
                   </div>
                 </form>
               )}

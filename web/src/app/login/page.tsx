@@ -1,7 +1,5 @@
-// import ButtonGoogle from '@/components/Button Google/ButtonGoogle'
 import TabUserandCollaborator from '@/components/tabUserandCollaborator/TabUserandCollaborator'
 import { routes } from '@/routes/routes'
-// import LoginView from '@/views/Login/LoginView'
 import Link from 'next/link'
 import React from 'react'
 
