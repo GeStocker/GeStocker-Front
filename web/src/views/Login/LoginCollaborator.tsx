@@ -30,7 +30,7 @@ interface FormData {
   password: string;
 }
 
-const LoginView: React.FC = () => {
+const LoginCollaborator: React.FC = () => {
   const router = useRouter();
   const { saveUserData } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
@@ -54,7 +54,7 @@ const LoginView: React.FC = () => {
       if (e instanceof Error) {
         console.warn("Error al iniciar sesión:", e.message);
 
-        toast.error(`${e.message}`);
+        toast.error(`Error: ${e.message}`);
       } else {
         console.warn("Error al iniciar sesión:", e);
         toast.error("Error al iniciar sesión");
@@ -163,4 +163,4 @@ const LoginView: React.FC = () => {
   );
 };
 
-export default LoginView;
+export default LoginCollaborator;
