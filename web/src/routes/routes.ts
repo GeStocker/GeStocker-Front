@@ -17,5 +17,7 @@ export const routes = {
    createCategory: "/dashboard/business/createCategory",
    Suscription: "register/suscription",
    collaborators: "/dashboard/collaborators",
-   configuration: "configuration"
+   createCollaborator: "/dashboard/collaborators/registerCollaborator",
+   configuration: "/dashboard/configuration",
+   statistics: "/dashboard/statistics",
 }

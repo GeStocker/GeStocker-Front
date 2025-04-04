@@ -14,8 +14,8 @@ const ConfirmDialog = ({
 }) => {
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
-    <div className="fixed inset-0 bg-black/60 z-40"></div>
-      <div className="bg-white p-4 rounded-lg w-96 z-40 shadow-lg">
+    <div className="fixed inset-0 bg-foreground/60 z-40"></div>
+      <div className="bg-background p-4 rounded-lg w-96 z-40 shadow-lg">
         <div  className="text-left font-bold text-2xl mb-1 w-max-400">
 
         {title ? <h1>{title}</h1> : <h1>Estas seguro de continuar?</h1>}

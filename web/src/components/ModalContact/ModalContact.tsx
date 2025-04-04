@@ -22,15 +22,15 @@ const ModalContacto = ({
         {text}
       </Button>
     ) : (
-      <span onClick={onClickModal} className={twMerge("text-sm text-custom-textSubtitle hover:underline", className)}>{text}</span>
+      <span onClick={onClickModal} className={twMerge("text-sm hover:underline", className)}>{text}</span>
     );
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
+      <div className="bg-background p-6 rounded-lg w-96 shadow-lg">
         <div
           onClick={onClickModal}
-          className="cursor-pointer text-gray-900 flex justify-end "
+          className="cursor-pointer flex justify-end "
         >
           <IoClose className="w-6 h-6" />
         </div>
@@ -52,7 +52,7 @@ const ModalContacto = ({
           ></textarea>
           <button
             type="submit"
-            className="w-full py-2 bg-custom-textGris text-white rounded "
+            className="w-full py-2 bg-custom-textGris text-background rounded "
           >
             Enviar
           </button>

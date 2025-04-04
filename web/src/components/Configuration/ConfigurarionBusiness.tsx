@@ -55,7 +55,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="Mi negocio"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
                 {errors.name && touched.name && <p className="text-red-500 text-sm">{errors.name}</p>}
               </div>
@@ -69,7 +69,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="296909587"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
                 {errors.taxId && touched.taxId && <p className="text-red-500 text-sm">{errors.taxId}</p>}
               </div>
@@ -83,7 +83,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="Calle siempre viva 123"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
               <div className="flex flex-col">
@@ -94,7 +94,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="Villavicencio"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
             </div>
@@ -108,7 +108,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="500001"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
               <div className="flex flex-col">
@@ -119,7 +119,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="Colombia"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
             </div>
@@ -132,7 +132,7 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="637247094"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
               <div className="flex flex-col">
@@ -143,14 +143,14 @@ const ConfigurationBusiness = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value="admin@tiendaprincipal.com"
-                  className="w-full p-2 border border-gray-400 rounded-lg text-gray-700"
+                  className="w-full p-2 border border-custom-GrisOscuro rounded-lg text-custom-textSubtitle"
                 />
               </div>
 
             <div className="w-full flex justify-center mt-4">
               <Button
                 type="button"
-                className="w-48 bg-black text-white font-normal py-3 rounded-lg transition duration-300 disabled:bg-gray-500"
+                className="w-48 bg-foreground text-background font-normal py-3 rounded-lg transition duration-300 disabled:bg-custom-GrisOscuro"
               >
                 Guardar Datos
               </Button>

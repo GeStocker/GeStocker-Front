@@ -266,10 +266,10 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
         <TabsContent value="seleccionar">
           <div className="flex w-full flex-row-reverse justify-center gap-x-8 my-2">
             <div className="border rounded-md text-center w-full h-fit p-1">
-              <h2 className="text-lg text-custom-textGris">
+              <h2 className="text-lg text-custom-textSubtitle">
                 Seleccionar producto
               </h2>
-              <div className="border-t border-stone-300 my-1 " />
+              <div className="border-t border-custom-grisClarito my-1 " />
               <div className="flex flex-col h-fit w-full max-h-96 overflow-y-auto">
                 {type === "sell" ? (
                   products.length > 0 ? ( //Listado de productos para venta
@@ -355,12 +355,12 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
             {selectedProducts ? (
               <div className="flex flex-col gap-4">
                 {/* Encabezados */}
-                <div className="grid grid-cols-5 bg-gray-100 p-2 rounded-md font-semibold text-center">
+                <div className="grid grid-cols-5 bg-custom-grisClarito p-2 rounded-md font-semibold text-center">
                   <span>Producto</span>
                   <span>Stock actual</span>
                   {type === "add" && <span>Añadir stock</span>}
                   {type === "add" && <span>Precio de compra</span>}
-                  <span>Precio de venta</span>
+                  <span>Precio de venta</span>  
                   {type === "sell" && <span>Cantidad de venta</span>}
                 </div>
 
@@ -381,7 +381,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           onChange={(e) =>
                             handleChange(index, "newStock", e.target.value ?? "0")
                           }
-                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                          className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                         />
                         {errors[index]?.newStock && (
                           <p className="text-red-500 text-sm">
@@ -398,7 +398,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           onChange={(e) =>
                             handleChange(index, "purchasePrice", e.target.value ?? "0")
                           }
-                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                          className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                         />
                         {errors[index]?.purchasePrice && (
                           <p className="text-red-500 text-sm">
@@ -415,7 +415,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           onChange={(e) =>
                             handleChange(index, "sellingPrice", e.target.value ?? "0")
                           }
-                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                          className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                         />
                         {errors[index]?.sellingPrice && (
                           <p className="text-red-500 text-sm">
@@ -433,7 +433,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           onChange={(e) =>
                             handleChange(index, "sellQuantity", e.target.value ?? "0")
                           }
-                          className="w-20 p-1 border border-gray-400 rounded text-center"
+                          className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                         />
                         {errors[index]?.sellQuantity && (
                           <p className="text-red-500 text-sm">
@@ -452,7 +452,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                         type="number"
                         value={discount ?? 0}
                         onChange={(e) => handleChangeDiscount(e.target.value ?? 0)}
-                        className="w-20 p-1 border border-gray-400 rounded text-center"
+                        className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                       />
                       %
                     </label>
@@ -465,7 +465,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                 <Button
                   size="lg"
                   onClick={handleSendProducts}
-                  className="mt-4 w-fit mx-auto disabled:bg-stone-600"
+                  className="mt-4 w-fit mx-auto disabled:bg-custom-grisOscuro"
                   disabled = {!(selectedProducts.length > 0)}
                 >
                   {type==="add" ? "Agregar productos": "Agregar venta"}

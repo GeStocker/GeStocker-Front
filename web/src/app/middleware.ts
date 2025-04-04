@@ -1,8 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
 
 
-export function middleware(req: NextRequest) {
+export function middleware(req: NextRequest, res: NextResponse) {
+  const theme = req.cookies.get('theme')?.value || 'light'
   const token = req.cookies.get("token")?.value;
+  
+  if (!req.cookies.has('theme')) {
+    res.cookies.set('theme', theme)
+  }
   
   const protectedRoutes = ["/dashboard"];
 
@@ -22,7 +27,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  return NextResponse.next(); 
 }
 
 export const config = {

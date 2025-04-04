@@ -12,7 +12,7 @@ const Footer = () => {
             href={routes.home}
             className="flex items-center gap-1 font-bold"
           >
-            <img src="/logo.png" alt="Logo GeStocker" className="h-9 w-9" />
+            <img src="/logo.png" alt="Logo GeStocker" className="h-9 w-9 dark:invert-100" />
             <span>GeStocker</span>
           </Link>
           <p className="text-sm text-custom-textGris">
@@ -40,7 +40,7 @@ const Footer = () => {
               >
                 Acerca de
               </Link>
-              <ModalContacto type="text" text="Contacto" />
+              <ModalContacto type="text" text="Contacto" className="text-custom-textSubtitle"/>
             </nav>
           </div>
           <div className="flex flex-col gap-1">

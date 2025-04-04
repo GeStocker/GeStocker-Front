@@ -15,7 +15,7 @@ const LandingPage = () => {
     <div>
       <section className="flex flex-col-reverse lg:flex-row gap-4 w-full items-center justify-center my-4 lg:my-12 px-2 lg:px-16">
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl lg:text-5xl font-bold text-gray-950 text-center lg:text-left">
+          <h1 className="text-2xl lg:text-5xl font-bold text-center lg:text-left">
             Gestiona tu inventario de forma simple y eficiente
           </h1>
           <p className="text-base lg:text-xl text-custom-textSubtitle text-center lg:text-left">
@@ -40,7 +40,7 @@ const LandingPage = () => {
         />
       </section>
       <section className="w-full bg-custom-grisClarito flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
-        <h2 className="text-xl md:text-4xl font-bold text-gray-950 text-center">
+        <h2 className="text-xl md:text-4xl font-bold text-center">
           Comienza en 3 simples pasos
         </h2>
         <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
@@ -48,17 +48,17 @@ const LandingPage = () => {
         </p>
         <div className="flex flex-col lg:flex-row gap-4 my-2 lg:gap-16 lg:my-8 wrap">
           <StepCard
-            icon={<FiUserPlus className="w-9 h-9 p-1 text-gray-900" />}
+            icon={<FiUserPlus className="w-9 h-9 p-1" />}
             title="1. Registrate"
             description="Crea tu cuenta en menos de un minuto y accede a todas las funcionalidades."
           />
           <StepCard
-            icon={<LuStore className="w-9 h-9 p-1 text-gray-900" />}
+            icon={<LuStore className="w-9 h-9 p-1" />}
             title="2. Añade tu negocio"
             description="Configura los detalles de tu empresa y personaliza tu espacio de trabajo."
           />
           <StepCard
-            icon={<LuClipboardList className="w-9 h-9 p-1 text-gray-900" />}
+            icon={<LuClipboardList className="w-9 h-9 p-1" />}
             title="3. Administra tu inventario"
             description="Comienza a gestionar productos, controlar stock y generar informes al instante."
           />
@@ -68,8 +68,8 @@ const LandingPage = () => {
         </Link>
       </section>
 
-      <section className="w-full bg-white flex items-center flex-col justify-center my-2 lg:my-8 p-4 gap-1">
-        <h2 className="font-bold text-gray-950 text-xl lg:text-4xl text-center">
+      <section className="w-full bg-background flex items-center flex-col justify-center my-2 lg:my-8 p-4 gap-1">
+        <h2 className="font-bold text-xl lg:text-4xl text-center">
           Características principales
         </h2>
         <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
@@ -103,7 +103,7 @@ const LandingPage = () => {
         </div>
       </section>
       <section className="w-full bg-custom-grisClarito flex items-center flex-col justify-center my-2 md:my-8 p-4 gap-1">
-        <h2 className="text-xl md:text-4xl text-center font-bold text-gray-950 ">
+        <h2 className="text-xl md:text-4xl text-center font-bold ">
           Planes que se adaptan a tu negocio
         </h2>
         <p className="text-base lg:text-xl text-custom-textSubtitle max-w-[30rem] text-center">
@@ -147,7 +147,7 @@ const LandingPage = () => {
       </section>
       <section className="flex flex-col-reverse lg:flex-row gap-4 w-full items-center justify-center my-4 lg:my-12 px-2 lg:px-16">
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl lg:text-5xl font-bold text-gray-950 text-center lg:text-left">
+          <h1 className="text-2xl lg:text-5xl font-bold text-center lg:text-left">
             ¿Listo para optimizar tu inventario?
           </h1>
           <p className="text-base lg:text-xl text-custom-textSubtitle text-center lg:text-left">

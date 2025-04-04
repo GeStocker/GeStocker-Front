@@ -119,9 +119,9 @@ const RegisterView: React.FC = () => {
         )}
       </div>
       <div className="relative w-full flex items-center pr-10 my-6">
-        <div className="flex-grow h-px bg-gray-800"></div>
-        <span className="mx-4 text-black">O</span>
-        <div className="flex-grow h-px bg-gray-800"></div>
+        <div className="flex-grow h-px bg-custom-casiNegro"></div>
+        <span className="mx-4">O</span>
+        <div className="flex-grow h-px bg-custom-casiNegro"></div>
       </div>
       <Formik
         initialValues={{
@@ -160,7 +160,7 @@ const RegisterView: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className=" w-[350px] p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                 />
                 {errors.name && touched.name && (
                   <p className=" text-red-500  text-sm">{errors.name}</p>
@@ -176,7 +176,7 @@ const RegisterView: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className=" w-[350px] p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                 />
                 {errors.email && touched.email && (
                   <p className=" text-red-500  text-sm">{errors.email}</p>
@@ -194,7 +194,7 @@ const RegisterView: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.city}
-                  className="w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className="w-[350px] p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                 />
                 {errors.city && touched.city && (
                   <p className="text-red-500 text-sm">{errors.city}</p>
@@ -222,7 +222,7 @@ const RegisterView: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.address}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className=" w-[350px] p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                 />
                 {errors.address && touched.address && (
                   <p className=" text-red-500  text-sm">{errors.address}</p>
@@ -238,7 +238,7 @@ const RegisterView: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.phone}
-                  className=" w-[350px] p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className=" w-[350px] p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                 />
                 {errors.phone && touched.phone && (
                   <p className=" text-red-500  text-sm">{errors.phone}</p>
@@ -260,12 +260,12 @@ const RegisterView: React.FC = () => {
                     className={`w-[350px] p-3 mb-4 border ${
                       errors.password && touched.password
                         ? "border-red-500"
-                        : "border-black"
-                    } bg-gray-100 rounded-md`}
+                        : "border-foreground"
+                    } bg-custom-grisClarito rounded-md`}
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-5 bottom-3 text-gray-500 hover:text-gray-700 transition-colors "
+                    className="absolute inset-y-0 right-5 bottom-3 text-custom-textGris hover:text-custom-textSubtitle transition-colors "
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -303,12 +303,12 @@ const RegisterView: React.FC = () => {
                       errors.passwordConfirmation &&
                       touched.passwordConfirmation
                         ? "border-red-500"
-                        : "border-black"
-                    } bg-gray-100 rounded-md`}
+                        : "border-foreground"
+                    } bg-custom-grisClarito rounded-md`}
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-5 bottom-3 text-gray-500 hover:text-gray-700 transition-colors "
+                    className="absolute inset-y-0 right-5 bottom-3 text-custom-textGris hover:text-custom-textSubtitle transition-colors "
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -375,16 +375,16 @@ const RegisterView: React.FC = () => {
                 ].map(({ plan, title, price, features }) => (
                   <div
                     key={plan}
-                    className={`flex flex-col bg-gray-100 w-64 rounded-sm p-3 cursor-pointer ${
-                      selectedPlan === plan ? "border-2 border-black" : ""
+                    className={`flex flex-col bg-custom-grisClarito w-64 rounded-sm p-3 cursor-pointer ${
+                      selectedPlan === plan ? "border-2 border-foreground" : ""
                     }`}
                     onClick={() => handlePlanChange(plan, setFieldValue)}
                   >
                     <div className="flex gap-2">
                       {selectedPlan === plan ? (
-                        <MdRadioButtonChecked className="w-6 h-6 text-black text-2xl" />
+                        <MdRadioButtonChecked className="w-6 h-6 text-2xl" />
                       ) : (
-                        <MdRadioButtonUnchecked className="w-6 h-6 text-gray-500 text-2xl" />
+                        <MdRadioButtonUnchecked className="w-6 h-6 text-custom-textGris text-2xl" />
                       )}
                       <div className="ml-2 text-lg">
                         <h3>{title}</h3>
@@ -409,7 +409,7 @@ const RegisterView: React.FC = () => {
             <div className="w-full flex justify-center items-center mt-4">
               <button
                 type="submit"
-                className="w-[350px] bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300"
+                className="w-[350px] bg-foreground text-center text-background font-normal py-3 rounded-sm transition duration-300"
               >
                 {isLoading ? "Cargando..." : "Registrarse"}
               </button>
