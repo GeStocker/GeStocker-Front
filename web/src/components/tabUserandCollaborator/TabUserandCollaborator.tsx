@@ -24,9 +24,9 @@ const TabUserandCollaborator = () => {
                 <div>
                     <ButtonGoogle type='login' plan={null} />
                 </div>
-                <div className="relative w-full flex items-center px-60 my-3">
+                <div className="relative w-full flex items-center my-3">
                     <div className=" flex-grow h-px bg-custom-casiNegro"></div>
-                    <span className="mx-4 text-black">O</span>
+                    <span className="mx-4 ">O</span>
                     <div className="flex-grow h-px bg-custom-casiNegro"></div>
                 </div>
                 <div className="w-full">
@@ -36,11 +36,11 @@ const TabUserandCollaborator = () => {
             </div>
         </TabsContent>
         <TabsContent value="collaborator">
-            <div className="flex flex-col items-center text-center justify-center flex-1 ml-16 mt-12 mx-4"> 
-                <h2 className="text-4xl font-bold mb-6">Iniciar sesión</h2>
-                <LoginCollaborator/>
-            </div>
-        </TabsContent>
+  <div className="flex flex-col items-center text-center justify-center flex-1 mt-12 mx-auto w-full px-4"> 
+    <h2 className="text-4xl font-bold mb-6">Iniciar sesión</h2>
+    <LoginCollaborator/>
+  </div>
+</TabsContent>
         </Tabs>
     </div>
   )
