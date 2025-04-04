@@ -82,7 +82,7 @@ const InventoryList = () => {
             </Link>
           ))
         ) : (
-          <div className="text-sm text-gray-500 italic pl-2">
+          <div className="text-sm text-custom-textGris italic pl-2">
             No hay inventarios creados
           </div>
         )}

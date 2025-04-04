@@ -22,7 +22,7 @@ const ConfigurationExpor = () => {
   return (
     <div>
         <div className='flex flex-col mb-7'>
-            <h2 className="text-xl font-semibold text-gray-800">Configuración de Exportación</h2>
+            <h2 className="text-xl font-semibold text-custom-casiNegro">Configuración de Exportación</h2>
             <p>Configura como exportar los datos de tu negocio.</p>
         </div>
         <div className='mb-5'>
@@ -34,7 +34,7 @@ const ConfigurationExpor = () => {
                     id="exportFormat"
                     value={format}
                     onChange={(e) => setFormat(e.target.value)}
-                    className="block w-full p-2 border border-gray-400 rounded-lg bg-white"
+                    className="block w-full p-2 border border-custom-GrisOscuro rounded-lg bg-background"
                 >
                     {formats.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -47,14 +47,14 @@ const ConfigurationExpor = () => {
                 <div className="flex justify-between items-center">
                     <div className="flex flex-col">
                         <label className="text-md">Inclur encabezados</label>
-                        <span className="text-sm text-gray-700">Recibirás una notificación cuando algún producto se quede sin existencias</span>
+                        <span className="text-sm text-custom-textSubtitle">Recibirás una notificación cuando algún producto se quede sin existencias</span>
                     </div>
                     <Switch  />
                 </div>
                 <div className="flex justify-between items-center">
                     <div className="flex flex-col">
                     <label className="text-sm">Aplicar filtros actuales</label>
-                    <span className="text-sm text-gray-700">Recibirás una notificación cuando algún producto se quede sin existencias</span>
+                    <span className="text-sm text-custom-textSubtitle">Recibirás una notificación cuando algún producto se quede sin existencias</span>
                     </div>
                     <Switch />
                 </div>
@@ -67,7 +67,7 @@ const ConfigurationExpor = () => {
                     id="exportFormat"
                     value={format}
                     onChange={(e) => setFormat(e.target.value)}
-                    className="block w-full p-2 border border-gray-400 rounded-lg bg-white"
+                    className="block w-full p-2 border border-custom-GrisOscuro rounded-lg bg-background"
                     >
                     {exportation.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -75,7 +75,7 @@ const ConfigurationExpor = () => {
                     </option>
                     ))}
                 </select>
-                <span className='text-gray-700'>Programar exportaciones periódicas de tu negocio</span>
+                <span className='text-custom-textSubtitle'>Programar exportaciones periódicas de tu negocio</span>
             </div>
             <div className="mt-6 flex justify-start space-x-2">
                 <Button>  

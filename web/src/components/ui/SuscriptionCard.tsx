@@ -9,7 +9,7 @@ const SuscriptionCard: React.FC<{
   items: string[];
 }> = ({ title, price, items }) => {
   return (
-    <div className="flex flex-col gap-2 bg-white min-h-80 h-fit w-full md:w-96 rounded-md items-start p-5 border justify-between">
+    <div className="flex flex-col gap-2 bg-background min-h-80 h-fit w-full md:w-96 rounded-md items-start p-5 border justify-between">
       <div className="flex flex-col gap-1 p-1">
         <h3 className="text-xl font-bold">{title}</h3>
         <div className="flex gap-1 items-center">

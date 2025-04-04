@@ -4,10 +4,8 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 
 const ScrollToTopButton = () => {
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0, 
-      behavior: "smooth", 
-    });
+    const mainContent = document.getElementById("main-content");
+    mainContent?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

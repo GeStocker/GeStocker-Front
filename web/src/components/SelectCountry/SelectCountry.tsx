@@ -49,27 +49,27 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ setFieldValue, value }) =
             </label>
             <div className="relative w-[350px] mb-4">
                 <div
-                    className="border border-black rounded-md p-3 bg-gray-100 cursor-pointer text-gray-900 flex justify-between items-center"
+                    className="border border-foreground rounded-md p-3 bg-custom-grisClarito cursor-pointer flex justify-between items-center"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {selectedCountry || 'Selecciona un país'}
-                    <span className="text-gray-500">▼</span>
+                    <span className="text-custom-GrisOscuro">▼</span>
                 </div>
 
                 {isOpen && (
-                    <div className="absolute top-full left-0 w-full bg-white border rounded-md mt-1 shadow-md z-10">
+                    <div className="absolute top-full left-0 w-full bg-background border rounded-md mt-1 shadow-md z-10">
                         <input
                             type="text"
                             placeholder="Buscar país..."
                             value={search}
                             onChange={handleSearch}
-                            className="w-full p-3 border-b text-gray-900 outline-none"
+                            className="w-full p-3 border-b outline-none"
                         />
                         <div className="max-h-60 overflow-y-auto">
                             {filteredCountries.map((country) => (
                                 <div
                                     key={country}
-                                    className="p-3 hover:bg-blue-100 cursor-pointer"
+                                    className="p-3 hover:bg-blue-100 cursor-pointer dark:hover:text-background"
                                     onClick={() => handleSelect(country)}
                                 >
                                     {country}

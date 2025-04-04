@@ -55,10 +55,10 @@ const InventoryView = () => {
     <div className="p-4 mr-16">
       <section className="flex justify-between items-center mb-10">
         <div className="flex flex-col">
-          <h1 className="text-4xl font-semibold text-gray-800">Inventario</h1>
+          <h1 className="text-4xl font-semibold text-custom-casiNegro">Inventario</h1>
           <h3>Gestiona tus productos y controla tu stock</h3>
         </div>
-        <div className="flex gap-7">
+        <div className="flex gap-4">
           <Link href={"/dashboard/inventory/sellProducts"}>
           <Button variant="outline">
             <FiShoppingCart />
@@ -75,7 +75,7 @@ const InventoryView = () => {
         <StatCard title="Productos sin stock" value={outOfStockProducts} description="Productos agotados" />
         <StatCard title="Valor del inventario" value={totalInventoryValue} description="Total valor del stock" />
       </section>
-      <section className="border border-gray-300 rounded-md">
+      <section className="border border-custom-grisClarito rounded-md">
         <div>
           <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} />
         </div>

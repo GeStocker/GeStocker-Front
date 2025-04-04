@@ -26,15 +26,15 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
         </div>
       </div>
       <div>
-        <table className="w-full border-collapse border border-gray-300">
+        <table className="w-full border-collapse border  border-custom-grisClarito">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="p-2 border text-left">Imagen</th>
-              <th className="p-2 border text-left">Producto</th>
-              <th className="p-2 border text-left">Categoría</th>
-              <th className="py-2 border text-left">Stock</th>
+            <tr className="bg-custom-grisClarito">
+              <th className="p-2 border text-center">Imagen</th>
+              <th className="p-2 border text-center">Producto</th>
+              <th className="p-2 border text-center">Categoría</th>
+              <th className="py-2 border text-center">Stock</th>
               <th className="py-2 border text-center">Estado Stock</th>
-              <th className="p-2 border text-left">Precio</th> 
+              <th className="p-2 border text-center">Precio</th> 
             </tr>
           </thead>
           <tbody>
