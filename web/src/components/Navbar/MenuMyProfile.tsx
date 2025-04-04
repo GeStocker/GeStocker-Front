@@ -11,6 +11,7 @@ import { FaRegUser } from "react-icons/fa6";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { routes } from "@/routes/routes";
+import { Button } from "../ui/button";
 
 const MenuMyProfile = () => {
   const { resetUserData, userPicture } = useAuth();
@@ -23,25 +24,25 @@ const MenuMyProfile = () => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
+      <Button variant="outline" size="icon" className="rounded-full">
         {userPicture ? (
           <img
             src={userPicture}
             alt="profile picture"
-            className="h-9 w-9 cursor-pointer rounded-full border border-gray-950"
+            className="h-9 w-9 rounded-full border border-custom-GrisOscuro"
           />
         ) : (
-          <div className=" border border-gray-950 rounded-full p-1">
-            <FaRegUser className="size-6 cursor-pointer" />
-          </div>
+            <FaRegUser/>
         )}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="border-1 border-stone-500 px-3 py-1 rounded-md mt-1 bg-white"
+        className="border-1 border-custom-casiNegro px-3 py-1 rounded-md mt-1 bg-background"
       >
         <DropdownMenuLabel className="font-bold">Mi Cuenta</DropdownMenuLabel>
-        <div className="border-t border-stone-300 my-1 " />
+        <div className="border-t border-custom-GrisOscuro my-1 " />
         <DropdownMenuItem>
           <Link href={routes.dashboard} className="hover:text-stone-600">
             <span>Perfil</span>

@@ -12,10 +12,10 @@ const ButtonGoogle: React.FC<{
       {type === "login" ? (
         <a
           href={`${API}/auth/google`}
-          className="w-[350px] flex justify-center items-center bg-gray-100 text-center text-black font-normal py-3 rounded-md"
+          className="w-[350px] flex justify-center items-center bg-custom-grisClarito text-center font-normal py-3 rounded-md"
         >
           <div className="flex items-center">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2">
+            <div className="w-8 h-8 bg-background rounded-full flex items-center justify-center mr-2">
               <FcGoogle />
             </div>
             <span>Conectarse con Google</span>
@@ -24,19 +24,19 @@ const ButtonGoogle: React.FC<{
       ) : plan && type === "register" ? (
         <a
           href={`${API}/auth/google/?plan=${plan}`}
-          className="w-[350px] flex justify-center items-center bg-gray-100 text-center text-black font-normal py-3 rounded-md"
+          className="w-[350px] flex justify-center items-center bg-custom-grisClarito text-center font-normal py-3 rounded-md"
         >
           <div className="flex items-center">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2">
+            <div className="w-8 h-8 bg-background rounded-full flex items-center justify-center mr-2">
               <FcGoogle />
             </div>
             <span>Conectarse con Google</span>
           </div>
         </a>
       ) : (
-        <div className="w-[350px] flex justify-center items-center bg-gray-300 text-gray-500 font-normal py-3 rounded-md cursor-not-allowed">
+        <div className="w-[350px] flex justify-center items-center bg-custom-grisClarito text-custom-GrisOscuro font-normal py-3 rounded-md cursor-not-allowed">
           <div className="flex items-center">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2">
+            <div className="w-8 h-8 bg-background rounded-full flex items-center justify-center mr-2">
               <FcGoogle />
             </div>
             <span>Conectarse con Google</span>

@@ -24,18 +24,18 @@ const SubscriptionCancel = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
-      <Image src="/logo.png" alt="snappy" width={150} height={150} />
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mt-8 text-center">
+      <Image src="/logo.png" alt="snappy" width={150} height={150} className="dark:invert-100" />
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-custom-casiNegro mt-8 text-center">
         {loading ? "Procesando..." : "Pago Cancelado"}
       </h1>
       {loading ? (
-        <p className="text-gray-600 mt-4 text-center">Por favor, espera un momento...</p>
+        <p className="text-custom-textSubtitle mt-4 text-center">Por favor, espera un momento...</p>
       ) : (
         <p className="text-red-600 mt-4 text-center">{error}</p>
       )}
       <Link
         href={routes.login}
-        className="mt-6 px-4 py-2 bg-custom-textGris text-white rounded hover:bg-custom-textSubtitle text-center"
+        className="mt-6 px-4 py-2 bg-custom-textGris text-background rounded hover:bg-custom-textSubtitle text-center"
       >
         Iniciar sesión
       </Link>

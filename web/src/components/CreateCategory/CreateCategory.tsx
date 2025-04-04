@@ -97,10 +97,10 @@ const CreateCategory = () => {
       <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-[500] m-auto my-8 p-6 rounded-lg">
         <h1 className="text-left font-semibold text-2xl">Agregar categorías</h1>
         <div className="border rounded-md text-center p-1 w-11/12">
-          <h2 className="text-lg text-custom-textGris">
+          <h2 className="text-lg text-custom-textSubtitle">
             Categorías existentes
           </h2>
-          <div className="border-t border-stone-300 my-1 " />
+          <div className="border-t border-custom-grisClarito my-1 " />
           <div className="flex flex-col h-fit max-h-56 overflow-y-auto">
             {categories.length > 0 ? (
               categories
@@ -126,7 +126,7 @@ const CreateCategory = () => {
         </div>
 
         <Tabs defaultValue="añadir" className="min-w-11/12 my-2">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-2 text-fo">
             <TabsTrigger value="editar">Editar categoría existente</TabsTrigger>
             <TabsTrigger value="añadir">Añadir nueva categoría</TabsTrigger>
           </TabsList>
@@ -158,7 +158,7 @@ const CreateCategory = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
-                        className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                        className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg"
                       />
                       {errors.name && touched.name && (
                         <p className="text-red-500 text-sm">{errors.name}</p>
@@ -203,7 +203,7 @@ const CreateCategory = () => {
                           name="name"
                           value={selectedCategory.name}
                           disabled
-                          className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito"
+                          className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg disabled:bg-custom-grisClarito"
                         />
                       </div>
                       <div className="flex flex-col gap-1 w-1/2 mt-4">
@@ -219,7 +219,7 @@ const CreateCategory = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.name}
-                          className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                          className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg"
                         />
                         {errors.name && touched.name && (
                           <p className="text-red-500 text-sm">{errors.name}</p>

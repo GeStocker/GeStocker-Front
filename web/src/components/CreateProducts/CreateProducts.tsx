@@ -215,6 +215,7 @@ const CreateProducts = () => {
       formData.append("file", excelFile);
       await createProductExcel(excelFile, userId, businessId, token);
       toast.success("Productos añadidos con exito");
+      fetchProducts()
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al añadir productos", e.message);
@@ -233,11 +234,11 @@ const CreateProducts = () => {
     <div>
       <div className="flex flex-row-reverse justify-center gap-x-8 my-8">
         <div className="border rounded-md text-center w-fit h-fit p-1">
-          <h2 className="text-lg text-custom-textGris">
+          <h2 className="text-lg text-custom-textSubtitle">
             Lista de productos
           </h2>
-          <div className="border-t border-stone-300 my-1 " />
-          <div className="flex flex-col h-fit w-[300] max-h-[1200px] overflow-y-auto">
+          <div className="border-t border-custom-grisClarito my-1 " />
+          <div className="flex flex-col h-fit w-[300] max-h-96 overflow-y-auto">
             {products.length > 0 ? (
               products
                 .sort((a, b) => a.product_name.localeCompare(b.product_name))
@@ -313,7 +314,7 @@ const CreateProducts = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.name}
-                          className="w-full p-2 mb-2  border border-stone-400 bg-white rounded-lg"
+                          className="w-full p-2 mb-2  border border-custom-GrisOscuro bg-background rounded-lg"
                         />
                         {errors.name && touched.name && (
                           <p className="text-red-500 text-sm">{errors.name}</p>
@@ -333,10 +334,10 @@ const CreateProducts = () => {
                           readOnly
                           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                           disabled={newCategoryOpen}
-                          className="w-full p-2 border mb-4 border-stone-400 bg-white rounded-lg cursor-pointer disabled:bg-custom-GrisOscuro"
+                          className="w-full p-2 border mb-4 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer disabled:bg-custom-grisClarito"
                         />
                         {isDropdownOpen && (
-                          <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-stone-400 bg-white rounded-lg cursor-pointer overflow-y-auto">
+                          <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer overflow-y-auto">
                             {categories
                               .sort((a, b) => a.name.localeCompare(b.name))
                               .map((category) => (
@@ -368,7 +369,7 @@ const CreateProducts = () => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.category}
-                              className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                              className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg"
                             />
                             <Button onClick={() => setNewCategoryOpen(false)}>
                               Cancelar
@@ -401,7 +402,7 @@ const CreateProducts = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.description}
-                          className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                          className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg"
                         />
                         {errors.description && touched.description && (
                           <p className="text-red-500 text-sm">
@@ -479,7 +480,7 @@ const CreateProducts = () => {
                             type="text"
                             value={selectedProduct.product_name}
                             disabled
-                            className="w-full p-2 border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito"
+                            className="w-full p-2 border border-custom-GrisOscuro bg-background rounded-lg disabled:bg-custom-grisClarito"
                           />
                         </div>
                         <div className="flex flex-col gap-1 w-full mt-4">
@@ -495,7 +496,7 @@ const CreateProducts = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.name}
-                            className="w-full p-2 mb-2 border border-stone-400 bg-white rounded-lg"
+                            className="w-full p-2 mb-2 border border-custom-GrisOscuro bg-background rounded-lg"
                           />
                           {errors.name && touched.name && (
                             <p className="text-red-500 text-sm">
@@ -516,7 +517,7 @@ const CreateProducts = () => {
                             type="text"
                             value={selectedProduct.product_description}
                             disabled
-                            className="w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito"
+                            className="w-full p-2 mb-4 border border-custom-GrisOscuro bg-background rounded-lg disabled:bg-custom-grisClarito"
                           />
                         </div>
                         <div className="flex flex-col gap-1 w-full ">
@@ -532,7 +533,7 @@ const CreateProducts = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.description}
-                            className="w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg"
+                            className="w-full p-2 mb-4 border border-custom-GrisOscuro bg-background rounded-lg"
                           />
                           {errors.description && touched.description && (
                             <p className="text-red-500 text-sm">
@@ -553,7 +554,7 @@ const CreateProducts = () => {
                             type="text"
                             value={selectedProduct.product_category}
                             disabled
-                            className="w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg disabled:bg-custom-grisClarito"
+                            className="w-full p-2 mb-4 border border-custom-GrisOscuro bg-background rounded-lg disabled:bg-custom-grisClarito"
                           />
                         </div>
                         <div className="flex flex-col gap-1 w-full relative">
@@ -570,10 +571,10 @@ const CreateProducts = () => {
                             readOnly
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             disabled={newCategoryOpen}
-                            className="w-full p-2 border mb-4 border-stone-400 bg-white rounded-lg cursor-pointer disabled:bg-custom-GrisOscuro"
+                            className="w-full p-2 border mb-4 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer disabled:bg-custom-grisClarito"
                           />
                           {isDropdownOpen && (
-                            <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-stone-400 bg-white rounded-lg cursor-pointer overflow-y-auto">
+                            <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer overflow-y-auto">
                               {categories
                                 .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((category) => (
@@ -605,7 +606,7 @@ const CreateProducts = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.category}
-                                className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                                className="w-full p-2 mb-4  border border-custom-GrisOscuro bg-background rounded-lg"
                               />
                               <Button onClick={() => setNewCategoryOpen(false)}>
                                 Cancelar
@@ -674,7 +675,7 @@ const CreateProducts = () => {
                   }}
                   className="flex flex-col gap-3"
                 >
-                  <label className="text-stone-950">
+                  <label>
                     Recuerda el archivo debe tener las columnas en ingles
                     <span className="text-orange-500 font-medium"> `Name`</span>
                     ,
@@ -690,7 +691,7 @@ const CreateProducts = () => {
                   </label>
                   <label
                     htmlFor="excel"
-                    className="border p-2 rounded cursor-pointer text-stone-600 text-sm"
+                    className="border p-2 rounded cursor-pointer text-custom-textSubtitle text-sm"
                   >
                     {excelFile
                       ? `📄 ${excelFile.name}`

@@ -177,15 +177,15 @@ const PerfilView = () => {
   };
   return (
     <div className="p-4">
-      <h1 className="text-4xl text-gray-950 font-bold">Mi perfil</h1>
+      <h1 className="text-4xl font-bold">Mi perfil</h1>
       <h2 className="text-xl text-custom-textGris">
         Administra tu información personal y preferencias
       </h2>
       <div className="flex">
         <div className="w-1/5 flex flex-col">
           <div className=" p-4 border rounded-md my-8">
-            <h2 className="text-xl text-gray-950 font-bold">Foto de perfil</h2>
-            <h3 className="text-sm text-custom-textGris">
+            <h2 className="text-xl font-bold">Foto de perfil</h2>
+            <h3 className="text-sm text-custom-textSubtitle">
               Sube una foto para personalizar tu perfil
             </h3>
             <div className="flex flex-col items-center">
@@ -239,20 +239,20 @@ const PerfilView = () => {
           </div>
 
           <div className="p-4 border rounded-md gap-1 flex flex-col">
-            <h2 className="text-xl text-gray-950 font-bold leading-6">
+            <h2 className="text-xl  font-bold leading-6">
               Informacion de la cuenta
             </h2>
-            <h3 className="text-sm text-custom-textGris mb-4">
+            <h3 className="text-sm text-custom-textSubtitle mb-4">
               Detalles sobre tu cuenta en GeStocker
             </h3>
             <div className="flex justify-between">
-              <span className="text-custom-textGris">Plan actual</span>
-              <span className="border border-gray-950 px-4 rounded-xl font-semibold text-sm">
+              <span className="text-custom-textOscuro">Plan actual</span>
+              <span className="border px-4 rounded-xl font-semibold text-sm">
                 {accountData.roles.toUpperCase()}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-custom-textGris">Fecha de registro</span>
+              <span className="text-custom-textOscuro">Fecha de registro</span>
               {accountData.createdAt ? (
                 <span className="text-end">
                   {format(new Date(accountData.createdAt), "yyyy-MM-dd")}
@@ -275,7 +275,7 @@ const PerfilView = () => {
             <section className="w-full p-4 border rounded-md">
               <div className="flex justify-between mb-4">
                 <div>
-                  <h2 className="text-xl text-gray-950 font-bold">
+                  <h2 className="text-xl font-bold">
                     Datos personales
                   </h2>
                   <h3 className="text-base text-custom-textGris">
@@ -321,7 +321,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.name}
                             disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg"
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.name && touched.name && (
                             <p className=" text-red-500  text-sm">
@@ -343,7 +343,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.email}
                             disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4 border border-stone-400 bg-white rounded-lg"
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.email && touched.email && (
                             <p className=" text-red-500  text-sm">
@@ -367,7 +367,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.city}
                             disabled={!modifyEnable}
-                            className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                            className="w-full p-2 mb-4  border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.city && touched.city && (
                             <p className="text-red-500 text-sm">
@@ -390,7 +390,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.country}
                             disabled={!modifyEnable}
-                            className="w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                            className="w-full p-2 mb-4  border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.country && touched.country && (
                             <p className="text-red-500 text-sm">
@@ -415,7 +415,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.address}
                             disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                            className=" w-full p-2 mb-4  border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.address && touched.address && (
                             <p className=" text-red-500  text-sm">
@@ -437,7 +437,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.phone}
                             disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4  border border-stone-400 bg-white rounded-lg"
+                            className=" w-full p-2 mb-4  border border-custom-casiNegro bg-background rounded-lg"
                           />
                           {errors.phone && touched.phone && (
                             <p className=" text-red-500  text-sm">
@@ -449,7 +449,7 @@ const PerfilView = () => {
                       <div className="w-full flex justify-center items-center mt-4">
                         <button
                           type="button"
-                          className="w-48 bg-black text-center text-white font-normal py-3 rounded-sm transition duration-300 disabled:bg-custom-GrisOscuro"
+                          className="w-48 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 text-center font-normal py-3 rounded-sm transition duration-300 disabled:bg-primary/30"
                           disabled={!modifyEnable}
                           onClick={onClickSetDialog}
                         >

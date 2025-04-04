@@ -7,10 +7,18 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <BusinessProvider>
-        <SideBar />
-        <div className="w-full">{children}</div>
+        {/* Sidebar fijo */}
+        <div className="shrink-0">
+          {/* Contenedor que evita que el SideBar se encoja */}
+          <SideBar />
+        </div>
+        {/* Contenido principal (se ajusta al espacio restante) */}
+        <div className="flex-1 overflow-auto" id="main-content" >
+          {/* Permite scroll si el contenido es largo */}
+          {children}
+        </div>
       </BusinessProvider>
     </div>
   );

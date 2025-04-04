@@ -84,7 +84,7 @@ const FormBusiness: React.FC = () => {
   return (
     <div className="flex flex-col gap-2 items-center justify-center border shadow-lg w-fit m-auto my-8 p-6 rounded-lg">
       <div className="text-center mb-4">
-        <h1 className="text-4xl text-gray-950 font-bold">Agregar un negocio</h1>
+        <h1 className="text-4xl font-bold">Agregar un negocio</h1>
         <h2 className="text-xl text-custom-textSubtitle">Por favor agrega un negocio en GeStocker</h2>
       </div>
       
@@ -119,7 +119,7 @@ const FormBusiness: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
-                  className={`w-full p-3 border ${errors.name && touched.name ? 'border-red-500' : 'border-black'} bg-gray-100 rounded-md`}
+                  className={`w-full p-3 border ${errors.name && touched.name ? 'border-red-500' : 'border-foreground'} bg-custom-grisClarito rounded-md`}
                   disabled={isSubmitting}
                 />
                 {errors.name && touched.name && (
@@ -137,7 +137,7 @@ const FormBusiness: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.address}
-                  className={`w-full p-3 border ${errors.address && touched.address ? 'border-red-500' : 'border-black'} bg-gray-100 rounded-md`}
+                  className={`w-full p-3 border ${errors.address && touched.address ? 'border-red-500' : 'border-foreground'} bg-custom-grisClarito rounded-md`}
                   disabled={isSubmitting}
                 />
                 {errors.address && touched.address && (
@@ -155,7 +155,7 @@ const FormBusiness: React.FC = () => {
                   onBlur={handleBlur}
                   value={values.description}
                   rows={3}
-                  className={`w-full p-3 border ${errors.description && touched.description ? 'border-red-500' : 'border-black'} bg-gray-100 rounded-md`}
+                  className={`w-full p-3 border ${errors.description && touched.description ? 'border-red-500' : 'border-foreground'} bg-custom-grisClarito rounded-md`}
                   disabled={isSubmitting}
                 />
                 {errors.description && touched.description && (
@@ -168,8 +168,8 @@ const FormBusiness: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || !isValid || !dirty}
-                className={`w-fit bg-black text-center text-white font-normal py-2 px-6 rounded-md transition duration-300 ${
-                  (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
+                className={`w-fit bg-foreground text-center text-background font-normal py-2 px-6 rounded-md transition duration-300 ${
+                  (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-custom-casiNegro'
                 }`}
               >
                 {isSubmitting ? "Creando..." : "Agregar Negocio"}

@@ -48,10 +48,10 @@ const BusinessView = () => {
     <div className="p-4 mr-16">
         <section className='flex justify-between items-center mb-10'>
                 <div className='flex flex-col '>
-                    <h1 className="text-4xl font-semibold text-gray-800">Negocio</h1>
-                    <h3>Gestiona tus productos y controla tu stock</h3>
+                    <h1 className="text-4xl font-semibold">Negocio</h1>
+                    <h3 className='text-custom-textSubtitle'>Gestiona tus productos y controla tu stock</h3>
                 </div>
-                <div className='flex gap-7'>
+                <div className='flex gap-4'>
                     <Link href={routes.createCategory}>
                         <Button variant="outline">
                             <FiShoppingCart />
@@ -67,7 +67,7 @@ const BusinessView = () => {
             <StatCard title="Total de productos" value={totalProducts} description="Cantidad total en inventario" />
             <StatCard title="Productos sin stock" value={outOfStockProducts} description="Productos agotados" />
          </section>
-        <section className='border border-gray-300 rounded-md'>
+        <section className='border border-custom-grisClarito rounded-md'>
             <div>
                 <ProductTableBusiness products={products} onSearchChange={handleSearchChange} 
         searchValue={filters.search} />

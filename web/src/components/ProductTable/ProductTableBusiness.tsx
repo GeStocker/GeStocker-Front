@@ -31,9 +31,9 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
+        <table className="w-full border-collapse border border-custom-grisClarito">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-custom-grisClarito">
               <th className="p-2 border text-left">Imagen</th>
               <th className="p-2 border text-left">Producto</th>
               <th className="p-2 border text-left">Descripción</th>
@@ -60,7 +60,7 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                   <td className="p-2">{product.totalStock ?? "No disponible"}</td>
                   <td className={`p-2 text-center font-semibold ${
                       product.totalStock == null 
-                      ? "text-gray-800" 
+                      ? "text-custom-casiNegro" 
                       : product.totalStock === 0
                         ? "text-red-600" 
                         : (product.totalStock ?? 0) < 15

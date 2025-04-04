@@ -117,7 +117,7 @@ const FormCreateColaborator = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
-                  className="w-full p-2 mb-2  border border-stone-400 bg-white rounded-lg"
+                  className="w-full p-2 mb-2  border border-custom-grisOscuro bg-background rounded-lg"
                 />
                 {errors.username && touched.username && (
                   <p className=" text-red-500 text-sm">{errors.username}</p>
@@ -133,7 +133,7 @@ const FormCreateColaborator = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  className=" w-full p-2 mb-2  border border-stone-400 bg-white rounded-lg"
+                  className=" w-full p-2 mb-2  border border-grisClarito bg-background rounded-lg"
                 />
                 {errors.email && touched.email && (
                   <p className=" text-red-500  text-sm">{errors.email}</p>
@@ -152,7 +152,7 @@ const FormCreateColaborator = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
-                  className={`w-full p-2 mb-2  border border-stone-400 bg-white rounded-lg ${
+                  className={`w-full p-2 mb-2  border border-custom-GrisOscuro bg-background rounded-lg ${
                     errors.password && touched.password
                       ? "border-red-500"
                       : "border-black"
@@ -160,7 +160,7 @@ const FormCreateColaborator = () => {
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-5 bottom-3 text-gray-500 hover:text-gray-700 transition-colors "
+                  className="absolute inset-y-0 right-5 bottom-3 text-custom-textGris hover:text-custom-casiNegro transition-colors "
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -189,10 +189,10 @@ const FormCreateColaborator = () => {
                 value={selectedInventory}
                 readOnly
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full p-2 border mb-4 border-stone-400 bg-white rounded-lg cursor-pointer disabled:bg-custom-GrisOscuro"
+                className="w-full p-2 border mb-4 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer disabled:bg-custom-GrisOscuro"
               />
               {isDropdownOpen && (
-                <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-stone-400 bg-white rounded-lg cursor-pointer overflow-y-auto">
+                <div className="w-full absolute top-18 z-10 p-2 mb-4 border h-fit max-h-60 border-custom-GrisOscuro bg-background rounded-lg cursor-pointer overflow-y-auto">
                   {inventories &&
                     inventories.map((inventory) => (
                       <div
@@ -202,7 +202,7 @@ const FormCreateColaborator = () => {
                           setIsDropdownOpen(false);
                           setFieldValue("inventoryId", inventory.id);
                         }}
-                        className="p-2 hover:bg-gray-200 cursor-pointer"
+                        className="p-2 hover:bg-custom-grisClarito cursor-pointer"
                       >
                         {inventory.name}
                       </div>

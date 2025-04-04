@@ -10,11 +10,14 @@ import { useBusiness } from "@/context/BusinessContext";
 
 const registerSchema = Yup.object({
   name: Yup.string()
-    .required("El nombre es obligatorio"),
+    .required("El nombre es obligatorio")
+    .min(5, "El nombre debe tener al menos 10 caracteres"),
   address: Yup.string()
-    .required("La direccion es obligatoria"),
+    .required("La direccion es obligatoria")
+    .min(10, "La direccion debe tener al menos 10 caracteres"),
   description: Yup.string()
-    .required("La descripcion es obligatoria"),
+    .required("La descripcion es obligatoria")
+    .min(10, "La descripcion debe tener al menos 10 caracteres"),
 });
 
 interface InventoryFormValues {
@@ -79,7 +82,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
     return (
       <div className="flex flex-col gap-2 items-center justify-center border shadow-lg w-fit m-auto my-8 p-6 rounded-lg">
         <div className="text-center mb-4">
-          <h1 className="text-4xl text-gray-950 font-bold">Agrega un inventario</h1>
+          <h1 className="text-4xl font-bold">Agrega un inventario</h1>
           <h2 className="text-xl text-custom-textSubtitle">
             Por favor agrega un inventario a GeStocker
           </h2>
@@ -107,7 +110,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.name}
-                    className="w-full p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                    className="w-full p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                   />
                   {errors.name && touched.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                 </div>
@@ -122,7 +125,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.address}
-                    className="w-full p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                    className="w-full p-3 mb-4 border border-foreground bg-custom-grisClarito rounded-md"
                   />
                   {errors.address && touched.address && <p className="text-red-500 text-sm">{errors.address}</p>}
                 </div>
@@ -137,7 +140,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                   onBlur={handleBlur}
                   value={values.description}
                   rows={3}
-                  className={`w-full p-3 border ${errors.description && touched.description ? 'border-red-500' : 'border-black'} bg-gray-100 rounded-md`}
+                  className={`w-full p-3 border ${errors.description && touched.description ? 'border-red-500' : 'border-foreground'} bg-custom-grisClarito rounded-md`}
                   disabled={isSubmitting}
                 />
                 {errors.description && touched.description && (
@@ -149,8 +152,8 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
               <button
                 type="submit"
                 disabled={isSubmitting || !isValid || !dirty}
-                className={`w-fit bg-black text-center text-white font-normal py-2 px-6 rounded-md transition duration-300 ${
-                  (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
+                className={`w-fit bg-foreground text-center text-background font-normal py-2 px-6 rounded-md transition duration-300 ${
+                  (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-custom-casiNegro'
                 }`}
               >
                 {isSubmitting ? "Creando..." : "Agregar Negocio"}

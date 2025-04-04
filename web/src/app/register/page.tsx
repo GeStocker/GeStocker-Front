@@ -8,7 +8,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 const Register = () => {
   return (
     <div className="flex min-h-screen">
-      <div className="hidden md:flex flex-col w-[554px] p-5 bg-gray-100 text-black-900 min-h-screen">
+      <div className="hidden md:flex flex-col w-[554px] p-5 bg-custom-grisClarito text-black-900 min-h-screen">
         <Link href={routes.home} className="flex items-right gap-1 font-bold">
           <img src="logo.png" alt="Logo GeStocker" className="h-6 w-6" />
           <span>GeStocker</span>
@@ -20,13 +20,13 @@ const Register = () => {
           </div>
           <div className="flex flex-col text-xl gap-2">
             <div className="flex gap-3">
-              <div className="flex justify-center items-center rounded-full bg-gray-600 w-[32px] h-[32px]">
+              <div className="flex justify-center items-center rounded-full bg-custom-GrisOscuro w-[32px] h-[32px]">
                 <IoCheckmarkSharp />
               </div>
               <h4>Configuración rápida</h4>
             </div>
             <div className="flex gap-3">
-              <div className="flex justify-center items-center rounded-full bg-gray-600 w-[32px] h-[32px]">
+              <div className="flex justify-center items-center rounded-full bg-custom-GrisOscuro w-[32px] h-[32px]">
                 <IoCheckmarkSharp />
               </div>
               <h4>Soporte personalizado</h4>
