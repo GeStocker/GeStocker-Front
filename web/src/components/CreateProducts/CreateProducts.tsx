@@ -467,7 +467,8 @@ const CreateProducts = () => {
                       </h2>
                       <span className="flex text-sm text-red-600 mt-1">
                         <Info className="w-5 h-5 mr-2" />
-                      Selecciona el producto a editar de la lista de Productos</span>
+                      Selecciona el producto a editar de la lista de Productos
+                      </span>
                       <div className="flex gap-3 w-full">
                         <div className="flex flex-col gap-1 w-full mt-4">
                           <label

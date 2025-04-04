@@ -105,12 +105,12 @@ const LoginCollaborator: React.FC = () => {
               </div>
 
               <div className="flex flex-col w-[350px]">
-                <label
-                  htmlFor="password"
-                  className="font-semibold text-xl self-start"
-                >
-                  Contraseña
-                </label>
+                  <label
+                    htmlFor="password"
+                    className="font-semibold text-xl self-start"
+                  >
+                    Contraseña
+                  </label>
                 <div className="relative">
                   <input
                     type={!showPassword ? "password" : "text"}
