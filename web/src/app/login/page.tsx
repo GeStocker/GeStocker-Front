@@ -1,6 +1,7 @@
-import ButtonGoogle from '@/components/Button Google/ButtonGoogle'
+// import ButtonGoogle from '@/components/Button Google/ButtonGoogle'
+import TabUserandCollaborator from '@/components/tabUserandCollaborator/TabUserandCollaborator'
 import { routes } from '@/routes/routes'
-import LoginView from '@/views/Login/LoginView'
+// import LoginView from '@/views/Login/LoginView'
 import Link from 'next/link'
 import React from 'react'
 
@@ -21,8 +22,16 @@ const Login = () => {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col flex-1 p-5 mr-10 bg-background">
+        <div className="flex justify-end">
+          <Link href={routes.home}>
+              <span>Volver</span>
+          </Link>
+        </div>
+        <TabUserandCollaborator/>
+      </div>
+
+      {/* <div className="flex flex-col flex-1 p-5 mr-10 bg-background">
         <div className="flex justify-end">
           <Link href={routes.home}>
             <span>Volver</span>
@@ -43,7 +52,7 @@ const Login = () => {
             <LoginView/>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
 
   )
