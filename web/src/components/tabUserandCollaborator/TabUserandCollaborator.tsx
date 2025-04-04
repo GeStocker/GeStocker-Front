@@ -9,7 +9,7 @@ import LoginCollaborator from '@/views/Login/LoginCollaborator'
 const TabUserandCollaborator = () => {
   return (
     <div className="relative w-full flex items-center px-60 my-3">
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs defaultValue="admin" className="w-[400px]"> 
         <div className="flex justify-center">
             <TabsList>
                 <TabsTrigger value="admin">Administrador</TabsTrigger>
@@ -25,9 +25,9 @@ const TabUserandCollaborator = () => {
                     <ButtonGoogle type='login' plan={null} />
                 </div>
                 <div className="relative w-full flex items-center px-60 my-3">
-                    <div className=" flex-grow h-px bg-gray-800"></div>
+                    <div className=" flex-grow h-px bg-custom-casiNegro"></div>
                     <span className="mx-4 text-black">O</span>
-                    <div className="flex-grow h-px bg-gray-800"></div>
+                    <div className="flex-grow h-px bg-custom-casiNegro"></div>
                 </div>
                 <div className="w-full">
                     <LoginView/>

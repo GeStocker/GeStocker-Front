@@ -97,7 +97,7 @@ const LoginCollaborator: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  className="w-full p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                  className="w-full p-3 mb-4 border border-custom-casiNegro bg-custom-grisClarito rounded-md"
                 />
                 {errors.email && touched.email && (
                   <p className="text-red-500 text-sm">{errors.email}</p>
@@ -118,11 +118,11 @@ const LoginCollaborator: React.FC = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
-                    className="w-full p-3 mb-4 border border-black bg-gray-100 rounded-md"
+                    className="w-full p-3 mb-4 border border-custom-casiNegro bg-custom-grisClarito rounded-md"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-5 bottom-3 text-gray-500 hover:text-gray-700 transition-colors "
+                    className="absolute inset-y-0 right-5 bottom-3 text-custom-textGris hover:text-custom-textSubtitle transition-colors "
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -140,7 +140,7 @@ const LoginCollaborator: React.FC = () => {
             <div className="w-full flex justify-center items-center mt-4">
               <button
                 type="submit"
-                className="w-[250px] bg-black text-center text-white font-normal py-3 rounded-md transition duration-300"
+                className="w-[250px] bg-custom-casiNegro text-center text-background font-normal py-3 rounded-md transition duration-300"
               >
                 {isLoading ? "Cargando..." : "Ingresar"}
               </button>
@@ -148,7 +148,7 @@ const LoginCollaborator: React.FC = () => {
           </form>
         )}
       </Formik>
-      <div className="flex flex-col items-center justify-center text-center text-black-600">
+      <div className="flex flex-col items-center justify-center text-center">
         <div>
           <h4>¿No tienes una cuenta?</h4>
         </div>
