@@ -34,11 +34,11 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
         <table className="w-full border-collapse border border-custom-grisClarito">
           <thead>
             <tr className="bg-custom-grisClarito">
-              <th className="p-2 border text-left">Imagen</th>
-              <th className="p-2 border text-left">Producto</th>
-              <th className="p-2 border text-left">Descripción</th>
-              <th className="p-2 border text-left">Categoría</th>
-              <th className="p-2 border text-left">Stock</th>
+              <th className="p-2 border text-center">Imagen</th>
+              <th className="p-2 border text-center">Producto</th>
+              <th className="p-2 border text-center">Descripción</th>
+              <th className="p-2 border text-center">Categoría</th>
+              <th className="p-2 border text-center">Stock</th>
               <th className="p-2 border text-center">Estado Stock</th>
               <th className="p-2 border text-center">Acciones</th>
             </tr>

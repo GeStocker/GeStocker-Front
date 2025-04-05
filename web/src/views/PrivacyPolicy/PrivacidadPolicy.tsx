@@ -11,7 +11,7 @@ const PrivacyPolicyView = () => {
             <span>Volver</span>
           </Link>
         </div>
-      <h1 className="text-3xl font-bold text-center mb-6">Política de Privacidad</h1>
+      <h1 className="text-3xl font-bold text-center mb-6 text-custom-casiNegro">Política de Privacidad</h1>
       <p className="mb-4">
         En <strong>GeStocker</strong>, nos tomamos muy en serio la privacidad de nuestros usuarios. 
         Esta política explica cómo recopilamos, usamos y protegemos su información personal.

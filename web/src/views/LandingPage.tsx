@@ -3,14 +3,29 @@ import BenefitCard from "@/components/ui/BenefitCard";
 import { Button } from "@/components/ui/button";
 import StepCard from "@/components/ui/StepCard";
 import SuscriptionCard from "@/components/ui/SuscriptionCard";
+import ThemeImages from "@/components/ui/ThemeImages";
 import { routes } from "@/routes/routes";
 import Link from "next/link";
 import React from "react";
-
 import { FiUserPlus } from "react-icons/fi";
 import { LuClipboardList, LuStore } from "react-icons/lu";
 
-const LandingPage = () => {
+const heroUrl = {
+  light:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743832273/hero_light_bhwuxt.png",
+  dark: "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829103/hero_dark_cghgqe.png",
+  rustic:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829088/hero_rustic_ke9mhr.png",
+};
+const hero2Url = {
+  light:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829025/hero_2_light_wza9as.webp",
+  dark: "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829103/hero_2_dark_pm6ekb.png",
+  rustic:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829066/hero_2_rustic_up3v3p.png",
+};
+
+const LandingPage = async () => {
   return (
     <div>
       <section className="flex flex-col-reverse lg:flex-row gap-4 w-full items-center justify-center my-4 lg:my-12 px-2 lg:px-16">
@@ -33,9 +48,11 @@ const LandingPage = () => {
             </Link>
           </div>
         </div>
-        <img
-          src="gestocker-azul.png"
+        <ThemeImages
+          imageUrls={heroUrl}
           alt="Hero imagen"
+          width={1578}
+          height={902}
           className="w-full lg:w-1/2 rounded-md"
         />
       </section>
@@ -111,18 +128,20 @@ const LandingPage = () => {
         </p>
         <div className="flex flex-col lg:flex-row flex-wrap gap-4 lg:gap-16 my-2 lg:my-8">
           <div className="relative">
-          <SuscriptionCard
-            title="Básico"
-            price="19"
-            items={[
-              "Prueba gratuita por 7 días",
-              "Hasta 500 productos",
-              "1 usuario",
-              "Soporte por email",
-            ]}
+            <SuscriptionCard
+              title="Básico"
+              price="19"
+              items={[
+                "Prueba gratuita por 7 días",
+                "Hasta 500 productos",
+                "1 usuario",
+                "Soporte por email",
+              ]}
             />
-            <span className="rounded-lg px-4 border bg-green-100 absolute text-green-500 -right-8 top-1 rotate-12 font-medium text-2xl">7 dias gratuitos</span>
-            </div>
+            <span className="rounded-lg px-4 border bg-green-100 absolute text-green-500 -right-8 top-1 rotate-12 font-medium text-2xl">
+              7 dias gratuitos
+            </span>
+          </div>
           <SuscriptionCard
             title="Profesional"
             price="49"
@@ -161,9 +180,11 @@ const LandingPage = () => {
             <ModalContacto type="button" text="Contactar ventas" />
           </div>
         </div>
-        <img
-          src="inventory.png"
-          alt="Hero imagen"
+        <ThemeImages
+          imageUrls={hero2Url}
+          alt="Hero 2 imagen"
+          width={1578}
+          height={902}
           className="w-full lg:w-1/2 rounded-md"
         />
       </section>
