@@ -261,12 +261,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
 
   return (
     <div className="flex flex-col gap-1 items-center relative">
-      {isLoading && (
-        <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        </div>
-      )}
-      
       {type === "add" && <h1 className="text-2xl font-semibold text-left">Añadir productos</h1>}
       {type === "sell" && <h1 className="text-2xl font-semibold text-left">Añadir venta</h1>}
       
@@ -284,7 +278,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
               </h2>
               <div className="border-t border-custom-grisClarito my-1" />
               <div className="flex flex-col h-fit w-full max-h-96 overflow-y-auto">
-                {type === "sell" ? (
+                {isLoading ? <span className="text-center">Cargando productos...</span> : type === "sell" ? (
                   products.length > 0 ? (
                     products
                       .sort((a, b) => a.product.name.localeCompare(b.product.name))
@@ -511,7 +505,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                 </Button>
               </div>
             ) : (
-              <span className="flex items-center justify-center">No has agregado ningún producto</span>
+              <span className="flex items-center justify-center">No has seleccionado ningún producto</span>
             )}
           </div>
         </TabsContent>

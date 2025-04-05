@@ -10,7 +10,7 @@ import {
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import ThemeProvider from "@/context/ThemeProvider";
-import { cookies } from "next/headers"; //
+import { cookies } from "next/headers"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +35,14 @@ export default async function RootLayout({
   const theme = (await cookies()).get("theme")?.value || "light";
   return (
     <html lang="es" data-theme={theme}>
+      <head>
+        <link rel="icon" href="/logo.png" media="(prefers-color-scheme: light)"/>
+        <link
+          rel="icon"
+          href="/logoDark.png"
+          media="(prefers-color-scheme: dark)"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >    

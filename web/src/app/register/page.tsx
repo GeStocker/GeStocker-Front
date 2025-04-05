@@ -1,9 +1,17 @@
+import ThemeImages from '@/components/ui/ThemeImages';
 import { routes } from '@/routes/routes'
 import RegisterView from '@/views/Register/RegisterView'
 import Link from 'next/link'
 import React from 'react'
 import { IoCheckmarkSharp } from "react-icons/io5";
 
+const imgUrl = {
+  light:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829026/register_light_gfbbcm.webp",
+  dark: "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829104/register_dark_j5qlc8.png",
+  rustic:
+    "https://res.cloudinary.com/dikjpvebs/image/upload/v1743829090/registro_rustic_fdocjq.png",
+};
 
 const Register = () => {
   return (
@@ -33,7 +41,13 @@ const Register = () => {
             </div>
           </div>
           <div className="flex items-center justify-center mt-7">
-            <img src="logoRegister.png" alt="Logo Register" className="w-[350px] h-[350px] rounded-full" />
+          <ThemeImages
+              imageUrls={imgUrl}
+              alt="Logo Register"
+              width={1024}
+              height={1024}
+              className="w-[350px] h-[350px] rounded-full"
+            />
           </div>
         </div>
       </div>

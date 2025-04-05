@@ -22,6 +22,7 @@
   --color-custom-casiNegro: #2e2d2d;
   --color-custom-textGris: #616060;
   --color-custom-textSubtitle: #434343;
+  --color-custom-marronClarito: #c3c2c2;
 
   /*Estilos de shadcn*/
   --card: #ffffff;
@@ -62,18 +63,19 @@
 
 .dark, [data-theme="dark"] {
   /* Generales */
-  --background: #030712;
+  --background: #181818;
   --foreground: #f2f2f2;
   --border: #8b8b8b;
   --input: #555555;
 
   /* Colores personalizados */
-  --color-custom-grisClarito: #1f1f1f;
+  --color-custom-grisClarito: #262525;
   --color-custom-GrisOscuro: #717171;
-  --color-custom-textGris: #666666;
-  --color-custom-textSubtitle: #7d7d7d;
+  --color-custom-textGris: #7d7d7d;
+  --color-custom-textOscuro: #d2cfcf; 
+  --color-custom-textSubtitle: #9f9f9f;
   --color-custom-casiNegro: #cecece;
-  --color-custom-textOscuro: #d2cfcf;
+  --color-custom-marronClarito: #b5b5b5;
 
   /* Estilos de shadcn */
   --card: #282828;
@@ -107,20 +109,20 @@
 }
 
 
-@theme custom {
-  --color-custom-grisClarito: #f4f4f5;
-  --color-custom-GrisOscuro: #d9d9d9;
-  --color-custom-textGris: #616060;
-  --color-custom-textSubtitle: #434343;
-  --color-custom-textOscuro: #292929;
-  --color-custom-casiNegro: #2e2d2d;
-  --color-custom-marronClarito: #e7c7a0;
-}
 
 .rustic, [data-theme="rustic"]  {
   /* Base */
   --background: #f7f0e7; /* Beige cálido */
   --foreground: #3e2f28; /* Marrón oscuro */
+  
+  /* Colores personalizados */
+  --color-custom-grisClarito: #f2e8dc;
+  --color-custom-textSubtitle: #73594d;
+  --color-custom-GrisOscuro: #ba5b02;
+  --color-custom-textGris: #6b4a3c; 
+  --color-custom-casiNegro: #8a4402;
+  --color-custom-textOscuro: #c46206;
+  --color-custom-marronClarito: #e7c7a0;
 
   /* Componentes */
   --card: #f3eae0;
@@ -128,31 +130,31 @@
 
   --popover: #f3eae0;
   --popover-foreground: #4d3a33;
-
+  
   --primary: #a05a3a; /* Marrón anaranjado */
   --primary-foreground: #ffffff;
-
+  
   --secondary: #e8d8c7; /* Beige más cálido */
   --secondary-foreground: #6b4a3c;
-
+  
   --muted: #ece3d9;
   --muted-foreground: #73594d;
-
+  
   --accent: #d4b38f; /* Dorado */
   --accent-foreground: #4d3a33;
-
+  
   --destructive: #8c3e2b; /* Rojo terroso */
   --border: #cbb8a7; /* Borde dorado suave */
   --input: #f2ce9e; /* Marrón */
   --ring: #a05a3a; /* Mismo que primary */
-
+  
   /* Gráficos otoñales */
   --chart-1: #a05a3a; /* Marrón principal */
   --chart-2: #b84d2e; /* Rojo otoñal */
   --chart-3: #d6a84b; /* Amarillo mostaza */
   --chart-4: #8c3e2b; /* Marrón rojizo */
   --chart-5: #e0b76e; /* Dorado brillante */
-
+  
   /* Sidebar */
   --sidebar: #ede3d2;
   --sidebar-foreground: #5c4339;
@@ -162,14 +164,17 @@
   --sidebar-accent-foreground: #5c4339;
   --sidebar-border: #cbb8a7;
   --sidebar-ring: #a05a3a;
+  
+}
 
-  /* Colores personalizados */
-  --color-custom-grisClarito: #f2e8dc;
-  --color-custom-textSubtitle: #73594d;
-  --color-custom-GrisOscuro: #ba5b02;
-  --color-custom-textGris: #6b4a3c; 
-  --color-custom-casiNegro: #8a4402;
-  --color-custom-textOscuro: #c46206;
+@theme custom {
+  --color-custom-grisClarito: #f4f4f5;
+  --color-custom-GrisOscuro: #d9d9d9;
+  --color-custom-textGris: #616060;
+  --color-custom-textSubtitle: #434343;
+  --color-custom-textOscuro: #292929;
+  --color-custom-casiNegro: #2e2d2d;
+  --color-custom-marronClarito: #e7c7a0;
 }
 
 @layer base {
@@ -185,10 +190,6 @@ input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-credentials-auto-fill-button {
   display: none;
 }
-/* 
-html.light, html.dark, html.rustic {
-  transition: none;
-} */
 
 @theme inline {
   --color-background: var(--background);

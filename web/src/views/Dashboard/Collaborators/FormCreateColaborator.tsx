@@ -117,7 +117,7 @@ const FormCreateColaborator = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
-                  className="w-full p-2 mb-2  border border-custom-grisOscuro bg-background rounded-lg"
+                  className="w-full p-2 mb-2  border border-custom-GrisOscuro bg-background rounded-lg"
                 />
                 {errors.username && touched.username && (
                   <p className=" text-red-500 text-sm">{errors.username}</p>
@@ -125,7 +125,7 @@ const FormCreateColaborator = () => {
               </div>
               <div className="flex flex-col gap-1 w-72 mt-1">
                 <label htmlFor="email" className="font-semibold text-xl">
-                  Correo electronica
+                  Correo electronico
                 </label>
                 <input
                   type="email"
@@ -133,7 +133,7 @@ const FormCreateColaborator = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  className=" w-full p-2 mb-2  border border-grisClarito bg-background rounded-lg"
+                  className=" w-full p-2 mb-2  border border-custom-GrisOscuro bg-background rounded-lg"
                 />
                 {errors.email && touched.email && (
                   <p className=" text-red-500  text-sm">{errors.email}</p>
