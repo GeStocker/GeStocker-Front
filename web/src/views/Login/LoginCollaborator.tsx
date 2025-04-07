@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { loginUserCollaborator } from "@/services/user/collaborator";
+import { getInventoryFromToken } from "@/helpers/getInventoryFromToken";
+import { useRouter } from "next/navigation";
 
 const registerSchema = Yup.object({
   email: Yup.string()
@@ -30,30 +32,31 @@ interface FormData {
 }
 
 const LoginCollaborator: React.FC = () => {
-  const {saveUserData } = useAuth();
+  const router = useRouter();
+  const { saveUserData } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const { token: newToken, checkoutUrl, roles } = await loginUserCollaborator(values);
+      console.log("Valores del formulario:", values);
+      const res = await loginUserCollaborator(values);
+      console.log("Respuesta del servidor:", res.token);
       
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-        return;
-      }
+      saveUserData(res.token);
+      toast.success("Inicio de sesión exitoso");
       
-      saveUserData(newToken, roles);
-      toast.success(roles.includes("COLLABORATOR") 
-        ? "Inicio de sesión exitoso como colaborador" 
-        : "Inicio de sesión exitoso");
+      const inventoryId = getInventoryFromToken(res.token);
+      router.push(`/dashboard/inventory/${inventoryId}`); // Usa la ruta directa sin routes.
       
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn("Error al iniciar sesión:", e.message);
+        toast.error(`${e.message}`);
       } else {
-        toast.error("Error desconocido al iniciar sesión");
+        console.warn("Error al iniciar sesión:", e);
+        toast.error("Error al iniciar sesión");
       }
     } finally {
       setIsLoading(false);

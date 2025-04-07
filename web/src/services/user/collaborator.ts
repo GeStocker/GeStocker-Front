@@ -54,43 +54,19 @@ export const createCollaborator =async (
   };
 
   export const loginUserCollaborator = async (
-    collaboratorCredentials: { email: string; password: string }
-  ): Promise<{ 
-    user: ICollaborator; 
-    token: string; 
-    checkoutUrl?: string;
-    roles: string[];
-  }> => {
+    userData: Partial<ICollaborator>
+  ): Promise<{ user: ICollaborator; token: string }> => {
     try {
-      const response = await axios.post(
-        `${API}/collaborators/login`,
-        collaboratorCredentials,
-        {
-          withCredentials: true,
-        }
-      );
-  
-      // Verificación doble de roles
-      if (!response.data.data?.user?.roles?.includes("COLLABORATOR")) {
-        throw new Error("El usuario no tiene rol de colaborador");
-      }
-  
-      return {
-        user: response.data.data.user,
-        token: response.data.data.token,
-        checkoutUrl: response.data.data.checkoutUrl,
-        roles: response.data.data.user.roles,
-      };
+      const user = (await axios.post(`${API}/collaborators/login`, userData, {
+        withCredentials: true,
+      })).data;
+      console.log("user", user);
+      return user;
     } catch (error) {
-      console.error("Error en login de colaborador:", error);
-      
-      let errorMessage = "Error al autenticar colaborador";
-      if (axios.isAxiosError(error)) {
-        errorMessage = error.response?.data?.message || 
-                     error.message || 
-                     "Error de conexión";
-      }
-      
+      console.warn("Error al iniciar sesión:", error);
+      const errorMessage =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "No se pudo iniciar sesión";
       throw new Error(errorMessage);
     }
   };
