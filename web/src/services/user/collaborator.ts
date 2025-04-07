@@ -8,7 +8,7 @@ export interface collaboratorDto {
         username: string;
         password: string;
         inventoryId: string;
-    }
+}
 
 
 export const getCollaboratorsByBusiness = async (
@@ -49,6 +49,48 @@ export const createCollaborator =async (
       const errorMessage =
         (axios.isAxiosError(error) && error.response?.data?.message) ||
         "Error al crear colaborador";
+      throw new Error(errorMessage);
+    }
+  };
+
+  export const loginUserCollaborator = async (
+    collaboratorCredentials: { email: string; password: string }
+  ): Promise<{ 
+    user: ICollaborator; 
+    token: string; 
+    checkoutUrl?: string;
+    roles: string[];
+  }> => {
+    try {
+      const response = await axios.post(
+        `${API}/collaborators/login`,
+        collaboratorCredentials,
+        {
+          withCredentials: true,
+        }
+      );
+  
+      // Verificación doble de roles
+      if (!response.data.data?.user?.roles?.includes("COLLABORATOR")) {
+        throw new Error("El usuario no tiene rol de colaborador");
+      }
+  
+      return {
+        user: response.data.data.user,
+        token: response.data.data.token,
+        checkoutUrl: response.data.data.checkoutUrl,
+        roles: response.data.data.user.roles,
+      };
+    } catch (error) {
+      console.error("Error en login de colaborador:", error);
+      
+      let errorMessage = "Error al autenticar colaborador";
+      if (axios.isAxiosError(error)) {
+        errorMessage = error.response?.data?.message || 
+                     error.message || 
+                     "Error de conexión";
+      }
+      
       throw new Error(errorMessage);
     }
   };

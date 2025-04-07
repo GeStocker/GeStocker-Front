@@ -15,7 +15,7 @@ interface AuthContextType {
   token: string | null;
   userPicture: string | null;
   saveUserPicture: (picture: string) => void;
-  saveUserData: (token: string) => void;
+  saveUserData: (token: string, roles?: string[]) => void;
   resetUserData: () => void;
 }
 
@@ -28,29 +28,66 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const router = useRouter();
 
-  const saveUserData = (token: string) => {
+  const saveUserData = (token: string, roles?: string[]) => {
     if (!token) return;
+  
     try {
       const userId = getUserIdFromToken(token);
       if (!userId) {
-        console.warn("Token no válido, no es un token enviado del backend");
+        console.warn("Token no válido");
         return;
       }
+  
       const existingToken = getCookie("token");
       if (existingToken !== token) {
+        // Guardar token
         setCookie("token", token, {
-          path: "/", // Asegura que sea accesible en toda la app
-          secure: true, // Solo para HTTPS
-          sameSite: "strict", // Evita problemas con requests cruzadas
+          path: "/",
+          secure: true,
+          sameSite: "strict",
         });
+  
+        // Guardar roles en localStorage
+        localStorage.setItem('userRoles', JSON.stringify(roles));
+  
         setToken(token);
         setIsAuth(true);
-        router.replace("/dashboard/perfil");
+  
+        // Redirección basada en roles
+        if ((roles ?? []).includes("COLLABORATOR")) {
+          router.replace("/dashboard/colaborador");
+        } else {
+          router.replace("/dashboard/perfil");
+        }
       }
     } catch (error) {
-      console.warn("Error al decodificar el token:", error);
+      console.error("Error al guardar datos de sesión:", error);
     }
   };
+
+  // const saveUserData = (token: string) => {
+  //   if (!token) return;
+  //   try {
+  //     const userId = getUserIdFromToken(token);
+  //     if (!userId) {
+  //       console.warn("Token no válido, no es un token enviado del backend");
+  //       return;
+  //     }
+  //     const existingToken = getCookie("token");
+  //     if (existingToken !== token) {
+  //       setCookie("token", token, {
+  //         path: "/", // Asegura que sea accesible en toda la app
+  //         secure: true, // Solo para HTTPS
+  //         sameSite: "strict", // Evita problemas con requests cruzadas
+  //       });
+  //       setToken(token);
+  //       setIsAuth(true);
+  //       router.replace("/dashboard/perfil");
+  //     }
+  //   } catch (error) {
+  //     console.warn("Error al decodificar el token:", error);
+  //   }
+  // };
 
   const saveUserPicture = (picture: string) => {
     setUserPicture(picture);
@@ -68,6 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuth(false);
     deleteCookie("userPicture");
   };
+    
 
   useEffect(() => {
     const token = getCookie("token") ?? null;

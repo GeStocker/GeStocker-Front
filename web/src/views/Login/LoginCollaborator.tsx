@@ -4,11 +4,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
-import { loginUser } from "@/services/user/auth";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { loginUserCollaborator } from "@/services/user/collaborator";
 
 const registerSchema = Yup.object({
   email: Yup.string()
@@ -31,33 +30,30 @@ interface FormData {
 }
 
 const LoginCollaborator: React.FC = () => {
-  const router = useRouter();
-  const { saveUserData } = useAuth();
+  const {saveUserData } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const res = await loginUser(values);
-      const { checkoutUrl } = res;
+      const { token: newToken, checkoutUrl, roles } = await loginUserCollaborator(values);
+      
       if (checkoutUrl) {
-        router.push(checkoutUrl);
+        window.location.href = checkoutUrl;
         return;
       }
-      saveUserData(res.token);
-      toast.success("Inicio de sesión exitoso");
-      setTimeout(() => {
-        router.push(routes.dashboard);
-      }, 2000);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.warn("Error al iniciar sesión:", e.message);
-
-        toast.error(`Error: ${e.message}`);
+      
+      saveUserData(newToken, roles);
+      toast.success(roles.includes("COLLABORATOR") 
+        ? "Inicio de sesión exitoso como colaborador" 
+        : "Inicio de sesión exitoso");
+      
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
       } else {
-        console.warn("Error al iniciar sesión:", e);
-        toast.error("Error al iniciar sesión");
+        toast.error("Error desconocido al iniciar sesión");
       }
     } finally {
       setIsLoading(false);

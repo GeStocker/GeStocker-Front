@@ -7,12 +7,14 @@ interface ProductTableBusinessProps {
   products: IProduct[];
   onSearchChange: (value: string) => void; 
   searchValue: string;
+  onRemoveProduct: (productId: string) => void;
 }
 
 const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({ 
   products, 
   onSearchChange, 
-  searchValue 
+  searchValue, 
+  onRemoveProduct,
 }) => {
 
   return (
@@ -79,7 +81,9 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                   </td>
 
                   <td className="p-2 text-center font-semibold">
-                    <ActionMenu onEdit={() => console.log(`Editing product ${product.product_id}`)} />
+                    <ActionMenu product_id={product.product_id}
+                    onEdit={() => console.log(`Editing product ${product.product_id}`)}
+                    onDelete={() => onRemoveProduct(product.product_id)} />
                   </td>
                 </tr>
               ))
