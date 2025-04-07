@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 interface AuthContextType {
   isAuth: boolean | null;
   token: string | null;
+  userId: string | null;
   userPicture: string | null;
   saveUserPicture: (picture: string) => void;
   saveUserData: (token: string) => void;
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [userPicture, setUserPicture] = useState<string | null>(null);
+  const [userId, setUserid] = useState<string | null>(null)
 
   const router = useRouter();
 
@@ -44,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           sameSite: "strict", // Evita problemas con requests cruzadas
         });
         setToken(token);
+        setUserid(userId)
         setIsAuth(true);
         router.replace("/dashboard/perfil");
       }
@@ -90,6 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
       setToken(token);
+      setUserid(userId)
       setIsAuth(true);
     } catch (error) {
       console.warn("Error al decodificar el token:", error);
@@ -105,6 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         saveUserData,
         resetUserData,
         token,
+        userId,
         userPicture,
         saveUserPicture,
       }}

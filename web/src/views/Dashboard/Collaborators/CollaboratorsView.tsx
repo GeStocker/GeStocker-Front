@@ -16,6 +16,10 @@ const CollaboratorsView = () => {
 //   const { businessId } = useBusiness();
   const { token } = useAuth();
   const [businessId, setBusinessId] = useState("")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedReceiver, setSelectedReceiver] = useState<{ id: string; name: string } | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [chatOpen, setChatOpen] = useState(false);
 
   const fetchCollaborators = async () => {
     if (!businessId || !token) return;
@@ -68,6 +72,7 @@ const CollaboratorsView = () => {
         </div>
         {collaborators.length > 0 ? (
           collaborators.map((c) => {
+            const itSelf = c.id === localStorage.getItem("userId")
             return (
               <div key={c.id} className="grid grid-cols-4 text-lg gap-1 text-center p-4">
                 <span>{c.username}</span>
@@ -76,6 +81,20 @@ const CollaboratorsView = () => {
                     c.isActive ? "text-green-600" : "text-red-600"
                   }`}>{c.isActive ? "Activo" : "Inactivo"}</span>
                 <span>{c.inventory.name}</span>
+                <span>
+                  {!itSelf && (
+                    <Button
+                    onClick={() => {
+                      setSelectedReceiver({ id: c.id, name: c.username });
+                      setChatOpen(true);
+                    }}
+                    size="sm"
+                    variant="outline"
+                    >
+                      Chatear
+                    </Button>
+                  )}
+                </span>
               </div>
             );
           })
