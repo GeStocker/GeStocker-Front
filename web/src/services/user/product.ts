@@ -73,8 +73,6 @@ export const createProduct = async (
     if (fileImage) {
       formData.append("file", fileImage);
     }
-
-    console.log("id del negocio en servicio", businessId)
     await axios.post(`${API}/products/${businessId}`, formData, {
       withCredentials: true,
       headers: {
@@ -146,4 +144,15 @@ export const createProductExcel = async (
       "Error al crear producto";
     throw new Error(errorMessage);
   }
+};
+
+
+export const deactivateProductBusiness = async (product_id: string, token: string) => {
+  const response = await axios.put(`${API}/products/deactivate/${product_id}`, {}, {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 };

@@ -8,7 +8,7 @@ export interface collaboratorDto {
         username: string;
         password: string;
         inventoryId: string;
-    }
+}
 
 
 export const getCollaboratorsByBusiness = async (
@@ -49,6 +49,24 @@ export const createCollaborator =async (
       const errorMessage =
         (axios.isAxiosError(error) && error.response?.data?.message) ||
         "Error al crear colaborador";
+      throw new Error(errorMessage);
+    }
+  };
+
+  export const loginUserCollaborator = async (
+    userData: Partial<ICollaborator>
+  ): Promise<{ user: ICollaborator; token: string }> => {
+    try {
+      const user = (await axios.post(`${API}/collaborators/login`, userData, {
+        withCredentials: true,
+      })).data;
+      console.log("user", user);
+      return user;
+    } catch (error) {
+      console.warn("Error al iniciar sesión:", error);
+      const errorMessage =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "No se pudo iniciar sesión";
       throw new Error(errorMessage);
     }
   };

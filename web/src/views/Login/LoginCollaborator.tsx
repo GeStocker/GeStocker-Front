@@ -4,11 +4,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
-import { loginUser } from "@/services/user/auth";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { loginUserCollaborator } from "@/services/user/collaborator";
+import { getInventoryFromToken } from "@/helpers/getInventoryFromToken";
+import { useRouter } from "next/navigation";
 
 const registerSchema = Yup.object({
   email: Yup.string()
@@ -39,22 +40,20 @@ const LoginCollaborator: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const res = await loginUser(values);
-      const { checkoutUrl } = res;
-      if (checkoutUrl) {
-        router.push(checkoutUrl);
-        return;
-      }
+      console.log("Valores del formulario:", values);
+      const res = await loginUserCollaborator(values);
+      console.log("Respuesta del servidor:", res.token);
+      
       saveUserData(res.token);
       toast.success("Inicio de sesión exitoso");
-      setTimeout(() => {
-        router.push(routes.dashboard);
-      }, 2000);
+      
+      const inventoryId = getInventoryFromToken(res.token);
+      router.push(`/dashboard/inventory/${inventoryId}`); // Usa la ruta directa sin routes.
+      
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al iniciar sesión:", e.message);
-
-        toast.error(`Error: ${e.message}`);
+        toast.error(`${e.message}`);
       } else {
         console.warn("Error al iniciar sesión:", e);
         toast.error("Error al iniciar sesión");

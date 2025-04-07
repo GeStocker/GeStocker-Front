@@ -1,6 +1,6 @@
 export interface IMonthlyProfit {
-    month: number,
-    profit: number
+  month: number;
+  profit: number;
 }
 
 export interface ILowStockProduct {
@@ -15,31 +15,47 @@ export interface ILowStockProduct {
 }
 
 export interface IProductsWithoutSales {
-    currentStock: number;
-    daysWithoutSales: number;
-    inventoryId: string;
-    inventoryName: string;
-    lastSaleDate: string;
-    productId: string;
-    productName: string;
-    totalSales: string;
+  currentStock: number;
+  daysWithoutSales: number;
+  inventoryId: string;
+  inventoryName: string;
+  lastSaleDate: string;
+  productId: string;
+  productName: string;
+  totalSales: string;
 }
 
-
 export interface ITopHighLowMargin {
-    averageCost: string;
-    inventoryId: string;
-    inventoryName: string;
-    inventoryProductId: string;
-    productId: string;
-    productName: string;
-    profitMargin: string;
-    sellingPrice: string;
+  averageCost: string;
+  inventoryId: string;
+  inventoryName: string;
+  inventoryProductId: string;
+  productId: string;
+  productName: string;
+  profitMargin: string;
+  sellingPrice: string;
 }
 
 export interface IProfitMargin {
-    inventoryId: string,
-    inventoryName: string,
-    topHighMargin: ITopHighLowMargin[],
-    topLowMargin: ITopHighLowMargin[],
+  inventoryId: string;
+  inventoryName: string;
+  topHighMargin: ITopHighLowMargin[];
+  topLowMargin: ITopHighLowMargin[];
+}
+
+export interface IAverageSales {
+  inventoryId: string;
+  inventoryName: string;
+  topHighAvgSales: IProductSales[];
+  topLowAvgSales: IProductSales[];
+}
+
+export interface IProductSales {
+  inventoryProductId: string;
+  inventoryId: string;
+  inventoryName: string;
+  productId: string;
+  productName: string;
+  avgDailySales?: number;
+  avgMonthlySales?: number;
 }

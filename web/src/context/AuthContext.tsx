@@ -9,14 +9,16 @@ import {
 import { getCookie, setCookie, deleteCookie } from "cookies-next/client";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import { useRouter } from "next/navigation";
+import { getRolFromToken } from "@/helpers/getRolFromToken";
 
 interface AuthContextType {
   isAuth: boolean | null;
   token: string | null;
   userPicture: string | null;
   saveUserPicture: (picture: string) => void;
-  saveUserData: (token: string) => void;
+  saveUserData: (token: string, roles?: string[]) => void;
   resetUserData: () => void;
+  getUserRol: () => string | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userPicture, setUserPicture] = useState<string | null>(null);
 
   const router = useRouter();
+
 
   const saveUserData = (token: string) => {
     if (!token) return;
@@ -39,9 +42,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const existingToken = getCookie("token");
       if (existingToken !== token) {
         setCookie("token", token, {
-          path: "/", // Asegura que sea accesible en toda la app
-          secure: true, // Solo para HTTPS
-          sameSite: "strict", // Evita problemas con requests cruzadas
+          path: "/", 
+          secure: true, 
+          sameSite: "strict",
         });
         setToken(token);
         setIsAuth(true);
@@ -68,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuth(false);
     deleteCookie("userPicture");
   };
+    
 
   useEffect(() => {
     const token = getCookie("token") ?? null;
@@ -98,6 +102,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUserPicture(picture);
   }, []);
 
+  const getUserRol = () => {
+    if (!token) return;
+    return getRolFromToken(token);
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -107,6 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token,
         userPicture,
         saveUserPicture,
+        getUserRol
       }}
     >
       {children}
