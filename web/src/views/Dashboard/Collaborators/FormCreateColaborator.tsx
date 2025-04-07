@@ -75,7 +75,7 @@ const FormCreateColaborator = () => {
       const inventories = await getAllInventory(token, businessId);
       setInventories(inventories);
     } catch (error) {
-      console.warn("No se pudo traer los inventarios", error);
+      console.warn("No se pudo traer los Locales", error);
     }
   };
 
@@ -181,7 +181,7 @@ const FormCreateColaborator = () => {
             {/*ACA EMPIEZA EL SELECT INVENTARIOS*/}
             <div className="flex flex-col gap-1 w-72 mt-1 relative">
               <label htmlFor="inventoryId" className="font-semibold text-xl">
-                Inventario asignado
+                Local asignado
               </label>
               <input
                 type="text"

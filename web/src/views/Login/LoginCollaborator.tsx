@@ -48,7 +48,7 @@ const LoginCollaborator: React.FC = () => {
       toast.success("Inicio de sesión exitoso");
       
       const inventoryId = getInventoryFromToken(res.token);
-      router.push(`/dashboard/inventory/${inventoryId}`); // Usa la ruta directa sin routes.
+      router.push(`/dashboard/inventory/${inventoryId}`);
       
     } catch (e: unknown) {
       if (e instanceof Error) {

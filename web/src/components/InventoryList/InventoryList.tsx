@@ -28,7 +28,7 @@ const InventoryList = () => {
           saveInventoryId(inventoryId);
         }
       } catch (error) {
-        console.warn("Error cargando inventarios:", error);
+        console.warn("Error cargando locales:", error);
       }
     };
 
@@ -42,7 +42,7 @@ const InventoryList = () => {
       <div className="flex flex-col gap-2 pl-2">
         <div className="flex items-center gap-2">
           <LuClipboardList />
-          <h3>Inventarios</h3>
+          <h3>Locales</h3>
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ const InventoryList = () => {
     return (
       <div className="flex items-center gap-2 pl-2">
         <LuClipboardList />
-        <h3>Inventarios</h3>
+        <h3>Locales</h3>
       </div>
     );
   }
@@ -61,7 +61,7 @@ const InventoryList = () => {
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 pl-2">
         <LuClipboardList />
-        <h3>Inventarios</h3>
+        <h3>Locales</h3>
       </div>
 
       <div className="pl-6 max-h-60 overflow-y-auto">
@@ -83,7 +83,7 @@ const InventoryList = () => {
           ))
         ) : (
           <div className="text-sm text-custom-textGris italic pl-2">
-            No hay inventarios creados
+            No hay locales creados
           </div>
         )}
       </div>

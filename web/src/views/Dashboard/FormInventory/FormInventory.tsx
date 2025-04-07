@@ -82,9 +82,9 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
     return (
       <div className="flex flex-col gap-2 items-center justify-center border shadow-lg w-fit m-auto my-8 p-6 rounded-lg">
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold">Agrega un inventario</h1>
+          <h1 className="text-4xl font-bold">Agrega un local</h1>
           <h2 className="text-xl text-custom-textSubtitle">
-            Por favor agrega un inventario a GeStocker
+            Por favor agrega un local a GeStocker
           </h2>
         </div>
         <Formik

@@ -342,7 +342,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "basic",
                     title: "Básico",
-                    price: "$19/mes",
+                    price: "20€/mes",
                     features: [
                       "Prueba gratuita por 7 días",
                       "Hasta 500 productos",
@@ -353,7 +353,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "professional",
                     title: "Profesional",
-                    price: "$49/mes",
+                    price: "50€/mes",
                     features: [
                       "Hasta 5000 productos",
                       "5 usuarios",
@@ -364,7 +364,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "business",
                     title: "Empresarial",
-                    price: "$99/mes",
+                    price: "99,99€/mes",
                     features: [
                       "Productos ilimitados",
                       "Usuarios ilimitados",

@@ -142,7 +142,7 @@ const SideBar = () => {
         </Link>
         <Link href={routes.createInventory}>
           <Button variant={"outline"} className="w-full">
-            Agregar inventario
+            Agregar Local
           </Button>
         </Link>
       </div>

@@ -130,7 +130,7 @@ const LandingPage = async () => {
           <div className="relative">
             <SuscriptionCard
               title="Básico"
-              price="19"
+              price="20"
               items={[
                 "Prueba gratuita por 7 días",
                 "Hasta 500 productos",
@@ -144,7 +144,7 @@ const LandingPage = async () => {
           </div>
           <SuscriptionCard
             title="Profesional"
-            price="49"
+            price="50"
             items={[
               "Hasta 5000 productos",
               "5 usuarios",
@@ -154,7 +154,7 @@ const LandingPage = async () => {
           />
           <SuscriptionCard
             title="Empresarial"
-            price="99"
+            price="99,99"
             items={[
               "Productos ilimitados",
               " Usuarios ilimitados",

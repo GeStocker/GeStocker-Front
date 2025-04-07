@@ -342,8 +342,8 @@ const PerfilView = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
-                            disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-background rounded-lg"
+                            disabled
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-gray-400 rounded-lg cursor-not-allowed"
                           />
                           {errors.email && touched.email && (
                             <p className=" text-red-500  text-sm">

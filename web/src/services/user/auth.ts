@@ -50,3 +50,33 @@ export const completeSubscription = async (sessionId: string) => {
     }
   }
 };
+
+export const sendPasswordResetCode = async (email: string) => {
+  try {
+    const response = await axios.post(`${API}/auth/forgot-password`, { email });
+    return response.data;
+  } catch (error) {
+    console.error("Error al enviar el código de recuperación:", error);
+    throw error;
+  }
+}
+
+export const verifyResetCode = async (email: string, code: string) => {
+  try {
+    const response = await axios.post(`${API}/auth/verify-code`, { email, code });
+    return response.data;
+  } catch (error) {
+    console.error("Error al verificar el código:", error);
+    throw error;
+  }
+}
+
+export const updatePassword = async (email: string, code: string, newPassword: string) => {
+  try {
+    const response = await axios.post(`${API}/auth/reset-password`, { email, code, newPassword });
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la contraseña:", error);
+    throw error;
+  }
+}

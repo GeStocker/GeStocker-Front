@@ -10,9 +10,10 @@ import { getProductsByInventory } from "@/services/user/inventory_product";
 import { toast } from "sonner";
 import { IStockProduct } from "@/types/interface";
 import Link from "next/link";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const InventoryView = () => {
-  const { inventoryId } = useBusiness();
+  const { inventoryId} = useBusiness();
   const { token } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
   const [filters, setFilters] = useState({
@@ -66,7 +67,18 @@ const InventoryView = () => {
           </Button>
           </Link>
           <Link href={"/dashboard/inventory/createProduct"}>
-            <Button>+ Añadir producto</Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button className="flex" disabled={products.length === 0}>
+                    + Añadir productos
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Añadir productos al inventario</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Link>
         </div>
       </section>
