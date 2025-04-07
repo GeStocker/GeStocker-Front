@@ -43,6 +43,10 @@ const BusinessView = () => {
 
     const totalProducts = products.length;
     const outOfStockProducts = products.filter(p => p.totalStock !== null && p.totalStock <= 0).length;
+    const removeProductFromList = (productId: string) => {
+      setProducts(prev => prev.filter(product => product.product_id !== productId));
+    };
+    
 
   return (
     <div className="p-4 mr-16">
@@ -70,7 +74,7 @@ const BusinessView = () => {
         <section className='border border-custom-grisClarito rounded-md'>
             <div>
                 <ProductTableBusiness products={products} onSearchChange={handleSearchChange} 
-        searchValue={filters.search} />
+        searchValue={filters.search} onRemoveProduct={removeProductFromList} />
             </div>
         </section>
     </div>
