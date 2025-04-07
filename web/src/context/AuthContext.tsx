@@ -9,6 +9,7 @@ import {
 import { getCookie, setCookie, deleteCookie } from "cookies-next/client";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import { useRouter } from "next/navigation";
+import { getRolFromToken } from "@/helpers/getRolFromToken";
 
 interface AuthContextType {
   isAuth: boolean | null;
@@ -17,6 +18,7 @@ interface AuthContextType {
   saveUserPicture: (picture: string) => void;
   saveUserData: (token: string, roles?: string[]) => void;
   resetUserData: () => void;
+  getUserRol: () => string | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -100,6 +102,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUserPicture(picture);
   }, []);
 
+  const getUserRol = () => {
+    if (!token) return;
+    return getRolFromToken(token);
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -109,6 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token,
         userPicture,
         saveUserPicture,
+        getUserRol
       }}
     >
       {children}
