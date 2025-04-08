@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getProfitMargin } from "@/services/user/metrics";
+import { getInventoryRotation } from "@/services/user/metrics";
 import { toast } from "sonner";
-import { IProfitMargin } from "../../Types";
-import TopMarginProduct from "./TopMarginProduct/TopMarginProduct";
+import { IInventoryRotationRate } from "../../Types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,35 +11,46 @@ import {
 import { Button } from "@/components/ui/button";
 import { getAllCategories } from "@/services/user/category";
 import { ICategory } from "@/types/interface";
+import RotationProduct from "./RotationProduct";
 
-const ProfitMargin: React.FC<{
+const InventoryRotation: React.FC<{
   token: string | null;
   businessId: string | null;
 }> = ({ token, businessId }) => {
   const [loading, setLoading] = useState(true);
-  const [selectedInventory, setSelectedInventory] = useState<IProfitMargin>();
-  const [profitMargin, setProfitMargin] = useState<IProfitMargin[]>([]);
+  const [selectedInventory, setSelectedInventory] =
+    useState<IInventoryRotationRate>();
+  const [dataRotation, setDataRotation] = useState<IInventoryRotationRate[]>(
+    []
+  );
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
     null
   );
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedDays, setSelectedDays] = useState(30);
 
-  const fetchProfitMargin = async () => {
+  const daysOptions = [30, 60, 90];
+
+  const fetchInventoryRotation = async () => {
     if (!token || !businessId) return;
     try {
-      const profitMargin = await getProfitMargin(
+      const dataRotation = await getInventoryRotation(
         token,
         businessId,
-        selectedCategory?.id ?? undefined,
+        selectedDays,
+        selectedCategory?.id ?? undefined
       );
-      if (profitMargin) setProfitMargin(profitMargin);
+      if (dataRotation) setDataRotation(dataRotation);
     } catch (e: unknown) {
       if (e instanceof Error) {
-        console.warn("Error al traer el margen de ganancia", e.message);
+        console.warn(
+          "Error al traer metricas de rotacion de productos",
+          e.message
+        );
         toast.error(`Error: ${e.message}`);
       } else {
-        console.warn("Error al traer el margen de ganancia", e);
-        toast.error("Error al traer el margen de ganancia");
+        console.warn("Error al traer metricas de rotacion de productos", e);
+        toast.error("Error al traer metricas de rotacion de productos");
       }
     } finally {
       setLoading(false);
@@ -67,32 +77,32 @@ const ProfitMargin: React.FC<{
 
   useEffect(() => {
     fetchCategories();
-    fetchProfitMargin();
-  }, [token, businessId, selectedCategory]);
+    fetchInventoryRotation();
+  }, [token, businessId, selectedCategory, selectedDays]);
 
   useEffect(() => {
-    if (profitMargin.length === 0) return;
+    if (dataRotation.length === 0) return;
 
-    const foundInventory = profitMargin.find(
+    const foundInventory = dataRotation.find(
       (inv) => inv.inventoryId === selectedInventory?.inventoryId
     );
 
     if (foundInventory) {
       setSelectedInventory(foundInventory);
     } else {
-      setSelectedInventory(profitMargin[0]);
+      setSelectedInventory(dataRotation[0]);
     }
-  }, [profitMargin]);
+  }, [dataRotation]);
 
   return (
     <div className=" p-4 border rounded-md my-1 bg-custom-grisClarito">
       <div className="flex justify-between mb-2">
         <div>
           <h2 className="text-xl  font-bold">
-            Productos Mayor y Menor Margen de Ganancia
+            Tasa de Rotacion del Inventario
           </h2>
           <h3 className="text-lg text-custom-textGris">
-            Los productos con mayor margen de ganancia
+            Productos con mayor tasa de rotación
           </h3>
         </div>
         <DropdownMenu>
@@ -102,7 +112,7 @@ const ProfitMargin: React.FC<{
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {profitMargin.map((inventory) => (
+            {dataRotation.map((inventory) => (
               <DropdownMenuItem
                 key={inventory.inventoryId}
                 onClick={() => setSelectedInventory(inventory)}
@@ -118,6 +128,7 @@ const ProfitMargin: React.FC<{
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <div className="flex justify-between">
       <div className="mb-4 flex items-center gap-1">
         <DropdownMenu>
           <span>Categoria: </span>
@@ -145,20 +156,58 @@ const ProfitMargin: React.FC<{
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <DropdownMenu>
+          <span className="ml-2">Periodo: </span>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">{`${selectedDays} días`}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {daysOptions.map((days) => (
+              <DropdownMenuItem
+                key={days}
+                onClick={() => setSelectedDays(days)}
+                className={days === selectedDays ? "font-bold bg-accent" : ""}
+              >
+                {days}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
+        <div>
+          <div>
+            <div className="flex items-center gap-1 ">
+              <div className="w-3 h-3 rounded-full bg-[#EB5757]" />
+              <span className="text-sm">Rotacion Baja</span>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-1 ">
+              <div className="w-3 h-3 rounded-full bg-[#F2C94C]" />
+              <span className="text-sm">Rotacion Media</span>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-1 ">
+              <div className="w-3 h-3 rounded-full bg-[#6FCF97]" />
+              <span className="text-sm">Rotacion Alta</span>
+            </div>
+          </div>
+        </div>
+        </div>
       {loading || !selectedInventory ? (
         <span className="text-center">Cargando metricas...</span>
       ) : (
         <>
-          <TopMarginProduct products={selectedInventory?.topHighMargin ?? []} />
+          <RotationProduct products={selectedInventory.topHighRotation ?? []} />
           <h3 className="text-lg text-custom-textGris">
-            Los productos con menor margen de ganancia
+            Los productos con menor tasa de rotación
           </h3>
-          <TopMarginProduct products={selectedInventory?.topLowMargin ?? []} />
+          <RotationProduct products={selectedInventory?.topLowRotation ?? []} />
         </>
       )}
     </div>
   );
 };
 
-export default ProfitMargin;
+export default InventoryRotation;

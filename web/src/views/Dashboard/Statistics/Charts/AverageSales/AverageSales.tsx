@@ -35,7 +35,6 @@ const AverageSales: React.FC<{
         sortBy,
         selectedCategory?.id ?? undefined,
       );
-      console.log(averageSales)
       if (averageSales) setAverageSales(averageSales);
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -92,10 +91,10 @@ const AverageSales: React.FC<{
     <div className="flex justify-between mb-2">
       <div>
         <h2 className="text-xl  font-bold">
-          Productos Mayor y Menor Margen de Ganancia
+          Productos Mayor y Menor Promedio de Ventas
         </h2>
         <h3 className="text-lg text-custom-textGris">
-          Los productos con mayor margen de ganancia
+        Los productos con mayor promedio de ventas
         </h3>
       </div>
       <DropdownMenu>
@@ -171,7 +170,7 @@ const AverageSales: React.FC<{
       <>
         <ProductsPieChart products={selectedInventory?.topHighAvgSales ?? []} />
         <h3 className="text-lg text-custom-textGris">
-          Los productos con menor margen de ganancia
+          Los productos con menor promedio de ventas
         </h3>
         <ProductsPieChart products={selectedInventory?.topLowAvgSales ?? []} />
       </>

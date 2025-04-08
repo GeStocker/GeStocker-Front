@@ -7,6 +7,9 @@ import LowStock from "./Charts/LowStock";
 import WithoutSales from "./Charts/WithoutSales";
 import ProfitMargin from "./Charts/MarginProfit/ProfitMargin";
 import AverageSales from "./Charts/AverageSales/AverageSales";
+import InventoryEfficiency from "./Charts/InventoryEfficiency/InventoryEfficiency";
+import InventoryRotation from "./Charts/InventoryRotation/InventoryRotation";
+import ComparisonInventories from "./Charts/ComparisonInventories/ComparisonInventories";
 
 export const months = [
   "Enero",
@@ -38,23 +41,45 @@ const StatisticsView = () => {
       {!rol ? (
         <span>Cargando metricas</span>
       ) : (
-        <section className="w-full p-4 grid grid-cols-2 gap-4 items-start">
+        <section className="grid grid-cols-2 grid-rows-6 gap-2">
           {(rol === "basic" ||
             rol === "professional" ||
             rol === "business") && (
             <>
-              <LowStock token={token} businessId={businessId} />
-              <WithoutSales token={token} businessId={businessId} />
-              <MonthlyProfit token={token} businessId={businessId} />
+              <div>
+                <MonthlyProfit token={token} businessId={businessId} />
+              </div>
+              <div>
+                <LowStock token={token} businessId={businessId} />
+              </div>
+              <div className="col-start-2 row-start-2">
+                <WithoutSales token={token} businessId={businessId} />
+              </div>
             </>
           )}
-          {(
-            rol === "professional" ||
-            rol === "business") && (
+          {(rol === "professional" || rol === "business") && (
             <>
-          <ProfitMargin token={token} businessId={businessId} />
-          <AverageSales token={token} businessId={businessId} />
-          </>)}
+              <div className="row-span-2 col-start-1 row-start-2">
+                <ProfitMargin token={token} businessId={businessId} />
+              </div>
+              <div className="row-span-2 col-start-2">
+                <AverageSales token={token} businessId={businessId} />
+              </div>
+              <div className="row-span-2 row-start-4">
+                <InventoryEfficiency token={token} businessId={businessId} />
+              </div>
+            </>
+          )}
+          {rol === "business" && (
+            <>
+              <div className="row-span-2 col-start-2 row-start-5">
+                <InventoryRotation token={token} businessId={businessId} />
+              </div>
+              <div className="row-start-6">
+                <ComparisonInventories token={token} businessId={businessId} />
+              </div>
+            </>
+          )}
         </section>
       )}
     </div>

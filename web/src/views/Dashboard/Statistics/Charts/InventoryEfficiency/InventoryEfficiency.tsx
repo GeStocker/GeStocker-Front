@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getProfitMargin } from "@/services/user/metrics";
+import { getInventoryEficiency } from "@/services/user/metrics";
 import { toast } from "sonner";
-import { IProfitMargin } from "../../Types";
-import TopMarginProduct from "./TopMarginProduct/TopMarginProduct";
+import { IInventoryEfficiency } from "../../Types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,35 +11,43 @@ import {
 import { Button } from "@/components/ui/button";
 import { getAllCategories } from "@/services/user/category";
 import { ICategory } from "@/types/interface";
+import TopEfficiencyProduct from "./TopEfficiencyProduct/TopEfficiencyProduct";
 
-const ProfitMargin: React.FC<{
+const InventoryEfficiency: React.FC<{
   token: string | null;
   businessId: string | null;
 }> = ({ token, businessId }) => {
   const [loading, setLoading] = useState(true);
-  const [selectedInventory, setSelectedInventory] = useState<IProfitMargin>();
-  const [profitMargin, setProfitMargin] = useState<IProfitMargin[]>([]);
+  const [selectedInventory, setSelectedInventory] =
+    useState<IInventoryEfficiency>();
+  const [dataEfficiency, setDataEfficiency] = useState<IInventoryEfficiency[]>(
+    []
+  );
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
     null
   );
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedDays, setSelectedDays] = useState(30);
 
-  const fetchProfitMargin = async () => {
+  const daysOptions = [30, 60, 90];
+
+  const fetchInventoryEfficiency = async () => {
     if (!token || !businessId) return;
     try {
-      const profitMargin = await getProfitMargin(
+      const dataEfficiency = await getInventoryEficiency(
         token,
         businessId,
-        selectedCategory?.id ?? undefined,
+        selectedDays,
+        selectedCategory?.id ?? undefined
       );
-      if (profitMargin) setProfitMargin(profitMargin);
+      if (dataEfficiency) setDataEfficiency(dataEfficiency);
     } catch (e: unknown) {
       if (e instanceof Error) {
-        console.warn("Error al traer el margen de ganancia", e.message);
+        console.warn("Error al traer metricas de eficiencia", e.message);
         toast.error(`Error: ${e.message}`);
       } else {
-        console.warn("Error al traer el margen de ganancia", e);
-        toast.error("Error al traer el margen de ganancia");
+        console.warn("Error al traer metricas de eficiencia", e);
+        toast.error("Error al traer metricas de eficiencia");
       }
     } finally {
       setLoading(false);
@@ -67,32 +74,30 @@ const ProfitMargin: React.FC<{
 
   useEffect(() => {
     fetchCategories();
-    fetchProfitMargin();
-  }, [token, businessId, selectedCategory]);
+    fetchInventoryEfficiency();
+  }, [token, businessId, selectedCategory, selectedDays]);
 
   useEffect(() => {
-    if (profitMargin.length === 0) return;
+    if (dataEfficiency.length === 0) return;
 
-    const foundInventory = profitMargin.find(
+    const foundInventory = dataEfficiency.find(
       (inv) => inv.inventoryId === selectedInventory?.inventoryId
     );
 
     if (foundInventory) {
       setSelectedInventory(foundInventory);
     } else {
-      setSelectedInventory(profitMargin[0]);
+      setSelectedInventory(dataEfficiency[0]);
     }
-  }, [profitMargin]);
+  }, [dataEfficiency]);
 
   return (
     <div className=" p-4 border rounded-md my-1 bg-custom-grisClarito">
       <div className="flex justify-between mb-2">
         <div>
-          <h2 className="text-xl  font-bold">
-            Productos Mayor y Menor Margen de Ganancia
-          </h2>
+          <h2 className="text-xl  font-bold">Eficiencia del Inventario</h2>
           <h3 className="text-lg text-custom-textGris">
-            Los productos con mayor margen de ganancia
+            Los productos con una alta eficiencia
           </h3>
         </div>
         <DropdownMenu>
@@ -102,7 +107,7 @@ const ProfitMargin: React.FC<{
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {profitMargin.map((inventory) => (
+            {dataEfficiency.map((inventory) => (
               <DropdownMenuItem
                 key={inventory.inventoryId}
                 onClick={() => setSelectedInventory(inventory)}
@@ -145,20 +150,41 @@ const ProfitMargin: React.FC<{
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <DropdownMenu>
+        <span className="ml-2">Periodo: </span>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">{`${selectedDays} días`}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {daysOptions.map((days) => (
+              <DropdownMenuItem
+                key={days}
+                onClick={() => setSelectedDays(days)}
+                className={days === selectedDays ? "font-bold bg-accent" : ""}
+              >
+                {days}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       {loading || !selectedInventory ? (
         <span className="text-center">Cargando metricas...</span>
       ) : (
         <>
-          <TopMarginProduct products={selectedInventory?.topHighMargin ?? []} />
+          <TopEfficiencyProduct
+            products={selectedInventory?.topHighEfficiency ?? []}
+          />
           <h3 className="text-lg text-custom-textGris">
-            Los productos con menor margen de ganancia
+            Los productos con una baja eficiencia
           </h3>
-          <TopMarginProduct products={selectedInventory?.topLowMargin ?? []} />
+          <TopEfficiencyProduct
+            products={selectedInventory.topLowEfficiency ?? []}
+          />
         </>
       )}
     </div>
   );
 };
 
-export default ProfitMargin;
+export default InventoryEfficiency;
