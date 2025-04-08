@@ -102,7 +102,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
               <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="name" className="font-semibold text-xl self-start">
-                    Nombre del Inventario
+                    Nombre del local
                   </label>
                   <input
                     type="text"
@@ -117,7 +117,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="address" className="font-semibold text-xl self-start">
-                    Dirección del Inventario
+                    Dirección del local
                   </label>
                   <input
                     type="text"
@@ -132,7 +132,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   
                 <div className="flex flex-col w-[350px] mb-6">
                 <label htmlFor="description" className="font-semibold text-xl self-start">
-                  Descripción del inventario
+                  Descripción del local
                 </label>
                 <textarea
                   name="description"
@@ -156,7 +156,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                   (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-custom-casiNegro'
                 }`}
               >
-                {isSubmitting ? "Creando..." : "Agregar Negocio"}
+                {isSubmitting ? "Creando..." : "Agregar local"}
               </button>
             </div>
             </form>

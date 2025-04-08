@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAllInventory } from "@/services/user/inventory";
+import { Info } from "lucide-react";
 
 const registerSchema = Yup.object({
   username: Yup.string().required("El nombre de usuario es obligatorio"),
@@ -85,7 +86,11 @@ const FormCreateColaborator = () => {
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-1/2 p-6 rounded-lg my-8 mx-auto">
-      <h1 className="text-left font-semibold text-2xl">Agregar collaborador</h1>
+      <h1 className="text-left font-semibold text-2xl">Agregar colaborador</h1>
+      <p className="flex text-sm text-red-500 mb-4">
+        <Info className="w-5 h-5 mr-2" />
+          Completa los datos personales y de acceso del colaborador.
+      </p>
       <Formik
         initialValues={{
           username: "",
@@ -109,7 +114,7 @@ const FormCreateColaborator = () => {
             <div className="flex flex-col items-center justify-center gap-2">
               <div className="flex flex-col gap-1 w-72 mt-1 ">
                 <label htmlFor="username" className="font-semibold text-xl">
-                  Nombre usuario
+                  Nombre completo
                 </label>
                 <input
                   type="text"
@@ -125,7 +130,7 @@ const FormCreateColaborator = () => {
               </div>
               <div className="flex flex-col gap-1 w-72 mt-1">
                 <label htmlFor="email" className="font-semibold text-xl">
-                  Correo electronico
+                    Correo electrónico
                 </label>
                 <input
                   type="email"
@@ -143,7 +148,7 @@ const FormCreateColaborator = () => {
 
             <div className="flex flex-col gap-1 w-72 mt-1 ">
               <label htmlFor="password" className="font-semibold text-xl">
-                Contraseña
+                Contraseña de acceso
               </label>
               <div className="relative">
                 <input

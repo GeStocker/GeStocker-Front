@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const InventoryView = () => {
-  const { inventoryId} = useBusiness();
+  const { inventoryId, inventories} = useBusiness();
   const { token } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
   const [filters, setFilters] = useState({
@@ -45,18 +45,23 @@ const InventoryView = () => {
   const handleSearchChange = (value: string): void => {
         setFilters({ ...filters, search: value });
       };
+    
+  const currentInventory = inventories.find(inv => inv.id === inventoryId) || inventories[0];
 
   const totalProducts = products.length;
   const outOfStockProducts = products.filter(p => p.stock <= 0).length;
   const totalInventoryValue = products
     .reduce((sum, product) => sum + (Number(product.price) * Number(product.stock)), 0)
     .toLocaleString('es-ES', { style: 'currency', currency: 'USD' });
+    const removeProductFromList = (productId: string) => {
+      setProducts(prev => prev.filter(product => product.id !== productId));
+    };
 
   return (
     <div className="p-4 mr-16">
       <section className="flex justify-between items-center mb-10">
         <div className="flex flex-col">
-          <h1 className="text-4xl font-semibold text-custom-casiNegro">Inventario</h1>
+        <h1 className="text-4xl font-semibold text-custom-casiNegro">Inventario del {currentInventory?.name || "sin nombre"}</h1>
           <h3>Gestiona tus productos y controla tu stock</h3>
         </div>
         <div className="flex gap-4">
@@ -89,7 +94,7 @@ const InventoryView = () => {
       </section>
       <section className="border border-custom-grisClarito rounded-md">
         <div>
-          <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} />
+          <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} onRemoveProduct={removeProductFromList} />
         </div>
       </section>
     </div>

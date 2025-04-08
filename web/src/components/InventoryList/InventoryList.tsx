@@ -42,7 +42,7 @@ const InventoryList = () => {
       <div className="flex flex-col gap-2 pl-2">
         <div className="flex items-center gap-2">
           <LuClipboardList />
-          <h3>Locales</h3>
+          <h3>Inventario de locales</h3>
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ const InventoryList = () => {
     return (
       <div className="flex items-center gap-2 pl-2">
         <LuClipboardList />
-        <h3>Locales</h3>
+        <h3>Inventario de locales</h3>
       </div>
     );
   }
@@ -61,7 +61,7 @@ const InventoryList = () => {
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 pl-2">
         <LuClipboardList />
-        <h3>Locales</h3>
+        <h3>Inventarios de locales</h3>
       </div>
 
       <div className="pl-6 max-h-60 overflow-y-auto">
@@ -72,11 +72,13 @@ const InventoryList = () => {
               href={`/dashboard/inventory/${inventory.id}`}
               onClick={() => saveInventoryId(inventory.id)}
             >
-              <div className={`
-                flex items-center gap-2 pl-2 p-1 rounded-md
-                ${inventoryId === inventory.id ? '' : ''}
-                cursor-pointer
-              `}>
+              <div
+                className={`
+                  flex items-center gap-2 pl-2 p-1 rounded-md
+                  ${inventoryId === inventory.id ? 'bg-custom-GrisOscuro font-semibold text-primary' : 'hover:bg-custom-grisClarito'}
+                  cursor-pointer
+                `}
+              >
                 <span className="truncate">{inventory.name}</span>
               </div>
             </Link>

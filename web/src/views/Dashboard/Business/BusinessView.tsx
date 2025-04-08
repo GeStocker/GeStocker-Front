@@ -15,7 +15,7 @@ import ButtonGestionar from '@/components/ButtonGestionar/ButtonGestionar';
 
 
 const BusinessView = () => {
-    const { businessId} = useBusiness();
+    const { businessId, businessList} = useBusiness();
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filters, setFilters] = useState({
       search: '',
@@ -41,6 +41,7 @@ const BusinessView = () => {
       fetchProducts();
     }, [filters]);
 
+    const currentBusiness = businessList.find(inv => inv.id === businessId) || businessList[0];
     const totalProducts = products.length;
     const outOfStockProducts = products.filter(p => p.totalStock !== null && p.totalStock <= 0).length;
     const removeProductFromList = (productId: string) => {
@@ -52,7 +53,7 @@ const BusinessView = () => {
     <div className="p-4 mr-16">
         <section className='flex justify-between items-center mb-10'>
                 <div className='flex flex-col '>
-                    <h1 className="text-4xl font-semibold">Negocio</h1>
+                  <h1 className="text-4xl font-semibold text-custom-casiNegro">Negocio : {currentBusiness?.name || "sin nombre"}</h1>
                     <h3 className='text-custom-textSubtitle'>Gestiona tus productos y controla tu stock</h3>
                 </div>
                 <div className='flex gap-4'>

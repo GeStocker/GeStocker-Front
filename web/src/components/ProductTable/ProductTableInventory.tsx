@@ -2,15 +2,17 @@
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { IStockProduct } from "@/types/interface";
 import ScrollToTopButton from "../ScrollTop/ScrollToTopButton";
+import ActionMenu from "../ActionMenu/ActionMenu";
 
 interface ProductTableInventoryProps {
   products: IStockProduct[];
   onSearchChange: (value: string) => void; 
   searchValue: string;
+  onRemoveProduct: (productId: string) => void;
 }
 
 const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,onSearchChange, 
-  searchValue  }) => {
+  searchValue, onRemoveProduct  }) => {
   return (
     <div className="p-4">
       <div className="flex items-center mb-4">
@@ -35,6 +37,7 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
               <th className="py-2 border text-center">Stock</th>
               <th className="py-2 border text-center">Estado Stock</th>
               <th className="p-2 border text-center">Precio</th> 
+              <th className="p-2 border text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +70,12 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
                   </td>
                   <td className="p-2">
                     {product.price ? `$${product.price}` : "No disponible"}
+                  </td>
+
+                  <td className="p-2 text-center font-semibold">
+                    <ActionMenu product_id={product.id}
+                    onEdit={() => console.log(`Editing product ${product.id}`)}
+                    onDelete={() => onRemoveProduct(product.id)} />
                   </td>
 
                 </tr>

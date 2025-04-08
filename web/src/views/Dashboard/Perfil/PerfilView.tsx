@@ -337,13 +337,14 @@ const PerfilView = () => {
                             Correo
                           </label>
                           <input
+                            id="email"
                             type="email"
                             name="email"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
                             disabled
-                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-gray-400 rounded-lg cursor-not-allowed"
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-custom-GrisOscuro rounded-lg cursor-not-allowed"
                           />
                           {errors.email && touched.email && (
                             <p className=" text-red-500  text-sm">
