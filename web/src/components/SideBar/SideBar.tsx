@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { getAllBusiness } from "@/services/user/business";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, } from "react";
 import { BiBarChart } from "react-icons/bi";
 import { DiAptana } from "react-icons/di";
 import { FiUsers } from "react-icons/fi";
@@ -14,9 +14,6 @@ import BusinessSelect from "../BusinessSelect/BusinessSelect";
 import { usePathname, useRouter } from "next/navigation";
 import InventoryList from "../InventoryList/InventoryList";
 import { MdBusinessCenter } from "react-icons/md";
-import ChatWidget from "@/components/Chat/ChatWidget";
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
-import CollaboratorSelector from "../Chat/CollaboratorSelector";
 
 const SideBar = () => {
   const {
@@ -28,10 +25,8 @@ const SideBar = () => {
   } = useBusiness();
 
   const { token } = useAuth();
-  const userId = token?getUserIdFromToken(token):null;
   const router = useRouter();
   const pathname = usePathname();
-  const [receiver, setReceiver] = useState<{ id: string; name: string } | null>(null);
 
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics)(\/[^/]+)*$/.test(
@@ -167,17 +162,6 @@ const SideBar = () => {
           </button>
         </div>
       </div>
-      <CollaboratorSelector
-        token={token!}
-        onSelect={(collab) => setReceiver({id: collab.id, name: collab.name})}
-      />
-      {receiver && (
-        <ChatWidget
-          token={token!}
-          senderId={userId!}
-          receiverId={receiver}
-        />
-      )}
     </div>
   );
 };

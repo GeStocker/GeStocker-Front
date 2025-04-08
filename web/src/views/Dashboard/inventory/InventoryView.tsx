@@ -10,10 +10,11 @@ import { getProductsByInventory } from "@/services/user/inventory_product";
 import { toast } from "sonner";
 import { IStockProduct } from "@/types/interface";
 import Link from "next/link";
+import ChatWidget from "@/components/Chat/ChatWidget";
 
 const InventoryView = () => {
-  const { inventoryId } = useBusiness();
-  const { token } = useAuth();
+  const { inventoryId, businessId } = useBusiness();
+  const { token, userId } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
   const [filters, setFilters] = useState({
         search: '',
@@ -51,6 +52,7 @@ const InventoryView = () => {
     .reduce((sum, product) => sum + (Number(product.price) * Number(product.stock)), 0)
     .toLocaleString('es-ES', { style: 'currency', currency: 'USD' });
 
+  if (!userId) return null
   return (
     <div className="p-4 mr-16">
       <section className="flex justify-between items-center mb-10">
@@ -80,6 +82,13 @@ const InventoryView = () => {
           <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} />
         </div>
       </section>
+      {token && userId && businessId && (
+        <ChatWidget
+          token={token}
+          senderId={userId}
+          businessId={businessId}
+            />
+      )}
     </div>
   );
 };

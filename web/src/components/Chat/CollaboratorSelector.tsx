@@ -1,4 +1,5 @@
 "use client";
+import { useBusiness } from "@/context/BusinessContext";
 import React, { useEffect, useState } from "react";
 
 type Collaborator = {
@@ -15,13 +16,14 @@ const CollaboratorSelector: React.FC<CollaboratorSelectorProps> = ({
     token,
     onSelect,
 }) => {
+    const {businessId} = useBusiness()
     const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchCollaborators = async () => {
         try {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/collaborators`,
+                `${process.env.NEXT_PUBLIC_API_URL}/collaborators/business/${businessId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
