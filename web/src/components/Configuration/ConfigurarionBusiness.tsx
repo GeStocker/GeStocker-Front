@@ -55,6 +55,7 @@ const ConfigurationBusiness = () => {
                 Nombre del Negocio
               </label>
               <input
+                id="name"
                 type="text"
                 name="name"
                 onChange={handleChange}
@@ -84,6 +85,7 @@ const ConfigurationBusiness = () => {
               <div className="flex flex-col">
                 <label htmlFor="address" className="font-semibold text-base">Dirección</label>
                 <input
+                  id="address"
                   type="text"
                   name="address"
                   onChange={handleChange}

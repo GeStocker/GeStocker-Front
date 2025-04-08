@@ -20,5 +20,5 @@ export const routes = {
    createCollaborator: "/dashboard/collaborators/registerCollaborator",
    configuration: "/dashboard/configuration",
    statistics: "/dashboard/statistics",
-   passwordRecovery: "/login/passwordRecovery",
+   passwordRecovery: "/passwordRecovery",
 }

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { sendPasswordResetCode, updatePassword, verifyResetCode } from '@/services/user/auth';
 import { toast } from 'sonner';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 
 const PasswordRecoveryPage = () => {
     const router = useRouter();
@@ -12,6 +13,7 @@ const PasswordRecoveryPage = () => {
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -41,10 +43,11 @@ const PasswordRecoveryPage = () => {
         setError('Por favor ingresa el código recibido');
         return;
       }
-  
+    
       setIsLoading(true);
       try {
-        await verifyResetCode(email, code);
+        const { token } = await verifyResetCode(email, code); 
+        localStorage.setItem('passwordResetToken', token);
         toast.success('Código verificado correctamente');
         setStep(3);
         setError('');
@@ -55,22 +58,29 @@ const PasswordRecoveryPage = () => {
         setIsLoading(false);
       }
     };
+    
   
     const handleUpdatePassword = async () => {
       if (!newPassword || !confirmPassword) {
         setError('Por favor completa ambos campos');
         return;
       }
-  
+    
       if (newPassword !== confirmPassword) {
         setError('Las contraseñas no coinciden');
         return;
       }
-  
+    
       setIsLoading(true);
       try {
-        await updatePassword(email, code, newPassword);
+        const token = localStorage.getItem('passwordResetToken'); 
+        if (!token) {
+          throw new Error('Token no disponible');
+        }
+    
+        await updatePassword(newPassword, token);
         toast.success('Contraseña actualizada correctamente');
+        localStorage.removeItem('passwordResetToken');
         router.push('/login');
       } catch {
         toast.error('Error al actualizar la contraseña');
@@ -79,13 +89,14 @@ const PasswordRecoveryPage = () => {
         setIsLoading(false);
       }
     };
+    
 
   return (
     <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-custom-grisClarito p-8 rounded-lg shadow-md">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-custom-textOscuro">
-            Recuperar Contraseña
+          <h2 className="mt-6 text-3xl font-extrabold text-center text-custom-textOscuro">
+            Cambia o recupera tu contraseña
           </h2>
           <p className="mt-2 text-sm text-custom-textSubtitle">
             {step === 1 && 'Ingresa tu correo para recibir un código de verificación'}
@@ -163,32 +174,66 @@ const PasswordRecoveryPage = () => {
 
           {step === 3 && (
             <div className="space-y-4">
-              <div>
-                <label htmlFor="newPassword">Nueva contraseña</label>
-                <Input
-                  id="newPassword"
-                  name="newPassword"
-                  type="password"
-                  required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="mt-1"
-                  placeholder="••••••••"
-                />
+              <div className="relative">
+                <label 
+                  htmlFor="newPassword"
+                  className="font-semibold text-xl self-start"
+                >
+                  Nueva contraseña
+                </label>
+                <div className="relative mt-1">
+                  <Input
+                    id="newPassword"
+                    name="newPassword"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full p-3 pr-10 border border-custom-casiNegro bg-custom-grisClarito rounded-md"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-custom-textGris hover:text-custom-textSubtitle transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash size={20} />
+                    ) : (
+                      <FaEye size={20} />
+                    )}
+                  </button>
+                </div>
               </div>
 
-              <div>
-                <label htmlFor="confirmPassword">Confirmar nueva contraseña</label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="mt-1"
-                  placeholder="••••••••"
-                />
+              <div className="relative">
+                <label 
+                  htmlFor="confirmPassword" 
+                  className="font-semibold text-xl self-start"
+                >
+                  Confirmar nueva contraseña
+                </label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full p-3 pr-10 border border-custom-casiNegro bg-custom-grisClarito rounded-md"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-custom-textGris hover:text-custom-textSubtitle transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash size={22} />
+                    ) : (
+                      <FaEye size={22} />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <Button
@@ -206,7 +251,7 @@ const PasswordRecoveryPage = () => {
               onClick={() => router.push('/login')}
               className="font-medium text-custom-textOscuro hover:text-custom-textSubtitle cursor-pointer"
             >
-              Volver al inicio de sesión
+              Volver al inicio
             </button>
           </div>
         </div>

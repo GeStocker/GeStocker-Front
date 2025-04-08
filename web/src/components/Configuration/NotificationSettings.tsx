@@ -30,7 +30,7 @@ export default function NotificationSettings() {
           <div>
             <label className="text-sm">Umbral stock bajo</label>
             <div className="flex items-center gap-2">
-              <Input type="number" min="0" value={stockbajo} onChange={(e) => setStockbajo(Number(e.target.value))} className="mt-1 w-24 text-center"/> 
+              <Input id="number" type="number" min="0" value={stockbajo} onChange={(e) => setStockbajo(Number(e.target.value))} className="mt-1 w-24 text-center"/> 
               <span className="text-sm text-custom-casiNegro">unidades</span>
             </div>
           </div>
