@@ -18,9 +18,16 @@ const TopMarginProduct:React.FC<{products: ITopHighLowMargin[]}> = ({products}) 
         },
       } satisfies ChartConfig;
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} >
           {products &&
-          products.length > 0 ? (
+          products.length > 0 ? products.every(item => Number(item.profitMargin) === 0) ? (
+            <div className="flex h-[300px] items-center justify-center p-4 text-center"> 
+              <p className="text-base text-muted-foreground">
+                Todos los productos tienen margen de ganancia 0. <br />
+                Revisa los costos o precios de venta.
+              </p>
+            </div>
+          ) : (
             <BarChart
               accessibilityLayer
               data={products}
@@ -40,7 +47,7 @@ const TopMarginProduct:React.FC<{products: ITopHighLowMargin[]}> = ({products}) 
                 axisLine={false}
                 tickFormatter={(value) => value}
               />
-              <XAxis type="number" tickLine={false} axisLine={false}/>
+              <XAxis type="number" tickLine={false} axisLine={false}/>  
               <Bar dataKey="profitMargin" radius={[0, 4, 4, 0]}>
                 {products.map((item) => (
                   <Cell
