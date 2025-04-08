@@ -36,11 +36,11 @@ const TabUserandCollaborator = () => {
             </div>
         </TabsContent>
         <TabsContent value="collaborator">
-  <div className="flex flex-col items-center text-center justify-center flex-1 mt-12 mx-auto w-full px-4"> 
-    <h2 className="text-4xl font-bold mb-6">Iniciar sesión</h2>
-    <LoginCollaborator/>
-  </div>
-</TabsContent>
+        <div className="flex flex-col items-center text-center justify-center flex-1 mt-12 mx-auto w-full px-4"> 
+          <h2 className="text-4xl font-bold mb-6">Iniciar sesión</h2>
+          <LoginCollaborator/>
+        </div>
+      </TabsContent>
         </Tabs>
     </div>
   )

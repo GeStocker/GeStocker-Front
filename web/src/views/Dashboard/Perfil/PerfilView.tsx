@@ -14,6 +14,8 @@ import { Camera, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaPencil, FaXmark } from "react-icons/fa6";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import Link from "next/link";
+import { routes } from "@/routes/routes";
 
 interface FormData {
   name: string;
@@ -265,9 +267,12 @@ const PerfilView = () => {
         </div>
 
         <Tabs defaultValue="Informacion personal" className="w-4/5 p-8">
-          <TabsList className="grid w-full grid-cols-1">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="Informacion personal">
               Informacion personal
+            </TabsTrigger>
+            <TabsTrigger value="Seguridad">
+              Seguridad
             </TabsTrigger>
           </TabsList>
 
@@ -315,6 +320,7 @@ const PerfilView = () => {
                             Nombre
                           </label>
                           <input
+                            id="name"
                             type="text"
                             name="name"
                             onChange={handleChange}
@@ -337,13 +343,14 @@ const PerfilView = () => {
                             Correo
                           </label>
                           <input
+                            id="email"
                             type="email"
                             name="email"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
-                            disabled={!modifyEnable}
-                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-background rounded-lg"
+                            disabled
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-custom-GrisOscuro rounded-lg cursor-not-allowed"
                           />
                           {errors.email && touched.email && (
                             <p className=" text-red-500  text-sm">
@@ -361,6 +368,7 @@ const PerfilView = () => {
                             Ciudad
                           </label>
                           <input
+                            id="city"
                             type="text"
                             name="city"
                             onChange={handleChange}
@@ -384,6 +392,7 @@ const PerfilView = () => {
                             País
                           </label>
                           <input
+                            id="country"
                             type="text"
                             name="country"
                             onChange={handleChange}
@@ -409,6 +418,7 @@ const PerfilView = () => {
                             Dirección
                           </label>
                           <input
+                            id="address"
                             type="text"
                             name="address"
                             onChange={handleChange}
@@ -431,6 +441,7 @@ const PerfilView = () => {
                             Télefono
                           </label>
                           <input
+                            id="phone"
                             type="text"
                             name="phone"
                             onChange={handleChange}
@@ -473,6 +484,30 @@ const PerfilView = () => {
               </div>
             </section>
           </TabsContent>
+            <TabsContent value="Seguridad">
+              <section className="w-full p-4 border rounded-md">
+                <div className="flex justify-between mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold">Seguridad</h2>
+                    <h3 className="text-base text-custom-textGris">
+                      Cambia tu contraseña y mantén tu cuenta segura
+                    </h3>
+                  </div>
+                </div>
+
+              <div className="flex flex-col gap-2">
+                <p className="mb-4">
+                  ¿Quieres cambiar tu contraseña?{' '}
+                </p>
+                  <Link href={routes.passwordRecovery}>
+                    <Button
+                      >
+                      Hazlo aquí
+                    </Button>
+                  </Link>
+              </div>
+              </section>
+            </TabsContent>
         </Tabs>
       </div>
     </div>

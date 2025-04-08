@@ -13,7 +13,7 @@ const SuscriptionCard: React.FC<{
       <div className="flex flex-col gap-1 p-1">
         <h3 className="text-xl font-bold">{title}</h3>
         <div className="flex gap-1 items-center">
-          <span className="text-3xl font-bold">{`$`+price}</span>
+          <span className="text-3xl font-bold">{price+`€`}</span>
           <span className="text-base text-textGris">/mes</span>
         </div>
         <p className="text-lg text-custom-textSubtitle text-start flex flex-col gap-0.5">

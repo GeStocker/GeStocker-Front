@@ -80,6 +80,7 @@ const SelectCountry: React.FC<SelectCountryProps> = ({
         {isOpen && (
           <div className="absolute top-full left-0 w-full bg-background border rounded-md mt-1 shadow-md z-10">
             <input
+              id="country"
               type="text"
               placeholder="Buscar país..."
               value={search}

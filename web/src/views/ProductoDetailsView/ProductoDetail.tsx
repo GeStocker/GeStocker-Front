@@ -15,7 +15,7 @@ interface Plan {
 const plans: Plan[] = [
   {
     title: "Básico",
-    price: "$19/mes",
+    price: "20€/mes",
     features: [
       "Prueba gratuita de 7 días",
       "Hasta 500 productos",
@@ -25,7 +25,7 @@ const plans: Plan[] = [
   },
   {
     title: "Profesional",
-    price: "$49/mes",
+    price: "50€/mes",
     features: [
       "Hasta 5000 productos",
       "5 usuarios",
@@ -35,7 +35,7 @@ const plans: Plan[] = [
   },
   {
     title: "Empresarial",
-    price: "$99/mes",
+    price: "99,99€/mes",
     features: [
       "Productos ilimitados",
       "Usuarios ilimitados",

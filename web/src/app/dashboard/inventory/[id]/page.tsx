@@ -16,7 +16,7 @@ const InventoryDetailsPage = ({ params }: { params: Promise<{ id: string }> }) =
   }, [id]);
 
   if (loading) {
-    return <div>Cargando inventario...</div>;
+    return <div>Cargando locales...</div>;
   }
 
   return <InventoryView />;
