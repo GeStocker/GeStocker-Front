@@ -1,4 +1,4 @@
-import { IAverageSales, ILowStockProduct, IMonthlyProfit, IProductsWithoutSales, IProfitMargin } from "@/views/Dashboard/Statistics/Types";
+import { IAverageSales, ICompareInventoryPerformance, IInventoryEfficiency, IInventoryRotationRate, ILowStockProduct, IMonthlyProfit, IProductsWithoutSales, IProfitMargin } from "@/views/Dashboard/Statistics/Types";
 import axios from "axios";
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
@@ -111,13 +111,86 @@ export const getAverageSales = async (
       },
       params: {sortBy, category, expand}
     });
-    console.log(res)
     return res.data
   } catch (error) {
     console.warn("Error al traer ventas promedio", error);
     const errorMessage =    
       (axios.isAxiosError(error) && error.response?.data?.message) ||
       "Error al traer ventas promedio";
+    throw new Error(errorMessage);
+  }
+};
+
+export const getInventoryEficiency = async (
+  token: string,
+  businessId: string,
+  days: number,
+  category?: string,
+  expand?: boolean
+): Promise<IInventoryEfficiency[]> => {
+  try {
+    const res = await axios.get(`${API}/metrics/efficiency/${businessId}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {days, category, expand}
+    });
+    return res.data
+  } catch (error) {
+    console.warn("Error al traer metricas de eficiencia", error);
+    const errorMessage =    
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al traer metricas de eficiencia";
+    throw new Error(errorMessage);
+  }
+};
+export const getInventoryRotation = async (
+  token: string,
+  businessId: string,
+  days: number,
+  category?: string,
+  expand?: boolean
+): Promise<IInventoryRotationRate[]> => {
+  try {
+    const res = await axios.get(`${API}/metrics/rotation/${businessId}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {days, category, expand}
+    });
+    return res.data
+  } catch (error) {
+    console.warn("Error al traer metricas de rotacion de productos", error);
+    const errorMessage =    
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al traer metricas de rotacion de productos";
+    throw new Error(errorMessage);
+  }
+};
+
+
+export const getCompareInventoryPerformance = async (
+  token: string,
+  businessId: string,
+  range: number,
+  sortBy: string
+): Promise<ICompareInventoryPerformance> => {
+  try {
+    const res = await axios.get(`${API}/metrics/comparison/${businessId}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {range, sortBy}
+    });
+    return res.data
+  } catch (error) {
+    console.warn("Error al traer comparativas de inventarios", error);
+    const errorMessage =    
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al traer comparativas de inventarios";
     throw new Error(errorMessage);
   }
 };
