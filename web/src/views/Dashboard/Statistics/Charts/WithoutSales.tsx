@@ -25,7 +25,11 @@ const WithoutSales: React.FC<{
   const fetchProductsWithoutSales = async () => {
     if (!token || !businessId) return;
     try {
-      const products = await getProductsWithoutSales(token, businessId, selectedDays);
+      const products = await getProductsWithoutSales(
+        token,
+        businessId,
+        selectedDays
+      );
       if (products) setProducts(products);
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -50,7 +54,7 @@ const WithoutSales: React.FC<{
         <div>
           <h2 className="text-xl  font-bold">Productos Menos Vendidos</h2>
           <h3 className="text-sm text-custom-textGris">
-            Productos con menor volúmen de ventas en el último perido
+            Productos con menor volúmen de ventas en el último periodo
           </h3>
         </div>
         <DropdownMenu>
@@ -90,11 +94,15 @@ const WithoutSales: React.FC<{
               <span>{p.productName}</span>
               <span>{p.currentStock}</span>
               <span>{p.inventoryName}</span>
-              <div>
-                <span>{format(new Date(p.lastSaleDate), "yyyy-MM-dd")}</span>
-                <br />
-                <span>{`(${p.daysWithoutSales} días)`}</span>
-              </div>    
+              {p.daysWithoutSales < 9999 ? (
+                <div>
+                  <span>{format(new Date(p.lastSaleDate), "yyyy-MM-dd")}</span>
+                  <br />
+                  <span>{`(${p.daysWithoutSales} días)`} </span>
+                </div>
+              ) : (
+                <span>No hubo registro de ventas</span>
+              )}
               <span>{p.totalSales}</span>
             </div>
           );

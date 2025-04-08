@@ -19,7 +19,6 @@ const ProductsPieChart: React.FC<{ products: IProductSales[] }> = ({
       color: "#6FCF97",
     },
   };
-  console.log(products);
 
   const validProducts = products
     .map((p, i) => ({
@@ -36,7 +35,7 @@ const ProductsPieChart: React.FC<{ products: IProductSales[] }> = ({
         className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground" 
       >
         <PieChart>
-          <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+          <ChartTooltip content={<ChartTooltipContent hideLabel formatter={(value, name) => `${name} ${value} ventas`} /> } />
           <Pie
             data={validProducts}
             dataKey="avgMonthlySales"
