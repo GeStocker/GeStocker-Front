@@ -28,9 +28,9 @@ export default function NotificationSettings() {
         </div>
         {lowStock && (
           <div>
-            <label className="text-sm">Umbral stock bajo</label>
+            <label  htmlFor="umbral" className="text-sm">Umbral stock bajo</label>
             <div className="flex items-center gap-2">
-              <Input id="number" type="number" min="0" value={stockbajo} onChange={(e) => setStockbajo(Number(e.target.value))} className="mt-1 w-24 text-center"/> 
+              <Input id="umbral" type="number" min="0" value={stockbajo} onChange={(e) => setStockbajo(Number(e.target.value))} className="mt-1 w-24 text-center"/> 
               <span className="text-sm text-custom-casiNegro">unidades</span>
             </div>
           </div>
@@ -51,8 +51,8 @@ export default function NotificationSettings() {
         </div>
         {emailNotifications && (
           <div>
-            <label className="text-sm">Correo electrónico para notificaciones</label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full" />
+            <label  htmlFor="email" className="text-sm">Correo electrónico para notificaciones</label>
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full" />
           </div>
         )}
         <div>

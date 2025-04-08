@@ -116,6 +116,7 @@ const InventoryView = () => {
             products={products}
             onSearchChange={handleSearchChange}
             searchValue={filters.search}
+            onRemoveProduct={removeProductFromList}
           />
         </div>
       </section>

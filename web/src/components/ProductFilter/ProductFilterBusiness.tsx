@@ -63,6 +63,7 @@ const ProductBusinessFilter = ({ onFilterChange, categories }: BusinessFilterPro
       <div className="relative flex-1 w-full">
         <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <input
+          id="search"
           type="text"
           placeholder="Buscar productos por nombre o descripción..."
           value={searchTerm}
@@ -102,6 +103,7 @@ const ProductBusinessFilter = ({ onFilterChange, categories }: BusinessFilterPro
           <div className="dropdown absolute z-10 mt-2 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
             <div className="p-2 border-b">
               <input
+                id="category-search"
                 type="text"
                 placeholder="Buscar categoría..."
                 value={categorySearchTerm}

@@ -161,6 +161,7 @@ const CreateCategory = () => {
                         Nombre nueva categoría:
                       </label>
                       <input
+                        id="name"
                         type="text"
                         name="name"
                         onChange={handleChange}
@@ -211,6 +212,7 @@ const CreateCategory = () => {
                           Nombre actual:
                         </label>
                         <input
+                          id="name"
                           type="name"
                           name="name"
                           value={selectedCategory.name}
@@ -226,6 +228,7 @@ const CreateCategory = () => {
                           Nuevo nombre:
                         </label>
                         <input
+                          id="name"
                           type="name"
                           name="name"
                           onChange={handleChange}
