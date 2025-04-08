@@ -24,10 +24,11 @@ const SideBar = () => {
     resetBusiness,
   } = useBusiness();
 
-  const { token } = useAuth();
+  const { token, getUserRol } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-
+  const rol = getUserRol();
+  
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
       pathname
@@ -41,7 +42,7 @@ const SideBar = () => {
   }, []);
 
   const fetchBusiness = async () => {
-    if (!token) return;
+    if (!token || rol === "COLLABORATOR") return;
     try {
       const businessList = await getAllBusiness(token);
       setBusinessList(businessList);
@@ -88,8 +89,8 @@ const SideBar = () => {
     }
   };
 
-  return (
-    <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">
+  return  <>
+  {rol !== "COLLABORATOR" ? <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">
       <div className="flex items-center justify-center m-5 h-6">
         <BusinessSelect
           businesses={businessList}
@@ -162,8 +163,8 @@ const SideBar = () => {
           </button>
         </div>
       </div>
-    </div>
-  );
+    </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">Que miras colaborador?</div>
+  } </>
 };
 
 export default SideBar;

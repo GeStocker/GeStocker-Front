@@ -17,16 +17,22 @@ const InventoryView = () => {
   const { token } = useAuth();
   const [products, setProducts] = useState<IStockProduct[]>([]);
   const [filters, setFilters] = useState({
-        search: '',
-        categoryIds: [],
-      });
+    search: "",
+    categoryIds: [],
+  });
+  const { saveBusinessId, businessId } = useBusiness();
 
   useEffect(() => {
+    const business = localStorage.getItem("selectedBusinessId");
+    if (business) saveBusinessId(business);
     const fetchProductsInventory = async () => {
       if (!token || !inventoryId) return;
-
       try {
-        const productsInventory = await getProductsByInventory(inventoryId, token, filters);
+        const productsInventory = await getProductsByInventory(
+          inventoryId,
+          token,
+          filters
+        );
         setProducts(productsInventory);
       } catch (e: unknown) {
         if (e instanceof Error) {
@@ -40,7 +46,7 @@ const InventoryView = () => {
     };
 
     fetchProductsInventory();
-  }, [inventoryId, token, filters]);
+  }, [inventoryId, token, filters, businessId]);
 
   const handleSearchChange = (value: string): void => {
         setFilters({ ...filters, search: value });
@@ -49,7 +55,7 @@ const InventoryView = () => {
   const currentInventory = inventories.find(inv => inv.id === inventoryId) || inventories[0];
 
   const totalProducts = products.length;
-  const outOfStockProducts = products.filter(p => p.stock <= 0).length;
+  const outOfStockProducts = products.filter((p) => p.stock <= 0).length;
   const totalInventoryValue = products
     .reduce((sum, product) => sum + (Number(product.price) * Number(product.stock)), 0)
     .toLocaleString('es-ES', { style: 'currency', currency: 'USD' });
@@ -66,10 +72,10 @@ const InventoryView = () => {
         </div>
         <div className="flex gap-4">
           <Link href={"/dashboard/inventory/sellProducts"}>
-          <Button variant="outline">
-            <FiShoppingCart />
-            Registrar venta
-          </Button>
+            <Button variant="outline">
+              <FiShoppingCart />
+              Registrar venta
+            </Button>
           </Link>
           <Link href={"/dashboard/inventory/createProduct"}>
             <TooltipProvider>
@@ -88,13 +94,29 @@ const InventoryView = () => {
         </div>
       </section>
       <section className="grid grid-cols-3 gap-4 mb-6">
-        <StatCard title="Total de productos" value={totalProducts} description="Cantidad total en inventario" />
-        <StatCard title="Productos sin stock" value={outOfStockProducts} description="Productos agotados" />
-        <StatCard title="Valor del inventario" value={totalInventoryValue} description="Total valor del stock" />
+        <StatCard
+          title="Total de productos"
+          value={totalProducts}
+          description="Cantidad total en inventario"
+        />
+        <StatCard
+          title="Productos sin stock"
+          value={outOfStockProducts}
+          description="Productos agotados"
+        />
+        <StatCard
+          title="Valor del inventario"
+          value={totalInventoryValue}
+          description="Total valor del stock"
+        />
       </section>
       <section className="border border-custom-grisClarito rounded-md">
         <div>
-          <ProductTableInventory products={products} onSearchChange={handleSearchChange} searchValue={filters.search} onRemoveProduct={removeProductFromList} />
+          <ProductTableInventory
+            products={products}
+            onSearchChange={handleSearchChange}
+            searchValue={filters.search}
+          />
         </div>
       </section>
     </div>

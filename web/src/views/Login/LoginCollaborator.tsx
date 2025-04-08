@@ -10,6 +10,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { loginUserCollaborator } from "@/services/user/collaborator";
 import { getInventoryFromToken } from "@/helpers/getInventoryFromToken";
 import { useRouter } from "next/navigation";
+import { getBusinessFromToken } from "@/helpers/getBusinessFromToken";
 
 const registerSchema = Yup.object({
   email: Yup.string()
@@ -40,16 +41,13 @@ const LoginCollaborator: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      console.log("Valores del formulario:", values);
       const res = await loginUserCollaborator(values);
-      console.log("Respuesta del servidor:", res.token);
-      
       saveUserData(res.token);
       toast.success("Inicio de sesión exitoso");
-      
+      const businessId = getBusinessFromToken(res.token)
+      localStorage.setItem("selectedBusinessId", businessId ?? "")
       const inventoryId = getInventoryFromToken(res.token);
       router.push(`/dashboard/inventory/${inventoryId}`);
-      
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al iniciar sesión:", e.message);
