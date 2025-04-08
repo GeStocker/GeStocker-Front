@@ -17,6 +17,9 @@ const CollaboratorsView = () => {
   const { token } = useAuth();
   const [businessId, setBusinessId] = useState("")
 
+  const [selectedReceiver, setSelectedReceiver] = useState<{ id: string; name: string } | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+
   const fetchCollaborators = async () => {
     if (!businessId || !token) return;
     try {
@@ -76,6 +79,18 @@ const CollaboratorsView = () => {
                     c.isActive ? "text-green-600" : "text-red-600"
                   }`}>{c.isActive ? "Activo" : "Inactivo"}</span>
                 <span>{c.inventory.name}</span>
+                <span>
+                    <Button
+                    onClick={() => {
+                      setSelectedReceiver({ id: c.id, name: c.username });
+                      setChatOpen(true);
+                    }}
+                    size="sm"
+                    variant="outline"
+                    >
+                      Chatear
+                    </Button>
+                </span>
               </div>
             );
           })
