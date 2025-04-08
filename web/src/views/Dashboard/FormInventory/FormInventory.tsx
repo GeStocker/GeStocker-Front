@@ -82,9 +82,9 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
     return (
       <div className="flex flex-col gap-2 items-center justify-center border shadow-lg w-fit m-auto my-8 p-6 rounded-lg">
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold">Agrega un inventario</h1>
+          <h1 className="text-4xl font-bold">Agrega un local</h1>
           <h2 className="text-xl text-custom-textSubtitle">
-            Por favor agrega un inventario a GeStocker
+            Por favor agrega un local a GeStocker
           </h2>
         </div>
         <Formik
@@ -102,9 +102,10 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
               <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="name" className="font-semibold text-xl self-start">
-                    Nombre del Inventario
+                    Nombre del local
                   </label>
                   <input
+                    id="name"
                     type="text"
                     name="name"
                     onChange={handleChange}
@@ -117,9 +118,10 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   
                 <div className="flex flex-col w-[350px]">
                   <label htmlFor="address" className="font-semibold text-xl self-start">
-                    Dirección del Inventario
+                    Dirección del local
                   </label>
                   <input
+                    id="address"
                     type="text"
                     name="address"
                     onChange={handleChange}
@@ -132,7 +134,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
   
                 <div className="flex flex-col w-[350px] mb-6">
                 <label htmlFor="description" className="font-semibold text-xl self-start">
-                  Descripción del inventario
+                  Descripción del local
                 </label>
                 <textarea
                   name="description"
@@ -156,7 +158,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                   (isSubmitting || !isValid || !dirty) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-custom-casiNegro'
                 }`}
               >
-                {isSubmitting ? "Creando..." : "Agregar Negocio"}
+                {isSubmitting ? "Creando..." : "Agregar local"}
               </button>
             </div>
             </form>

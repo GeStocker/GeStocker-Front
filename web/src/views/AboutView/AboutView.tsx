@@ -29,7 +29,7 @@ const AboutView = () => {
       </ul>
       <p className="text-lg mt-6">
         En GeStocker, estamos comprometidos con la mejora continua y la innovación para ofrecerte la mejor
-        experiencia en la gestión de inventarios. ¡Gracias por confiar en nosotros!
+        experiencia en la gestión de Locales. ¡Gracias por confiar en nosotros!
       </p>
       <Developers/>
     </div>

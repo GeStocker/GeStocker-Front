@@ -458,6 +458,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                           className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                           disabled={isLoading}
                           min="0"
+                          max={p.stock}
                         />
                         {errors[index]?.sellQuantity && (
                           <p className="text-red-500 text-sm">

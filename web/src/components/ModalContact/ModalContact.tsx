@@ -37,11 +37,13 @@ const ModalContacto = ({
         <h2 className="text-xl font-semibold mb-4">Contacto</h2>
         <form>
           <input
+            id="nombre"
             type="text"
             placeholder="Tu nombre"
             className="w-full p-2 mb-4 bg-custom-grisClarito border border-custom-GrisOscuro rounded"
           />
           <input
+            id="email"
             type="email"
             placeholder="Tu correo"
             className="w-full p-2 mb-4 bg-custom-grisClarito border border-gray-300 rounded"

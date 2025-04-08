@@ -35,7 +35,7 @@ const SideBar = () => {
   const [userId, setUserId] = useState("")
   
   const isBusinessRoute = () => {
-    return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics)(\/[^/]+)*$/.test(
+    return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
       pathname
     );
   };
@@ -151,7 +151,7 @@ const SideBar = () => {
         </Link>
         <Link href={routes.createInventory}>
           <Button variant={"outline"} className="w-full">
-            Agregar inventario
+            Agregar Local
           </Button>
         </Link>
       </div>

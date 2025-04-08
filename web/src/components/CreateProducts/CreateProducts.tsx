@@ -125,7 +125,6 @@ const CreateProducts = () => {
     setIsAdding(true);
     if (!businessId || !token) return;
     try {
-      console.log("este es el id del negocio", businessId)
       await createProduct(values, businessId, token);
       toast.success("Producto creado con exito");
       fetchCategories();
@@ -309,6 +308,7 @@ const CreateProducts = () => {
                           Nombre:
                         </label>
                         <input
+                          id="name"
                           type="text"
                           name="name"
                           onChange={handleChange}
@@ -328,6 +328,7 @@ const CreateProducts = () => {
                           Categoría:
                         </label>
                         <input
+                          id="category"
                           type="text"
                           name="category"
                           value={selectedCategory}
@@ -364,6 +365,7 @@ const CreateProducts = () => {
                               Nombre nueva categoría:
                             </label>
                             <input
+                              id="category"
                               type="text"
                               name="category"
                               onChange={handleChange}
@@ -397,6 +399,7 @@ const CreateProducts = () => {
                           Descripcion:
                         </label>
                         <input
+                          id="description"
                           type="text"
                           name="description"
                           onChange={handleChange}
@@ -478,6 +481,7 @@ const CreateProducts = () => {
                             Nombre actual:
                           </label>
                           <input
+                            id="name"
                             type="text"
                             value={selectedProduct.product_name}
                             disabled
@@ -492,6 +496,7 @@ const CreateProducts = () => {
                             Nombre nuevo:
                           </label>
                           <input
+                            id="name"
                             type="text"
                             name="name"
                             onChange={handleChange}
@@ -515,6 +520,7 @@ const CreateProducts = () => {
                             Descripcion Actual:
                           </label>
                           <input
+                            id="description"
                             type="text"
                             value={selectedProduct.product_description}
                             disabled
@@ -529,6 +535,7 @@ const CreateProducts = () => {
                             Descripcion nueva:
                           </label>
                           <input
+                            id="description"
                             type="text"
                             name="description"
                             onChange={handleChange}
@@ -552,6 +559,7 @@ const CreateProducts = () => {
                             Categoria Actual:
                           </label>
                           <input
+                            id="category"
                             type="text"
                             value={selectedProduct.product_category}
                             disabled
@@ -566,6 +574,7 @@ const CreateProducts = () => {
                             Categoría nueva:
                           </label>
                           <input
+                            id="category"
                             type="text"
                             name="category"
                             value={selectedCategory}
@@ -602,6 +611,7 @@ const CreateProducts = () => {
                                 Nombre nueva categoría:
                               </label>
                               <input
+                                id="category"
                                 type="text"
                                 name="category"
                                 onChange={handleChange}

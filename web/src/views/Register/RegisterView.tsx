@@ -155,6 +155,7 @@ const RegisterView: React.FC = () => {
                   Nombre
                 </label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   onChange={handleChange}
@@ -171,6 +172,7 @@ const RegisterView: React.FC = () => {
                   Correo
                 </label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   onChange={handleChange}
@@ -189,6 +191,7 @@ const RegisterView: React.FC = () => {
                   Ciudad
                 </label>
                 <input
+                  id="city"
                   type="text"
                   name="city"
                   onChange={handleChange}
@@ -217,6 +220,7 @@ const RegisterView: React.FC = () => {
                   Dirección
                 </label>
                 <input
+                  id="address"
                   type="text"
                   name="address"
                   onChange={handleChange}
@@ -233,6 +237,7 @@ const RegisterView: React.FC = () => {
                   Télefono
                 </label>
                 <input
+                  id="phone"
                   type="string"
                   name="phone"
                   onChange={handleChange}
@@ -252,6 +257,7 @@ const RegisterView: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
+                    id="password"
                     type={!showPassword ? "password" : "text"}
                     name="password"
                     onChange={handleChange}
@@ -294,6 +300,7 @@ const RegisterView: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
+                    id="passwordConfirmation"
                     type={!showPassword ? "password" : "text"}
                     name="passwordConfirmation"
                     onChange={handleChange}
@@ -342,7 +349,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "basic",
                     title: "Básico",
-                    price: "$19/mes",
+                    price: "20€/mes",
                     features: [
                       "Prueba gratuita por 7 días",
                       "Hasta 500 productos",
@@ -353,7 +360,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "professional",
                     title: "Profesional",
-                    price: "$49/mes",
+                    price: "50€/mes",
                     features: [
                       "Hasta 5000 productos",
                       "5 usuarios",
@@ -364,7 +371,7 @@ const RegisterView: React.FC = () => {
                   {
                     plan: "business",
                     title: "Empresarial",
-                    price: "$99/mes",
+                    price: "99,99€/mes",
                     features: [
                       "Productos ilimitados",
                       "Usuarios ilimitados",
