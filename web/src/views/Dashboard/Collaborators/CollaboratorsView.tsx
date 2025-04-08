@@ -1,6 +1,8 @@
 "use client";
+import ChatWidget from "@/components/Chat/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import { routes } from "@/routes/routes";
 // import { useBusiness } from "@/context/BusinessContext";
 // import { useBusiness } from "@/context/BusinessContext";
@@ -13,12 +15,16 @@ import { toast } from "sonner";
 
 const CollaboratorsView = () => {
   const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
-//   const { businessId } = useBusiness();
+  //   const { businessId } = useBusiness();
   const { token } = useAuth();
-  const [businessId, setBusinessId] = useState("")
+  const [businessId, setBusinessId] = useState("");
 
-  const [selectedReceiver, setSelectedReceiver] = useState<{ id: string; name: string } | null>(null);
+  const [selectedReceiver, setSelectedReceiver] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const fetchCollaborators = async () => {
     if (!businessId || !token) return;
@@ -32,9 +38,12 @@ const CollaboratorsView = () => {
   };
 
   useEffect(() => {
-    const businessId = localStorage.getItem("selectedBusinessId")
-    if (businessId) setBusinessId(businessId)
+    const businessId = localStorage.getItem("selectedBusinessId");
+    if (businessId) setBusinessId(businessId);
     fetchCollaborators();
+    if (!token) return;
+    const user = getUserIdFromToken(token);
+    if (user) setUserId(user);
   }, [token, businessId]);
 
   return (
@@ -65,32 +74,52 @@ const CollaboratorsView = () => {
           />
         </div>
         <div className="grid grid-cols-4 text-lg gap-1 text-center p-2 bg-custom-grisClarito ">
-          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">Colaborador</span>
-          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">Mail</span>
-          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">Estado</span>
+          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">
+            Colaborador
+          </span>
+          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">
+            Mail
+          </span>
+          <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">
+            Estado
+          </span>
           <span className="text-custom-textSubtitle">Inventario asignado</span>
         </div>
         {collaborators.length > 0 ? (
           collaborators.map((c) => {
             return (
-              <div key={c.id} className="grid grid-cols-4 text-lg gap-1 text-center p-4">
+              <div
+                key={c.id}
+                className="grid grid-cols-4 text-lg gap-1 text-center p-4"
+              >
                 <span>{c.username}</span>
                 <span>{c.email}</span>
-                <span className={`text-center font-semibold ${
+                <span
+                  className={`text-center font-semibold ${
                     c.isActive ? "text-green-600" : "text-red-600"
-                  }`}>{c.isActive ? "Activo" : "Inactivo"}</span>
+                  }`}
+                >
+                  {c.isActive ? "Activo" : "Inactivo"}
+                </span>
                 <span>{c.inventory.name}</span>
                 <span>
-                    <Button
+                  <Button
                     onClick={() => {
                       setSelectedReceiver({ id: c.id, name: c.username });
                       setChatOpen(true);
                     }}
                     size="sm"
                     variant="outline"
-                    >
-                      Chatear
-                    </Button>
+                  >
+                    Chatear
+                  </Button>
+                  {selectedReceiver && (
+                    <ChatWidget
+                      token={token!}
+                      senderId={userId} 
+                      receiverId={selectedReceiver}
+                    />
+                  )}
                 </span>
               </div>
             );
