@@ -125,7 +125,6 @@ const CreateProducts = () => {
     setIsAdding(true);
     if (!businessId || !token) return;
     try {
-      console.log("este es el id del negocio", businessId)
       await createProduct(values, businessId, token);
       toast.success("Producto creado con exito");
       fetchCategories();

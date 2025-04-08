@@ -320,6 +320,7 @@ const PerfilView = () => {
                             Nombre
                           </label>
                           <input
+                            id="name"
                             type="text"
                             name="name"
                             onChange={handleChange}
@@ -367,6 +368,7 @@ const PerfilView = () => {
                             Ciudad
                           </label>
                           <input
+                            id="city"
                             type="text"
                             name="city"
                             onChange={handleChange}
@@ -390,6 +392,7 @@ const PerfilView = () => {
                             País
                           </label>
                           <input
+                            id="country"
                             type="text"
                             name="country"
                             onChange={handleChange}
@@ -415,6 +418,7 @@ const PerfilView = () => {
                             Dirección
                           </label>
                           <input
+                            id="address"
                             type="text"
                             name="address"
                             onChange={handleChange}
@@ -437,6 +441,7 @@ const PerfilView = () => {
                             Télefono
                           </label>
                           <input
+                            id="phone"
                             type="text"
                             name="phone"
                             onChange={handleChange}

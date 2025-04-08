@@ -114,6 +114,7 @@ const FormBusiness: React.FC = () => {
                   Nombre del negocio
                 </label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   onChange={handleChange}
@@ -132,6 +133,7 @@ const FormBusiness: React.FC = () => {
                   Dirección del negocio
                 </label>
                 <input
+                  id="address"
                   type="text"
                   name="address"
                   onChange={handleChange}

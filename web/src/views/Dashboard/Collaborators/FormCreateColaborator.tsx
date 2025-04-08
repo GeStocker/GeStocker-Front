@@ -117,6 +117,7 @@ const FormCreateColaborator = () => {
                   Nombre completo
                 </label>
                 <input
+                  id="username"
                   type="text"
                   name="username"
                   onChange={handleChange}
@@ -133,6 +134,7 @@ const FormCreateColaborator = () => {
                     Correo electrónico
                 </label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   onChange={handleChange}
@@ -152,6 +154,7 @@ const FormCreateColaborator = () => {
               </label>
               <div className="relative">
                 <input
+                  id="password"
                   type={!showPassword ? "password" : "text"}
                   name="password"
                   onChange={handleChange}
@@ -189,6 +192,7 @@ const FormCreateColaborator = () => {
                 Local asignado
               </label>
               <input
+                id="inventoryId"
                 type="text"
                 name="inventoryId"
                 value={selectedInventory}

@@ -155,6 +155,7 @@ const RegisterView: React.FC = () => {
                   Nombre
                 </label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   onChange={handleChange}
@@ -171,6 +172,7 @@ const RegisterView: React.FC = () => {
                   Correo
                 </label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   onChange={handleChange}
@@ -189,6 +191,7 @@ const RegisterView: React.FC = () => {
                   Ciudad
                 </label>
                 <input
+                  id="city"
                   type="text"
                   name="city"
                   onChange={handleChange}
@@ -217,6 +220,7 @@ const RegisterView: React.FC = () => {
                   Dirección
                 </label>
                 <input
+                  id="address"
                   type="text"
                   name="address"
                   onChange={handleChange}
@@ -233,6 +237,7 @@ const RegisterView: React.FC = () => {
                   Télefono
                 </label>
                 <input
+                  id="phone"
                   type="string"
                   name="phone"
                   onChange={handleChange}
@@ -252,6 +257,7 @@ const RegisterView: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
+                    id="password"
                     type={!showPassword ? "password" : "text"}
                     name="password"
                     onChange={handleChange}
@@ -294,6 +300,7 @@ const RegisterView: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
+                    id="passwordConfirmation"
                     type={!showPassword ? "password" : "text"}
                     name="passwordConfirmation"
                     onChange={handleChange}

@@ -1,4 +1,4 @@
-import { IBusiness, ICollaborator } from "@/types/interface";
+import { ICollaborator } from "@/types/interface";
 import axios from "axios";
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
@@ -60,7 +60,6 @@ export const createCollaborator =async (
       const user = (await axios.post(`${API}/collaborators/login`, userData, {
         withCredentials: true,
       })).data;
-      console.log("user", user);
       return user;  
     } catch (error) {
       console.warn("Error al iniciar sesión:", error);

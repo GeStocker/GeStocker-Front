@@ -105,6 +105,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                     Nombre del local
                   </label>
                   <input
+                    id="name"
                     type="text"
                     name="name"
                     onChange={handleChange}
@@ -120,6 +121,7 @@ const FormInventory: React.FC<InventoryFormProps> = ({ onSuccess }) => {
                     Dirección del local
                   </label>
                   <input
+                    id="address"
                     type="text"
                     name="address"
                     onChange={handleChange}

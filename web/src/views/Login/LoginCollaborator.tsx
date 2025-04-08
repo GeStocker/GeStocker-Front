@@ -89,6 +89,7 @@ const LoginCollaborator: React.FC = () => {
                   Correo
                 </label>
                 <input
+                  id="email"  
                   type="email"
                   name="email"
                   onChange={handleChange}
@@ -110,6 +111,7 @@ const LoginCollaborator: React.FC = () => {
                   </label>
                 <div className="relative">
                   <input
+                    id="password"
                     type={!showPassword ? "password" : "text"}
                     name="password"
                     onChange={handleChange}
