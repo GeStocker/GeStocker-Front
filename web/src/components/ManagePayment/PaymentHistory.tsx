@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
 import { CheckCircleIcon, ClockIcon, XCircleIcon } from 'lucide-react';
+import { suscripcionActive } from '@/services/user/user';
 
 interface Purchase {
   id: string;
@@ -23,15 +23,14 @@ const PaymentHistory = () => {
   useEffect(() => {
     const fetchActiveSubscription = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/purchases/active-subscription', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setPurchase(response.data);
+        if (!token) {
+          throw new Error('Token is null');
+        }
+        const response = await suscripcionActive(token);
+        setPurchase(response);
       } catch (err) {
         setError('Error al cargar la suscripción activa');
-        console.error('Error fetching active subscription:', err);
+        console.warn('Error fetching active subscription:', err);
       } finally {
         setLoading(false);
       }
@@ -104,8 +103,8 @@ const PaymentHistory = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-800">Suscripción Activa</h1>
-          <p className="text-gray-600">Detalles de tu plan actual</p>
+        <h1 className="text-2xl font-bold text-gray-800">Historial de pago de tu suscripción</h1>
+        <p className="text-gray-600">Consulta los pagos y su estado</p>
         </div>
 
         {!purchase ? (

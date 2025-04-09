@@ -71,3 +71,48 @@ export const uploadImageUser = async (
     throw new Error(errorMessage);
   }
 };
+
+export const suscripcionActive = async (
+  token: string
+) => {
+  try {
+    const response = await axios.get(`${API}/purchases/active-subscription`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.warn("Error al cargar suscripcion activa", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al cargar suscripcion activa";
+    throw new Error(errorMessage);
+  }
+};
+
+export const cancelSubscription = async (
+  subscriptionId: string,
+  token: string
+) => {
+  console.log("Cancelando suscripción con token:", token);
+  console.log("ID de suscripción:", subscriptionId);
+  try {
+    const response = await axios.post(`${API}/purchases/subscription/cancel`,  { subscriptionId }, {
+      withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.warn("Error al cancelar suscripcion:", error);
+      const errorMessage =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "No se pudo tu cancelar suscripcion";
+      throw new Error(errorMessage);
+  }
+};
