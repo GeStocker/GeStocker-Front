@@ -159,7 +159,7 @@ const LandingPage = async () => {
               "Productos ilimitados",
               " Usuarios ilimitados",
               "Soporte 24/7",
-              "Chatbot con IA",
+              "Chat entre colaboradores",
             ]}
           />
         </div>
