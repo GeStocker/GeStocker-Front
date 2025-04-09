@@ -166,9 +166,11 @@ const SideBar = () => {
           </div>
         </div>
         <div className="flex items-center justify-center ml-auto">
+          <Link href={routes.ManagePayment}>
           <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
             Gestionar
           </button>
+          </Link>
         </div>
       </div>
     </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">

@@ -376,7 +376,7 @@ const RegisterView: React.FC = () => {
                       "Productos ilimitados",
                       "Usuarios ilimitados",
                       "Soporte 24/7",
-                      "ChatBot con IA",
+                      "Chat entre colaboradores",
                     ],
                   },
                 ].map(({ plan, title, price, features }) => (

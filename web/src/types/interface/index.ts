@@ -100,3 +100,15 @@ export interface IProduct2 {
     isActive: boolean;
     inventory: IInventory;  
   }
+
+  export interface ISuscription {
+    id: string;
+    amount: string;
+    paymentMethod: string;
+    status: 'completed' | 'failed' | 'pending';
+    stripeSessionId: string;
+    purchaseDate: string;
+    expirationDate: string;
+    stripeSubscriptionId: string | null;
+  }
+  
