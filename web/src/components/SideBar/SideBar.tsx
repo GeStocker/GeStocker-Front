@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useBusiness } from "@/context/BusinessContext";
 import { getAllBusiness } from "@/services/user/business";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BiBarChart } from "react-icons/bi";
 import { DiAptana } from "react-icons/di";
 import { FiUsers } from "react-icons/fi";
@@ -14,6 +14,9 @@ import BusinessSelect from "../BusinessSelect/BusinessSelect";
 import { usePathname, useRouter } from "next/navigation";
 import InventoryList from "../InventoryList/InventoryList";
 import { MdBusinessCenter } from "react-icons/md";
+import CollaboratorSelector from "../Chat/CollaboratorSelector";
+import ChatWidget from "../Chat/ChatWidget";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 
 const SideBar = () => {
   const {
@@ -28,6 +31,8 @@ const SideBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const rol = getUserRol();
+  const [receiver, setReceiver] = useState<{ id: string; name: string } | null>(null);
+  const [userId, setUserId] = useState("")
   
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
@@ -67,6 +72,9 @@ const SideBar = () => {
 
   useEffect(() => {
     fetchBusiness();
+    if(!token) return
+    const user = getUserIdFromToken(token)
+    if(user) setUserId(user)
   }, [token]);
 
   useEffect(() => {
@@ -163,7 +171,21 @@ const SideBar = () => {
           </button>
         </div>
       </div>
-    </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">Que miras colaborador?</div>
+    </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">
+      <div>
+    <CollaboratorSelector
+        token={token!}
+        onSelect={(collab) => setReceiver({id: collab.id, name: collab.name})}
+      />
+      {receiver && (
+        <ChatWidget
+          token={token!}
+          senderId={userId!}
+          receiverId={receiver}
+        />
+      )}
+    </div>
+    </div>
   } </>
 };
 
