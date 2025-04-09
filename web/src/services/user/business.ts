@@ -1,5 +1,6 @@
 import { BusinessDTO, IBusiness } from "@/types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -8,7 +9,7 @@ export const createBusiness = async (
   businessData: BusinessDTO
 ): Promise<IBusiness> => { 
   try {
-    const response = await axios.post(`${API}/bussines/`, businessData, {
+    const response = await axiosInstance.post(`${API}/bussines/`, businessData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,7 +38,7 @@ export const createBusiness = async (
 export const getAllBusiness = async (token: string): Promise<IBusiness[]> => {
   try {
     const business = (
-      await axios.get(`${API}/bussines/`, {
+      await axiosInstance.get(`${API}/bussines/`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,3 +54,22 @@ export const getAllBusiness = async (token: string): Promise<IBusiness[]> => {
     throw new Error(errorMessage);
   }
 };
+
+export const getBusinessOwner = async (token: string, businessId: string): Promise<string> => {
+  try {
+    const owner = (await axiosInstance.get(`${API}/bussines/${businessId}/owner`, {
+      withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    })).data
+    console.log(owner)
+    return owner.userId
+  } catch (error) {
+    console.warn("Error al obtener negocios", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al obtener negocios";
+    throw new Error(errorMessage);
+  }
+}

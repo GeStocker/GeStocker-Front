@@ -1,5 +1,6 @@
 import { IUser } from "../../types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -9,7 +10,7 @@ export const getUserById = async (
 ): Promise<Partial<IUser>> => {
   try {
     const user = (
-      await axios.get(`${API}/users/${userId}`, {
+      await axiosInstance.get(`${API}/users/${userId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export const updateUser = async (
   userData: Partial<IUser>
 ) => {
   try {
-    await axios.patch(`${API}/users/${userId}`, userData, {
+    await axiosInstance.patch(`${API}/users/${userId}`, userData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -56,7 +57,7 @@ export const uploadImageUser = async (
   try {
     const file = new FormData();
     file.append("file", fileImage);
-    const response = await axios.patch(`${API}/users/${userId}`, file, {
+    const response = await axiosInstance.patch(`${API}/users/${userId}`, file, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,7 +17,7 @@ export const createInventory = async ({
   businessId: string;
 }) => {
   try {
-    const response = await axios.post(
+    const response = await axiosInstance.post(
       `${API}/inventory/${businessId}`,
       inventoryData,
       {
@@ -49,7 +50,7 @@ export const getAllInventory = async (token: string, businessId: string) => {
     if (!businessId) {
       throw new Error("El ID del negocio es requerido.");
     }
-    const response = await axios.get(`${API}/inventory/${businessId}`, {
+    const response = await axiosInstance.get(`${API}/inventory/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,

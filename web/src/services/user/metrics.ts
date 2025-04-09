@@ -1,5 +1,6 @@
 import { IAverageSales, ICompareInventoryPerformance, IInventoryEfficiency, IInventoryRotationRate, ILowStockProduct, IMonthlyProfit, IProductsWithoutSales, IProfitMargin } from "@/views/Dashboard/Statistics/Types";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -9,7 +10,7 @@ export const getMonthlyProfit = async (
   year?: string
 ): Promise<IMonthlyProfit[]> => { 
   try {
-    const res = await axios.get(`${API}/metrics/profit/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/profit/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export const getLowStockMetrics = async (
   businessId: string,
 ): Promise<ILowStockProduct[]> => { 
   try {
-    const res = await axios.get(`${API}/metrics/low-stock/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/low-stock/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -55,7 +56,7 @@ export const getProductsWithoutSales = async (
   days?: number
 ): Promise<IProductsWithoutSales[]> => {
   try {
-    const res = await axios.get(`${API}/metrics/obsolete-product/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/obsolete-product/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -79,7 +80,7 @@ export const getProfitMargin = async (
   expand?: boolean
 ): Promise<IProfitMargin[]> => {
   try {
-    const res = await axios.get(`${API}/metrics/profit-margin/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/profit-margin/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -104,7 +105,7 @@ export const getAverageSales = async (
   expand?: boolean
 ): Promise<IAverageSales[]> => {
   try {
-    const res = await axios.get(`${API}/metrics/avg-sales/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/avg-sales/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -129,7 +130,7 @@ export const getInventoryEficiency = async (
   expand?: boolean
 ): Promise<IInventoryEfficiency[]> => {
   try {
-    const res = await axios.get(`${API}/metrics/efficiency/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/efficiency/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -153,7 +154,7 @@ export const getInventoryRotation = async (
   expand?: boolean
 ): Promise<IInventoryRotationRate[]> => {
   try {
-    const res = await axios.get(`${API}/metrics/rotation/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/rotation/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -178,7 +179,7 @@ export const getCompareInventoryPerformance = async (
   sortBy: string
 ): Promise<ICompareInventoryPerformance> => {
   try {
-    const res = await axios.get(`${API}/metrics/comparison/${businessId}`, {
+    const res = await axiosInstance.get(`${API}/metrics/comparison/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,

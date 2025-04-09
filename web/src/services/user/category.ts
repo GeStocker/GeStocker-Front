@@ -1,5 +1,6 @@
 import { ICategory } from "@/types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -13,7 +14,7 @@ export const getAllCategories = async (
 ): Promise<ICategory[]> => {
   try {
     const categories = (
-      await axios.get(`${API}/categories-product/business/${businessId}`, {
+      await axiosInstance.get(`${API}/categories-product/business/${businessId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,7 +38,7 @@ export const createCategory = async (
   token: string
 ): Promise<string> => {
   try {
-      await axios.post(`${API}/categories-product/${businessId}`, categoryData, {
+      await axiosInstance.post(`${API}/categories-product/${businessId}`, categoryData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -62,7 +63,7 @@ export const updateCategory = async (
   token: string
 ): Promise<string> => {
   try {
-      await axios.patch(`${API}/categories-product/${businessId}/${id}`, categoryData, {
+      await axiosInstance.patch(`${API}/categories-product/${businessId}/${id}`, categoryData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,

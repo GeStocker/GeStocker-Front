@@ -1,5 +1,6 @@
 import { IStockProduct } from "@/types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -29,7 +30,7 @@ export const addProduct = async (
   token: string
 ): Promise<string> => {
   try {
-    await axios.post(
+    await axiosInstance.post(
       `${API}/incoming-shipment/${businessId}/${inventoryId}`,
       { products },
       {
@@ -55,7 +56,7 @@ export const saveSellOrder = async (
   token: string
 ): Promise<string> => {
   try {
-    await axios.post(
+    await axiosInstance.post(
       `${API}/sales-order/${inventoryId}`,
        sellOrder ,
       {
@@ -81,7 +82,7 @@ export const getProductsByInventory = async (
   filters: { search?: string; categoryIds?: string[] }
 ): Promise<IStockProduct[]> => {
   try {
-      const response = await axios.get(`${API}/inventory-products/${InventoryId}`, {
+      const response = await axiosInstance.get(`${API}/inventory-products/${InventoryId}`, {
           headers: {
               Authorization: `Bearer ${token}`,
           },
