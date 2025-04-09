@@ -1,8 +1,6 @@
 "use client";
-import ChatWidget from "@/components/Chat/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import { routes } from "@/routes/routes";
 import { getCollaboratorsByBusiness } from "@/services/user/collaborator";
 import { ICollaborator } from "@/types/interface";
@@ -15,7 +13,6 @@ const CollaboratorsView = () => {
   const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
   const { token } = useAuth();
   const [businessId, setBusinessId] = useState("");
-
 
 
   const fetchCollaborators = async () => {
@@ -33,9 +30,6 @@ const CollaboratorsView = () => {
     const businessId = localStorage.getItem("selectedBusinessId");
     if (businessId) setBusinessId(businessId);
     fetchCollaborators();
-    if (!token) return;
-    const user = getUserIdFromToken(token);
-    if (user) setUserId(user);
   }, [token, businessId]);
 
   return (
