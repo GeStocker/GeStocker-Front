@@ -165,9 +165,11 @@ const SideBar = () => {
                 <h4>12/05/2025</h4>
               </div>
               <div className="flex items-center justify-center ml-auto">
+              <Link href={routes.ManagePayment}>
                 <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
                   Gestionar
                 </button>
+                </Link>
               </div>
             </div>
           </>

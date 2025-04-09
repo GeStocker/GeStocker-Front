@@ -21,6 +21,7 @@ export const routes = {
    configuration: "/dashboard/configuration",
    statistics: "/dashboard/statistics",
    passwordRecovery: "/passwordRecovery",
+   ManagePayment: "/dashboard/managePayment",
    superadminLogin: "/superadmin/login",
    superadminDashboard: "/superadmin/dashboard"
 }
