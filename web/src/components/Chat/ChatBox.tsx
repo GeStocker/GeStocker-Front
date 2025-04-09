@@ -103,7 +103,7 @@ export default function ChatBox({ senderId, receiverId }: ChatBoxProps) {
                     >
                         <div
                             className={`inline-block px-3 py-2 rounded-lg ${
-                                msg.sender.id === senderId ? 'bg-blue-100' : 'bg-gray-200'
+                                msg.sender.id === senderId ? 'bg-custom-grisClarito' : 'bg-custom-GrisOscuro'
                             }`}
                         >
                             <strong>{msg.sender.id === senderId ? 'Tú' : msg.sender.name}</strong>: {msg.content}
@@ -123,7 +123,7 @@ export default function ChatBox({ senderId, receiverId }: ChatBoxProps) {
                 />
                 <button
                     onClick={sendMessage}
-                    className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600"
+                    className="bg-custom-GrisOscuro text-background px-3 rounded hover:bg-custom-casiNegro"
                 >
                     ➤
                 </button>

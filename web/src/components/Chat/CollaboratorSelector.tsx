@@ -54,7 +54,7 @@ const CollaboratorSelector: React.FC<CollaboratorSelectorProps> = ({
                 <select
                     onChange={handleChange}
                     defaultValue=""
-                    className="border border-gray-300 rounded px-2 py-1 w-full"
+                    className="border border-custom-grisClarito rounded px-2 py-1 w-full"
                 >
                     <option value="" disabled>
                         Selecciona un colaborador
