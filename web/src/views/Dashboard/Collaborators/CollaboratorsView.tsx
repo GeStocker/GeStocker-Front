@@ -2,8 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { routes } from "@/routes/routes";
-// import { useBusiness } from "@/context/BusinessContext";
-// import { useBusiness } from "@/context/BusinessContext";
 import { getCollaboratorsByBusiness } from "@/services/user/collaborator";
 import { ICollaborator } from "@/types/interface";
 import Link from "next/link";
@@ -13,12 +11,10 @@ import { toast } from "sonner";
 
 const CollaboratorsView = () => {
   const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
-//   const { businessId } = useBusiness();
   const { token } = useAuth();
   const [businessId, setBusinessId] = useState("")
 
-  const [selectedReceiver, setSelectedReceiver] = useState<{ id: string; name: string } | null>(null);
-  const [chatOpen, setChatOpen] = useState(false);
+
 
   const fetchCollaborators = async () => {
     if (!businessId || !token) return;
@@ -80,18 +76,6 @@ const CollaboratorsView = () => {
                     c.isActive ? "text-green-600" : "text-red-600"
                   }`}>{c.isActive ? "Activo" : "Inactivo"}</span>
                 <span>{c.inventory.name}</span>
-                <span>
-                    <Button
-                    onClick={() => {
-                      setSelectedReceiver({ id: c.id, name: c.username });
-                      setChatOpen(true);
-                    }}
-                    size="sm"
-                    variant="outline"
-                    >
-                      Chatear
-                    </Button>
-                </span>
               </div>
             );
           })
