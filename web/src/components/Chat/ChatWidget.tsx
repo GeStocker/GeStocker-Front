@@ -1,37 +1,183 @@
 'use client';
 
-import {  useState } from 'react';
-import  ChatBox  from './ChatBox';
+import { useBusiness } from "@/context/BusinessContext";
+import { getCollaboratorsByBusiness } from "@/services/user/collaborator";
+import { useEffect, useState } from "react";
+import ChatBox from "./ChatBox";
+import io from "socket.io-client";
+
+interface Collaborator {
+    id: string;
+    name: string;
+}
+
+interface ChatMessage {
+    id: string;
+    sender: Collaborator;
+    receiver: Collaborator;
+    content: string;
+}
 
 interface ChatWidgetProps {
     token: string;
     senderId: string;
-    receiverId: { id: string; name: string };
 }
 
-export default function ChatWidget({ senderId, receiverId }: ChatWidgetProps) {
+interface RawCollaborator {
+    id: string;
+    username: string;
+  }
+
+const socket = io(process.env.NEXT_PUBLIC_API_URL!, {
+    autoConnect: false,
+});
+
+const LOCAL_STORAGE_KEY = 'unreadMessages';
+
+export default function ChatWidget({ token, senderId }: ChatWidgetProps) {
     const [open, setOpen] = useState(false);
+    const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
+    const [receiver, setReceiver] = useState<Collaborator | null>(null);
+    const [unreadMessages, setUnreadMessages] = useState<{ [key: string]: number }>({});
+    const [hasNewMessage, setHasNewMessage] = useState(false);
+    const { businessId } = useBusiness();
+
+    // Cargar unreadMessages desde localStorage al inicio
+    useEffect(() => {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (stored) {
+            try {
+                setUnreadMessages(JSON.parse(stored));
+                setHasNewMessage(Object.keys(JSON.parse(stored)).length > 0);
+            } catch (err) {
+                console.error("Error parsing unread messages from localStorage", err);
+            }
+        }
+    }, []);
+
+    // Guardar cambios en unreadMessages en localStorage
+    useEffect(() => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(unreadMessages));
+    }, [unreadMessages]);
+
+    const fetchCollaborators = async () => {
+        if (!token || !businessId) return;
+        try {
+            const data = await getCollaboratorsByBusiness(token, businessId);
+            const parsed = (data as RawCollaborator[]).map((c) => ({ id: c.id, name: c.username }));
+            setCollaborators(parsed);
+        } catch (err) {
+            console.error("Error al traer colaboradores:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (!token) return;
+
+        socket.io.opts.extraHeaders = {
+            Authorization: `Bearer ${token}`,
+        };
+        socket.connect();
+
+        const handleReceiveMessage = (msg: ChatMessage) => {
+            if (msg.receiver.id === senderId) {
+                if (!open || receiver?.id !== msg.sender.id) {
+                    setUnreadMessages((prev) => {
+                        const updated = {
+                            ...prev,
+                            [msg.sender.id]: (prev[msg.sender.id] || 0) + 1,
+                        };
+                        setHasNewMessage(true);
+                        return updated;
+                    });
+                }
+            }
+        };
+
+        socket.on("receiveMessage", handleReceiveMessage);
+
+        return () => {
+            socket.off("receiveMessage", handleReceiveMessage);
+            socket.disconnect();
+        };
+    }, [token, open, receiver, senderId]);
+
+    useEffect(() => {
+        if (open) fetchCollaborators();
+    }, [open, token, businessId]);
+
+    const handleOpen = () => {
+        setOpen(!open);
+        if (!open) {
+            setHasNewMessage(false); // abrir borra burbuja del botón
+        }
+    };
+
+    const handleSelectReceiver = (collab: Collaborator) => {
+        setReceiver(collab);
+        setUnreadMessages((prev) => {
+            const updated = { ...prev };
+            delete updated[collab.id];
+            return updated;
+        });
+    };
 
     return (
         <>
-        <button
-            onClick={() => setOpen(!open)}
-            className="fixed bottom-4 right-4 bg-custom-GrisOscuro text-background rounded-full p-4 shadow-lg hover:bg-custom-casiNegro z-50"
-        >
-        CHAT
-        </button>
+            <button
+                onClick={handleOpen}
+                className="fixed bottom-4 right-4 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 z-50"
+            >
+                CHAT
+                {hasNewMessage && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full animate-bounce shadow">
+                        Nuevo
+                    </span>
+                )}
+            </button>
 
-        {open && (
-            <div className="fixed bottom-20 right-4 w-96 h-[32rem] bg-background rounded-xl shadow-lg flex flex-col border border-custom-grisClarito overflow-hidden z-50">
-                <div className="bg-custom-GrisOscuro text-background px-4 py-2 flex justify-between items-center">
-                    <span>Chat con {receiverId.name}</span>
-                    <button onClick={() => setOpen(false)} className="text-background font-bold">X</button>
+            {open && (
+                <div className="fixed bottom-20 right-4 w-[32rem] h-[36rem] bg-white rounded-xl shadow-lg flex border border-gray-300 overflow-hidden z-50">
+                    {/* Sidebar de colaboradores */}
+                    <div className="w-1/3 border-r border-gray-300 p-2 overflow-y-auto bg-gray-100">
+                        <h3 className="text-sm font-semibold mb-2">Colaboradores</h3>
+                        {collaborators.map((collab) => {
+                            const unreadCount = unreadMessages[collab.id] || 0;
+                            return (
+                                <div
+                                    key={collab.id}
+                                    onClick={() => handleSelectReceiver(collab)}
+                                    className={`relative cursor-pointer px-2 py-1 rounded hover:bg-blue-200 ${
+                                        receiver?.id === collab.id ? 'bg-blue-300 text-white' : ''
+                                    }`}
+                                >
+                                    {collab.name}
+                                    {unreadCount > 0 && (
+                                        <span className="absolute right-2 top-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Chat principal */}
+                    <div className="flex-1 flex flex-col">
+                        <div className="bg-blue-600 text-white px-4 py-2 flex justify-between items-center">
+                            <span>{receiver ? `Chat con ${receiver.name}` : 'Selecciona un colaborador'}</span>
+                            <button onClick={() => setOpen(false)} className="text-white font-bold">X</button>
+                        </div>
+                        {receiver ? (
+                            <ChatBox senderId={senderId} receiverId={receiver} />
+                        ) : (
+                            <div className="flex items-center justify-center flex-1 text-gray-500">
+                                Elige un colaborador para comenzar a chatear
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="flex-1 overflow-hidden">
-                    <ChatBox senderId={senderId} receiverId={receiverId} />
-                </div>
-            </div>
-        )}
+            )}
         </>
     );
 }
