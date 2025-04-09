@@ -23,7 +23,6 @@ const CollaboratorsView = () => {
     id: string;
     name: string;
   } | null>(null);
-  const [chatOpen, setChatOpen] = useState(false);
   const [userId, setUserId] = useState("");
 
   const fetchCollaborators = async () => {
@@ -106,7 +105,6 @@ const CollaboratorsView = () => {
                   <Button
                     onClick={() => {
                       setSelectedReceiver({ id: c.id, name: c.username });
-                      setChatOpen(true);
                     }}
                     size="sm"
                     variant="outline"

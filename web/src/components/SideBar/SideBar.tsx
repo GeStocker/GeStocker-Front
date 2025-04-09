@@ -171,7 +171,7 @@ const SideBar = () => {
           </button>
         </div>
       </div>
-    </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">Que miras colaborador?
+    </div> : <div className="flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0">
       <div>
     <CollaboratorSelector
         token={token!}
