@@ -43,6 +43,7 @@ const SideBar = () => {
     if (isBusinessRoute() && businessId) {
       router.push(`/dashboard/business/${businessId}`);
     }
+    setIsLoading(false)
   }, []);
 
   const fetchBusiness = async () => {
@@ -66,8 +67,6 @@ const SideBar = () => {
         console.warn("Error al traer los negocios:", e);
         toast.error("Error al traer los negocios");
       }
-    } finally {
-      setIsLoading(false)
     }
   };
 
@@ -99,7 +98,7 @@ const SideBar = () => {
   };
 
   return (
-    <>{isLoading ? <span></span>
+    <>{isLoading ? <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
       : <div className={`flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0 ${rol === "COLLABORATOR" && "hidden"}`}>
           <>
             <div className="flex items-center justify-center m-5 h-6">
@@ -173,8 +172,8 @@ const SideBar = () => {
               </div>
             </div>
           </>
-        {token && userId && <ChatWidget token={token} senderId={userId} />}
       </div>}
+      {token && userId && <ChatWidget token={token} senderId={userId} />}
     </>
   );
 };
