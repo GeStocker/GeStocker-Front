@@ -17,6 +17,7 @@ import { MdBusinessCenter } from "react-icons/md";
 import CollaboratorSelector from "../Chat/CollaboratorSelector";
 import ChatWidget from "../Chat/ChatWidget";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 const SideBar = () => {
   const {
@@ -32,7 +33,38 @@ const SideBar = () => {
   const pathname = usePathname();
   const rol = getUserRol();
   const [receiver, setReceiver] = useState<{ id: string; name: string } | null>(null);
-  const [userId, setUserId] = useState("")
+  const [userId, setUserId] = useState("");
+
+  const getBusinessLimit = () => {
+    switch(rol) {
+      case "basic": return 1;
+      case "professional": return 3;
+      case "business": return Infinity; 
+      default: return 0;
+    }
+  };
+
+  const hasReachedBusinessLimit = businessList?.length >= getBusinessLimit();
+  
+  const getInventoryLimitPerBusiness = () => {
+    switch(rol) {
+      case "basic": return 1;
+      case "professional": return 5;
+      case "business": return Infinity; 
+      default: return 0;
+    }
+  };
+
+  const countInventoriesForCurrentBusiness = () => {
+    if (!businessId || !businessList || !Array.isArray(businessList)) return 0;
+    
+    const currentBusiness = businessList.find(business => business.id === businessId);
+    return currentBusiness?.inventories?.length || 0;
+  };
+  
+  const currentBusinessInventories = countInventoriesForCurrentBusiness();
+  const inventoryLimitPerBusiness = getInventoryLimitPerBusiness(); 
+  const hasReachedInventoryLimit = currentBusinessInventories >= inventoryLimitPerBusiness;
   
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
@@ -144,25 +176,66 @@ const SideBar = () => {
         </div>
       </div>
       <div className="flex flex-col gap-2 mt-6">
-        <Link href={routes.createBusiness}>
-          <Button variant={"outline"} className="w-full">
-            Agregar Negocio
-          </Button>
-        </Link>
-        <Link href={routes.createInventory}>
-          <Button variant={"outline"} className="w-full">
-            Agregar Local
-          </Button>
-        </Link>
-      </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <Link 
+                      href={hasReachedBusinessLimit ? "#" : routes.createBusiness}
+                      aria-disabled={hasReachedBusinessLimit}
+                    >
+                      <Button 
+                        variant={"outline"} 
+                        className="w-full"
+                        disabled={hasReachedBusinessLimit}
+                      >
+                        Agregar Negocio
+                      </Button>
+                    </Link>
+                  </div>
+                </TooltipTrigger>
+                {hasReachedBusinessLimit && (
+                  <TooltipContent>
+                    <p>Actualiza tu plan para agregar más negocios</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+
+            {/* Botón de Agregar Local - temporalmente desactivado hasta tener la data */}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        disabled={hasReachedInventoryLimit || !businessId}
+                        onClick={() => router.push(routes.createInventory)}
+                      >
+                        Agregar Local
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  {hasReachedInventoryLimit ? (
+                    <TooltipContent>
+                    <p>Actualiza tu plan para agregar más locales</p>
+                  </TooltipContent>
+                  ) : !businessId && (
+                    <TooltipContent side="right">
+                      <p>Primero selecciona o agrega un negocio</p>
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
+          </div>
       <div className="flex-grow"></div>
 
       <div className="flex border border-foreground p-2 rounded-md my-5 gap-2 ">
         <div>
           <div>{/* <h3 className='text-sm font-bold'>Plan Básico</h3> */}</div>
           <div className="flex flex-col text-xs ">
-            <h4>Renovación:</h4>
-            <h4>12/05/2025</h4>
+            <h4>Conoce sobre tu plan:</h4>
           </div>
         </div>
         <div className="flex items-center justify-center ml-auto">

@@ -2,17 +2,21 @@
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { IStockProduct } from "@/types/interface";
 import ScrollToTopButton from "../ScrollTop/ScrollToTopButton";
-import ActionMenu from "../ActionMenu/ActionMenu";
+import ActionMenuInventory from "../ActionMenu/ActionMenuInventario";
 
 interface ProductTableInventoryProps {
   products: IStockProduct[];
-  onSearchChange: (value: string) => void; 
+  onSearchChange: (value: string) => void;
   searchValue: string;
-  onRemoveProduct: (productId: string) => void;
 }
 
-const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,onSearchChange, 
-  searchValue, onRemoveProduct  }) => {
+const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({
+  products,
+  onSearchChange,
+  searchValue,
+}) => {
+
+  
   return (
     <div className="p-4">
       <div className="flex items-center mb-4">
@@ -23,8 +27,8 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
             type="text"
             placeholder="Buscar producto"
             className="w-full outline-none"
-            value={searchValue} 
-            onChange={(e) => onSearchChange(e.target.value)} 
+            value={searchValue}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
       </div>
@@ -37,7 +41,7 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
               <th className="p-2 border text-center">Categoría</th>
               <th className="py-2 border text-center">Stock</th>
               <th className="py-2 border text-center">Estado Stock</th>
-              <th className="p-2 border text-center">Precio</th> 
+              <th className="p-2 border text-center">Precio</th>
               <th className="p-2 border text-center">Acciones</th>
             </tr>
           </thead>
@@ -47,7 +51,7 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
                 <tr key={product.id} className="border">
                   <td className="p-2">
                     <img
-                      src={product.product.img|| "default-image-url.png"}
+                      src={product.product.img || "default-image-url.png"}
                       alt={product.product.name}
                       className="h-16 w-16 object-cover"
                     />
@@ -55,12 +59,13 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
                   <td className="p-2">{product.product.name}</td>
                   <td className="px-4 py-3">{product.product.category.name}</td>
                   <td className="p-2">{product.stock ?? "No disponible"}</td>
-                  <td className={`p-2 text-center font-semibold ${
+                  <td
+                    className={`p-2 text-center font-semibold ${
                       product.stock === 0
-                        ? "text-red-600" 
+                        ? "text-red-600"
                         : product.stock < 10
-                        ? "text-yellow-600" 
-                        : "text-green-600" 
+                        ? "text-yellow-600"
+                        : "text-green-600"
                     }`}
                   >
                     {product.stock === 0
@@ -74,11 +79,11 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
                   </td>
 
                   <td className="p-2 text-center font-semibold">
-                    <ActionMenu product_id={product.id}
-                    onEdit={() => console.log(`Editing product ${product.id}`)}
-                    onDelete={() => onRemoveProduct(product.id)} />
+                    <ActionMenuInventory
+                      product_id={product.id}
+                      onEdit={() => console.log("Editar", product.id)}
+                    />
                   </td>
-
                 </tr>
               ))
             ) : (
@@ -93,7 +98,7 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({ products,
       </div>
       <div className="mt-4">
         <div className="flex justify-between mt-4">
-          <ScrollToTopButton/>
+          <ScrollToTopButton />
         </div>
       </div>
     </div>

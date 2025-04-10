@@ -93,3 +93,33 @@ export const getProductsByInventory = async (
       throw new Error("Error al obtener productos");
   }
 };
+
+export const addProductExcelInventory = async (
+  file: File,
+  userId: string,
+  businessId: string,
+  inventoryId: string,
+  token: string
+): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
+    formData.append("businessId", businessId);
+    formData.append("inventoryId", inventoryId);
+
+    await axios.post(`${API}/excel-inventory-import`, formData, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return "SUCCESS_ADD_PRODUCTS_INVENTORY";
+  } catch (error) {
+    console.warn("Error al añadir producto en", error);
+    const errorMessage =
+      (axios.isAxiosError(error) && error.response?.data?.message) ||
+      "Error al añadir productos";
+    throw new Error(errorMessage);
+  }
+};

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import * as Yup from "yup";
 import { getAllProducts } from "@/services/user/product";
@@ -10,9 +10,13 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   addProduct,
+  addProductExcelInventory,
   getProductsByInventory,
   saveSellOrder,
 } from "@/services/user/inventory_product";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import ButtonBack from "../ui/ButtonBack";
+import { useRouter } from "next/navigation";
 
 const productSchema = Yup.object({
   newStock: Yup.number()
@@ -29,7 +33,15 @@ const productSchema = Yup.object({
 const sellSchema = Yup.object({
   sellQuantity: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
-    .required("Este campo es obligatorio"),
+    .required("Este campo es obligatorio")
+    .test({
+      name: "quantity-le-stock",
+      message: "La cantidad de venta no puede ser mayor al stock disponible",
+      test: function (value) {
+        const { stock } = this.parent; // Esto accede al stock del producto
+        return value <= stock; // Verifica si la cantidad de venta no excede el stock
+      },
+    }),
 });
 
 interface ISelectProduct {
@@ -54,6 +66,11 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
   const [discount, setDiscount] = useState(0);
   const [discountError, setDiscountError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending]=useState(false);
+  const [excelFile, setExcelFile] = useState<File | null>(null);
+  const router = useRouter();
+  const [sellQuantity, setSellQuantity] = useState(0); // Estado para la cantidad de venta
+  const [error, setError] = useState("");
 
   const fetchProducts = async () => {
     if (isLoading) return;
@@ -259,8 +276,42 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
     }
   };
 
+  const onSubmitExcel = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsSending(true);
+      if (!excelFile || !token || !businessId || !inventoryId) return;
+      try {
+        const userId = getUserIdFromToken(token);
+        console.log("userId", userId);
+        if (!userId) return;
+        const formData = new FormData();
+        formData.append("file", excelFile);
+        await addProductExcelInventory(excelFile, userId, businessId, inventoryId, token);
+        toast.success("Productos añadidos con exito");
+        fetchProducts()
+        setTimeout(() => {
+          router.push("/dashboard/inventory");
+        }
+        , 2000);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          console.warn("Error al añadir productos", e.message);
+  
+          toast.error(`Error: ${e.message}`);
+        } else {
+          console.warn("Error al añadir producto", e);
+          toast.error("Error al editar producto");
+        }
+      }finally{
+        setIsSending(false)
+      }
+    };
+
   return (
     <div className="flex flex-col gap-1 items-center relative">
+      <div className="flex justify-end w-full mt-5">
+        <ButtonBack/>
+      </div>
       {type === "add" && <h1 className="text-2xl font-semibold text-left">Añadir productos</h1>}
       {type === "sell" && <h1 className="text-2xl font-semibold text-left">Añadir venta</h1>}
       
@@ -451,20 +502,22 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                       <div>
                         <input
                           type="number"
-                          value={p.sellQuantity ?? 0}
-                          onChange={(e) =>
-                            handleChange(index, "sellQuantity", e.target.value ?? "0")
-                          }
+                          value={sellQuantity}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value, 10);
+                            if (value <= p.stock) {
+                              setSellQuantity(value);
+                              setError(""); // Si la cantidad es válida, limpiamos el error
+                            } else {
+                              setError("La cantidad de venta no puede ser mayor al stock disponible");
+                            }
+                          }}
                           className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                           disabled={isLoading}
-                          min="0"
+                          min="1"
                           max={p.stock}
                         />
-                        {errors[index]?.sellQuantity && (
-                          <p className="text-red-500 text-sm">
-                            {errors[index].sellQuantity}
-                          </p>
-                        )}
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
                       </div>
                     )}
                   </div>
@@ -513,7 +566,67 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
         
         {type === "add" && (
           <TabsContent value="excel">
-            <p>excel</p>
+            <div className="p-4 border rounded-lg shadow-md w-96 m-auto text-center mt-4">
+              <h2 className="text-lg font-semibold mb-2">
+                Subir Archivo Excel
+              </h2>
+              <form
+                onSubmit={(e) => {
+                  onSubmitExcel(e);
+                }}
+                className="flex flex-col gap-3"
+              >
+                <label>
+                  Recuerda el archivo debe tener las columnas en ingles
+                  <span className="text-orange-500 font-medium"> `Name`</span>
+                  ,
+                  <span className="text-orange-500 font-medium">
+                    {" "}
+                    `Description`
+                  </span>{" "}
+                  ,
+                  <span className="text-orange-500 font-medium">
+                    {" "}
+                    `Category`
+                  </span>
+                  ,
+                  <span className="text-orange-500 font-medium">
+                    {" "}
+                    `Stock`
+                  </span>
+                  ,
+                  <span className="text-orange-500 font-medium">
+                    {" "}
+                    `Price`
+                  </span>
+                  y
+                  <span className="text-orange-500 font-medium">
+                    {" "}
+                    `Purchase Price`
+                  </span>
+                </label>
+                <label
+                  htmlFor="excel"
+                  className="border p-2 rounded cursor-pointer text-custom-textSubtitle text-sm"
+                >
+                  {excelFile
+                    ? `📄 ${excelFile.name}`
+                    : "📂 Seleccionar Archivo"}
+                </label>
+
+                <input
+                  id="excel"
+                  name="excel"
+                  type="file"
+                  accept=".xlsx, .xls"
+                  onChange={(e) => setExcelFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+                <Button type="submit" disabled={!excelFile}>
+                  {isSending ? "Enviando..." : "Enviar archivo"}
+                </Button>
+              </form>
+            </div>
           </TabsContent>
         )}
       </Tabs>

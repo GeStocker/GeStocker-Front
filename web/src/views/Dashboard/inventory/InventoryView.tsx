@@ -59,9 +59,6 @@ const InventoryView = () => {
   const totalInventoryValue = products
     .reduce((sum, product) => sum + (Number(product.price) * Number(product.stock)), 0)
     .toLocaleString('es-ES', { style: 'currency', currency: 'USD' });
-    const removeProductFromList = (productId: string) => {
-      setProducts(prev => prev.filter(product => product.id !== productId));
-    };
 
   return (
     <div className="p-4 mr-16">
@@ -116,7 +113,6 @@ const InventoryView = () => {
             products={products}
             onSearchChange={handleSearchChange}
             searchValue={filters.search}
-            onRemoveProduct={removeProductFromList}
           />
         </div>
       </section>

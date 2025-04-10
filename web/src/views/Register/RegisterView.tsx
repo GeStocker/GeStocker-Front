@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { routes } from "@/routes/routes";
 import { registerUser } from "@/services/user/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SelectCountry from "@/components/SelectCountry/SelectCountry";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import ButtonGoogle from "@/components/Button Google/ButtonGoogle";
@@ -59,14 +59,16 @@ interface FormData {
   phone: string;
   password: string;
   passwordConfirmation: string;
-  roles: [];
+  roles: UserRole[];
 }
 
 const RegisterView: React.FC = () => {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get("plan") || null;
 
   const handlePlanChange = (
     plan: string,
@@ -85,7 +87,15 @@ const RegisterView: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const response = await registerUser(values);
+      console.log("vaors", values);
+
+      const finalValues = { ...values };
+
+      if (selectedPlan) {
+        const roles = roleByPlan[selectedPlan];
+        finalValues.roles = [roles]; // <-- modificar directamente
+      }
+      const response = await registerUser(finalValues);
       const { checkoutUrl } = response.data;
 
       router.push(checkoutUrl);
@@ -105,6 +115,10 @@ const RegisterView: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setSelectedPlan(planParam);
+  }, []);
 
   return (
     <div>
@@ -130,7 +144,7 @@ const RegisterView: React.FC = () => {
           city: "",
           country: "",
           address: "",
-          selectedPlan: "",
+          selectedPlan: planParam ?? "",
           phone: "",
           password: "",
           passwordConfirmation: "",

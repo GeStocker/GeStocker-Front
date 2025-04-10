@@ -1,6 +1,6 @@
 export enum UserRole {
   BASIC = "basic",
-  PROFESIONAL = "profesional",
+  PROFESIONAL = "professional",
   BUSINESS = "business",
   SUPERADMIN = "superadmin",
 }

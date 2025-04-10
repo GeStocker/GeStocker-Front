@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { routes } from "@/routes/routes";
 import { useAuth } from "@/context/AuthContext";
 import MenuMyProfile from "./MenuMyProfile";
-import NotificationDropdown from "./NotificationDropdown";
+// import NotificationDropdown from "./NotificationDropdown";
 import ModalContacto from "../ModalContact/ModalContact";
 import { ToggleTheme } from "../ui/ToggleTheme";
 
@@ -25,7 +25,7 @@ const UserAuth = () => {
     return (
       <div className="w-2/3 flex h-16 gap-4 items-center justify-end px-4 md:px-6 ">
         <ToggleTheme/>
-        <NotificationDropdown/>
+        {/* <NotificationDropdown/> */}
         <MenuMyProfile/>
       </div>
     );
