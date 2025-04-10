@@ -2,9 +2,9 @@ export const developers = [
     {
         name: "Gregorio Villanueva",
         role: "Backend Developer",
-        github: "https://github.com/carlos",
-        linkedin: "https://linkedin.com/in/carlos",
-        image: "/img/dev5.jpg",
+        github: "https://github.com/GregorioVilla",
+        linkedin: "https://www.linkedin.com/in/gregorio-villanueva-1368752ab/",
+        image: "Foto_keko.webp",
     },
     {
       name: "Juan Agustín Ockier",
@@ -16,16 +16,16 @@ export const developers = [
     {
         name: "Matías Torres",
         role: "Backend Developer",
-        github: "https://github.com/ana",
-        linkedin: "https://linkedin.com/in/ana",
-        image: "/img/dev6.jpg",
+        github: "https://github.com/MatiasJoelTorres",
+        linkedin: "https://www.linkedin.com/in/matiasjtorres/",
+        image: "Foto_mati.webp",
     },
     {
       name: "Mónica Celeste Rojas",
       role: "Frontend Developer",
       github: "https://github.com/mrojas17",
       linkedin: "https://www.linkedin.com/in/mcrojas/",
-      image: "/img/dev2.jpg",
+      image: "Foto_moni.webp",
     },
     {
       name: "Pedro Leone",
@@ -37,9 +37,9 @@ export const developers = [
     {
       name: "Tomás Munevar",
       role: "Backend Developer",
-      github: "https://github.com/lucia",
-      linkedin: "https://linkedin.com/in/lucia",
-      image: "/img/dev4.jpg",
+      github: "https://github.com/Tomas36M",
+      linkedin: "https://www.linkedin.com/in/tom%C3%A1s-mun%C3%A9var-escalante-5ba483212/",
+      image: "Foto_tomi.webp",
     },
   ];
   

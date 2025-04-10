@@ -97,18 +97,17 @@ export const cancelSubscription = async (
   subscriptionId: string,
   token: string
 ) => {
-  console.log("Cancelando suscripción con token:", token);
-  console.log("ID de suscripción:", subscriptionId);
   try {
-    const response = await axios.post(`${API}/purchases/subscription/cancel`,  { subscriptionId }, {
+    console.log("Cancelando suscripción con token:", token);
+    console.log("ID de suscripción en servicio:", subscriptionId);
+    const response = await axios.post(`${API}/purchases/subscription/cancel`,  subscriptionId , {
       withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    return response.data;
+    return response;
   } catch (error) {
     console.warn("Error al cancelar suscripcion:", error);
       const errorMessage =

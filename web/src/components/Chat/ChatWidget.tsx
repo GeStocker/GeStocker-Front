@@ -139,7 +139,7 @@
         <>
         <button
             onClick={handleOpen}
-            className="fixed bottom-4 right-4 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 z-50"
+            className="fixed bottom-4 right-4 bg-custom-casiNegro text-background rounded-full p-4 shadow-lg hover:bg-custom-casiNegro z-50"
         >
             CHAT
             {hasNewMessage && (

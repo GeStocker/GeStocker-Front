@@ -75,7 +75,7 @@ const InventoryList = () => {
               <div
                 className={`
                   flex items-center gap-2 pl-2 p-1 rounded-md
-                  ${inventoryId === inventory.id ? 'bg-custom-GrisOscuro font-semibold text-primary' : 'hover:bg-custom-grisClarito'}
+                  ${inventoryId === inventory.id ? 'bg-custom-GrisOscuro rustic:bg-custom-marronClarito font-semibold text-primary' : 'hover:bg-custom-grisClarito'}
                   cursor-pointer
                 `}
               >

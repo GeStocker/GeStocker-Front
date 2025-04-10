@@ -3,17 +3,32 @@ import { Button } from "./button";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
 
+const mapSpanishToEnglish = (spanish: string) => {
+  switch (spanish.toLowerCase()) {
+    case "básico":
+      return "basic";
+    case "profesional":
+      return "professional";
+    case "empresarial":
+      return "business";
+    default:
+      return spanish; 
+  }
+};
+
 const SuscriptionCard: React.FC<{
   title: string;
   price: string;
   items: string[];
 }> = ({ title, price, items }) => {
+  const planInEnglish = mapSpanishToEnglish(title);
+
   return (
     <div className="flex flex-col gap-2 bg-background min-h-80 h-fit w-full md:w-96 rounded-md items-start p-5 border justify-between">
       <div className="flex flex-col gap-1 p-1">
         <h3 className="text-xl font-bold">{title}</h3>
         <div className="flex gap-1 items-center">
-          <span className="text-3xl font-bold">{price+`€`}</span>
+          <span className="text-3xl font-bold">{price + `€`}</span>
           <span className="text-base text-textGris">/mes</span>
         </div>
         <p className="text-lg text-custom-textSubtitle text-start flex flex-col gap-0.5">
@@ -22,7 +37,7 @@ const SuscriptionCard: React.FC<{
           })}
         </p>
       </div>
-      <Link href={routes.register} className="w-full">
+      <Link href={`${routes.register}?plan=${encodeURIComponent(planInEnglish)}`} className="w-full">
         <Button className="w-full" size="lg">
           Seleccionar un plan
         </Button>
@@ -32,3 +47,4 @@ const SuscriptionCard: React.FC<{
 };
 
 export default SuscriptionCard;
+

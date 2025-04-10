@@ -16,6 +16,7 @@ import { FaPencil, FaXmark } from "react-icons/fa6";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import Link from "next/link";
 import { routes } from "@/routes/routes";
+import { useSearchParams } from "next/navigation";
 
 interface FormData {
   name: string;
@@ -44,7 +45,7 @@ const registerSchema = Yup.object({
 });
 
 const PerfilView = () => {
-  const { token, saveUserData, saveUserPicture } = useAuth();
+  const { token, saveUserData, saveUserPicture, resetUserData} = useAuth();
 
   const [modifyEnable, setModifyEnable] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -74,6 +75,8 @@ const PerfilView = () => {
   });
   const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
   const [fileImage, setFileImage] = useState<File | null>(null);
+  const searchParams = useSearchParams();
+  const isBanned = searchParams.get("banned") || false;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -177,6 +180,16 @@ const PerfilView = () => {
       }
     }
   };
+
+  useEffect(() => {
+      if (isBanned) {
+        resetUserData();
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      }
+    }, []);
+
   return (
     <div className="p-4">
       <h1 className="text-4xl font-bold">Mi perfil</h1>
@@ -350,7 +363,7 @@ const PerfilView = () => {
                             onBlur={handleBlur}
                             value={values.email}
                             disabled
-                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-custom-GrisOscuro rounded-lg cursor-not-allowed"
+                            className=" w-full p-2 mb-4 border border-custom-casiNegro bg-custom-GrisOscuro rustic:bg-custom-marronClarito rounded-lg cursor-not-allowed"
                           />
                           {errors.email && touched.email && (
                             <p className=" text-red-500  text-sm">

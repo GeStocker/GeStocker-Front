@@ -123,7 +123,7 @@ export default function ChatBox({ senderId, receiverId }: ChatBoxProps) {
                 />
                 <button
                     onClick={sendMessage}
-                    className="bg-custom-GrisOscuro text-background px-3 rounded hover:bg-custom-casiNegro"
+                    className="bg-custom-GrisOscuro text-custom-casiNegro px-3 rounded hover:bg-custom-grisClarito"
                 >
                     ➤
                 </button>

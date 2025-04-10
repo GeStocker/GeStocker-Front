@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { routes } from "@/routes/routes";
 import { loginUser } from "@/services/user/auth";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const registerSchema = Yup.object({
@@ -32,11 +32,9 @@ interface FormData {
 
 const LoginView: React.FC = () => {
   const router = useRouter();
-  const { saveUserData, resetUserData } = useAuth();
+  const { saveUserData } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const isBanned = searchParams.get("banned") || false;
 
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
@@ -66,14 +64,6 @@ const LoginView: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (isBanned) {
-      resetUserData();
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
-  }, []);
 
   return (
     <div>

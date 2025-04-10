@@ -17,6 +17,7 @@ import {
 } from "@/services/user/product";
 import { Camera, Info } from "lucide-react";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const productSchema = Yup.object({
   name: Yup.string()
@@ -75,6 +76,30 @@ const CreateProducts = () => {
     null
   );
   const [excelFile, setExcelFile] = useState<File | null>(null);
+  const searchParams = useSearchParams();
+  const editProductId = searchParams.get('editProduct'); // Leer el id del query param
+  const [selectedTab, setSelectedTab] = useState('añadir');
+  const router = useRouter();
+  // Removed duplicate declaration of selectedProduct
+
+  useEffect(() => {
+    if (editProductId) {
+      setSelectedTab('editar');
+      // Buscar el producto en el array de productos (suponiendo que tienes todos los productos cargados)
+      const foundProduct = products.find(product => product.product_id === editProductId);
+      if (foundProduct) {
+        setSelectedProduct({
+          product_id: foundProduct.product_id,
+          product_name: foundProduct.product_name,
+          product_description: foundProduct.product_description,
+          product_category: foundProduct.category_name, // Assuming `category_name` maps to `product_category`
+          product_fileImage: foundProduct.product_img,
+        });
+        // Aquí podrías setear los valores iniciales de Formik si lo necesitas
+      }
+    }
+  }, [editProductId, products]);
+
 
 
   const fetchCategories = async () => {
@@ -153,6 +178,7 @@ const CreateProducts = () => {
     if (!token || selectedProduct.product_id === "" || !businessId) return;
     try {
       await updateProduct(values, selectedProduct.product_id, token);
+      router.replace('/dashboard/business/createProducts'); 
       toast.success("Producto editado con exito");
       fetchProducts();
       resetForm();
@@ -163,6 +189,7 @@ const CreateProducts = () => {
         product_description: "",
         product_category: "",
       });
+      setSelectedCategory("");
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.warn("Error al editar producto", e.message);
@@ -176,6 +203,18 @@ const CreateProducts = () => {
       setIsEdit(false);
     }
   };
+
+  useEffect(() => {
+    if (!searchParams.get('editProduct')) {
+      // Limpiar los valores del formulario si no hay parámetro 'editProduct'
+      setSelectedProduct({
+        product_id: "",
+        product_name: "",
+        product_description: "",
+        product_category: "",
+      });
+    }
+  }, [searchParams]); 
 
   const handleImageUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -268,7 +307,7 @@ const CreateProducts = () => {
             Productos
           </h1>
 
-          <Tabs defaultValue="añadir" className="min-w-11/12 my-2">
+          <Tabs value={selectedTab} onValueChange={setSelectedTab} className="min-w-11/12 my-2">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="excel">Añadir mediante Excel</TabsTrigger>
               <TabsTrigger value="editar">
@@ -490,13 +529,13 @@ const CreateProducts = () => {
                         </div>
                         <div className="flex flex-col gap-1 w-full mt-4">
                           <label
-                            htmlFor="name"
+                            htmlFor="name_new"
                             className="font-semibold text-base"
                           >
                             Nombre nuevo:
                           </label>
                           <input
-                            id="name"
+                            id="name_new"
                             type="text"
                             name="name"
                             onChange={handleChange}
@@ -529,13 +568,13 @@ const CreateProducts = () => {
                         </div>
                         <div className="flex flex-col gap-1 w-full ">
                           <label
-                            htmlFor="description"
+                            htmlFor="descriptio_new"
                             className="font-semibold text-base"
                           >
                             Descripcion nueva:
                           </label>
                           <input
-                            id="description"
+                            id="description_new"
                             type="text"
                             name="description"
                             onChange={handleChange}
@@ -568,13 +607,13 @@ const CreateProducts = () => {
                         </div>
                         <div className="flex flex-col gap-1 w-full relative">
                           <label
-                            htmlFor="category"
+                            htmlFor="category_new"
                             className="font-semibold text-base"
                           >
                             Categoría nueva:
                           </label>
                           <input
-                            id="category"
+                            id="category_new"
                             type="text"
                             name="category"
                             value={selectedCategory}

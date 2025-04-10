@@ -2,20 +2,26 @@ import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { IProduct } from "@/types/interface";
 import ScrollToTopButton from "../ScrollTop/ScrollToTopButton";
 import ActionMenu from "../ActionMenu/ActionMenu";
+import { useRouter } from "next/navigation";
 
 interface ProductTableBusinessProps {
   products: IProduct[];
-  onSearchChange: (value: string) => void; 
+  onSearchChange: (value: string) => void;
   searchValue: string;
   onRemoveProduct: (productId: string) => void;
 }
 
-const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({ 
-  products, 
-  onSearchChange, 
-  searchValue, 
+const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
+  products,
+  onSearchChange,
+  searchValue,
   onRemoveProduct,
 }) => {
+  const router = useRouter();
+
+  const handleEditClick = (productId: string) => {
+    router.push(`/dashboard/business/createProducts?editProduct=${productId}`);
+  };
 
   return (
     <div className="p-4">
@@ -27,8 +33,8 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
             type="text"
             placeholder="Buscar producto"
             className="w-full outline-none"
-            value={searchValue} 
-            onChange={(e) => onSearchChange(e.target.value)} 
+            value={searchValue}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
       </div>
@@ -59,22 +65,26 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                   </td>
                   <td className="p-2">{product.product_name}</td>
                   <td className="p-2">{product.product_description}</td>
-                  <td className="p-2">{product.category_name || "Sin categoría"}</td>
-                  <td className="p-2">{product.totalStock ?? "No disponible"}</td>
-                  <td className={`p-2 text-center font-semibold ${
-                      product.totalStock == null 
-                      ? "text-custom-casiNegro" 
-                      : product.totalStock === 0
-                        ? "text-red-600" 
+                  <td className="p-2">
+                    {product.category_name || "Sin categoría"}
+                  </td>
+                  <td className="p-2">
+                    {product.totalStock ?? "No disponible"}
+                  </td>
+                  <td
+                    className={`p-2 text-center font-semibold ${
+                      product.totalStock == null
+                        ? "text-custom-casiNegro"
+                        : product.totalStock === 0
+                        ? "text-red-600"
                         : (product.totalStock ?? 0) < 15
-                        ? "text-yellow-600" 
-                        : "text-green-600" 
+                        ? "text-yellow-600"
+                        : "text-green-600"
                     }`}
                   >
-                    {
-                    product.totalStock == null 
-                    ? "No disponible" 
-                    :product.totalStock === 0
+                    {product.totalStock == null
+                      ? "No disponible"
+                      : product.totalStock === 0
                       ? "Sin stock"
                       : (product.totalStock ?? 0) < 10
                       ? "Stock bajo"
@@ -82,15 +92,19 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
                   </td>
 
                   <td className="p-2 text-center font-semibold">
-                    <ActionMenu product_id={product.product_id}
-                    onEdit={() => console.log(`Editing product ${product.product_id}`)}
-                    onDelete={() => onRemoveProduct(product.product_id)} />
+                    <ActionMenu
+                      product_id={product.product_id}
+                      onEdit={() => handleEditClick(product.product_id)}
+                      onDelete={() => onRemoveProduct(product.product_id)}
+                    />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="text-center p-4">No hay productos disponibles</td>
+                <td colSpan={6} className="text-center p-4">
+                  No hay productos disponibles
+                </td>
               </tr>
             )}
           </tbody>
@@ -98,7 +112,7 @@ const ProductTableBusiness: React.FC<ProductTableBusinessProps> = ({
       </div>
       <div className="mt-4">
         <div className="flex justify-between mt-4">
-          <ScrollToTopButton/>
+          <ScrollToTopButton />
         </div>
       </div>
     </div>
