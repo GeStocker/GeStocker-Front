@@ -49,12 +49,12 @@ const MenuMyProfile = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="#" className="hover:text-stone-600">
+          <Link href={routes.configuration} className="hover:text-stone-600">
             <span>Configuracion</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="#" className="hover:text-stone-600">
+          <Link href={routes.ManagePayment} className="hover:text-stone-600">
             <span>Facturacion</span>
           </Link>
         </DropdownMenuItem>

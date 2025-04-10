@@ -73,7 +73,7 @@ const PerfilView = () => {
     createdAt: "",
     roles: "",
   });
-  const [userImage, setUserImage] = useState<string | null>("/sadImage.png");
+  const [userImage, setUserImage] = useState<string | null>("/sin_foto.webp");
   const [fileImage, setFileImage] = useState<File | null>(null);
   const searchParams = useSearchParams();
   const isBanned = searchParams.get("banned") || false;
@@ -109,7 +109,7 @@ const PerfilView = () => {
   };
 
   const removeImage = () => {
-    setUserImage("/sadImage.png");
+    setUserImage("/sin_foto.webp");
     setFileImage(null);
   };
 
@@ -141,7 +141,7 @@ const PerfilView = () => {
         roles: roles?.[0] ?? "",
       });
       if (!img) {
-        setUserImage("/sadImage.png");
+        setUserImage("/sin_foto.webp");
         return;
       }
       setUserImage(img);
@@ -206,7 +206,7 @@ const PerfilView = () => {
             <div className="flex flex-col items-center">
               <div className=" relative">
                 <img
-                  src={userImage ?? "/sadImage.png"}
+                  src={userImage ?? "/sin_foto.webp"}
                   alt="User Profile"
                   className="w-40 h-40 rounded-full"
                 />

@@ -103,7 +103,7 @@ export default function ChatBox({ senderId, receiverId }: ChatBoxProps) {
                     >
                         <div
                             className={`inline-block px-3 py-2 rounded-lg ${
-                                msg.sender.id === senderId ? 'bg-custom-grisClarito' : 'bg-custom-GrisOscuro'
+                                msg.sender.id === senderId ? 'bg-custom-grisClarito' : 'bg-custom-GrisOscuro rustic:bg-custom-marronClarito'
                             }`}
                         >
                             <strong>{msg.sender.id === senderId ? 'Tú' : msg.sender.name}</strong>: {msg.content}
@@ -118,12 +118,12 @@ export default function ChatBox({ senderId, receiverId }: ChatBoxProps) {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                    className="flex-1 border rounded px-2 py-1"
+                    className="flex-1 border rounded px-2 py-1 dark:text-gray-900"
                     placeholder="Escribe un mensaje..."
                 />
                 <button
                     onClick={sendMessage}
-                    className="bg-custom-GrisOscuro text-custom-casiNegro px-3 rounded hover:bg-custom-grisClarito"
+                    className="bg-custom-GrisOscuro text-custom-casiNegro rustic:bg-custom-marronClarito px-3 rounded hover:bg-custom-grisClarito"
                 >
                     ➤
                 </button>
