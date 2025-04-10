@@ -2,7 +2,6 @@
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { IStockProduct } from "@/types/interface";
 import ScrollToTopButton from "../ScrollTop/ScrollToTopButton";
-import ActionMenuInventory from "../ActionMenu/ActionMenuInventario";
 
 interface ProductTableInventoryProps {
   products: IStockProduct[];
@@ -42,7 +41,6 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({
               <th className="py-2 border text-center">Stock</th>
               <th className="py-2 border text-center">Estado Stock</th>
               <th className="p-2 border text-center">Precio</th>
-              <th className="p-2 border text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -76,13 +74,6 @@ const ProductTableInventory: React.FC<ProductTableInventoryProps> = ({
                   </td>
                   <td className="p-2">
                     {product.price ? `$${product.price}` : "No disponible"}
-                  </td>
-
-                  <td className="p-2 text-center font-semibold">
-                    <ActionMenuInventory
-                      product_id={product.id}
-                      onEdit={() => console.log("Editar", product.id)}
-                    />
                   </td>
                 </tr>
               ))
