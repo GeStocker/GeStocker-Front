@@ -6,7 +6,7 @@ import React from 'react'
 interface VisibleWrapperProps {
     children: React.ReactNode
   }
-const hidePages = [routes.login, routes.register, routes.superadminLogin]
+const hidePages = [routes.login, routes.register]
 
 export const VisibleWrapperNavbar: React.FC<VisibleWrapperProps>= ({children}) => {
     const pathname= usePathname();
@@ -20,7 +20,7 @@ export const VisibleWrapperNavbar: React.FC<VisibleWrapperProps>= ({children}) =
   )
 }
 
-const hidePagesFooter = [routes.login, routes.register, routes.superadminLogin]
+const hidePagesFooter = [routes.login, routes.register]
 
 export const VisibleWrapperFooter: React.FC<VisibleWrapperProps>= ({children}) => {
     const pathname= usePathname();
