@@ -31,7 +31,7 @@ const SideBar = () => {
   const pathname = usePathname();
   const rol = getUserRol();
   const [userId, setUserId] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
@@ -43,7 +43,7 @@ const SideBar = () => {
     if (isBusinessRoute() && businessId) {
       router.push(`/dashboard/business/${businessId}`);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   }, []);
 
   const fetchBusiness = async () => {
@@ -98,8 +98,15 @@ const SideBar = () => {
   };
 
   return (
-    <>{isLoading ? <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-      : <div className={`flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0 ${rol === "COLLABORATOR" && "hidden"}`}>
+    <>
+      {isLoading ? (
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+      ) : (
+        <div
+          className={`flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0 ${
+            rol === "COLLABORATOR" && "hidden"
+          }`}
+        >
           <>
             <div className="flex items-center justify-center m-5 h-6">
               <BusinessSelect
@@ -108,6 +115,23 @@ const SideBar = () => {
                 value={isBusinessRoute() ? businessId || "" : ""}
               />
             </div>
+            {rol === "superadmin" && (
+              <div className="flex flex-col gap-1 mt-5">
+                <h2 className="text-custom-textSubtitle">SUPERADMIN</h2>
+                <Link href={`${routes.superadmin}/users`}>
+                  <div className="flex items-center gap-2 pl-2">
+                    <FiUsers />
+                    <h3>Gestion Usuarios</h3>
+                  </div>
+                </Link>
+                <Link href={`${routes.superadmin}/statistics`}>
+                  <div className="flex items-center gap-2 pl-2">
+                    <BiBarChart />
+                    <h3>Record Suscripciones</h3>
+                  </div>
+                </Link>
+              </div>
+            )}
             <div className="flex flex-col gap-1 mt-5">
               <h2 className="text-custom-textSubtitle">GENERAL</h2>
               {businessId && (
@@ -164,16 +188,17 @@ const SideBar = () => {
                 <h4>12/05/2025</h4>
               </div>
               <div className="flex items-center justify-center ml-auto">
-              <Link href={routes.ManagePayment}>
-                <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
-                  Gestionar
-                </button>
+                <Link href={routes.ManagePayment}>
+                  <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
+                    Gestionar
+                  </button>
                 </Link>
               </div>
             </div>
           </>
-      </div>}
-      {token && userId && <ChatWidget token={token} senderId={userId} />}
+        </div>
+      )}
+      {rol==="COLLABORATOR" && token && userId && <ChatWidget token={token} senderId={userId} />}
     </>
   );
 };

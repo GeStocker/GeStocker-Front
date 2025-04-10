@@ -14,15 +14,20 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes/routes";
 import BanUnbanUser from "./BanUnbanuser";
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
+import StatCard from "@/components/StatCard/StatCard";
 
 const SuperadminUsersView = () => {
   const [users, setUsers] = useState<IUserListItem[]>([]);
+  const [usersActive, setUsersActive] = useState<IUserListItem[]>([]);
+  const [usersInactive, setUsersInactive] = useState<IUserListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { token } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(true);
   const planOptions = ["basic", "professional", "business"];
   const [selectedUser, setSelectedUser] = useState<IUserListItem | null>(null);
+  const [search, setSearch] = useState<null | string>(null);
 
   const router = useRouter();
 
@@ -32,9 +37,14 @@ const SuperadminUsersView = () => {
       const users = await getAllUsersList(
         token,
         isActive,
-        selectedPlan ?? undefined
-      );
+        selectedPlan ?? undefined,
+        search ?? undefined
+      )
       setUsers(users);
+      const active = await getAllUsersList(token, true, undefined);
+      setUsersActive(active);
+      const inactive = await getAllUsersList(token, false, undefined);
+      setUsersInactive(inactive);
     } catch (error) {
       console.warn(error);
       toast.error("No se pudo traer a los usuarios");
@@ -45,15 +55,16 @@ const SuperadminUsersView = () => {
 
   const onClickGetBusiness = (userId: string, userName: string) => {
     router.push(
-      `${
-        routes.superadminDashboard
-      }/business/${userId}?name=${encodeURIComponent(userName)}`
+      `${routes.superadmin}/business/${userId}?name=${encodeURIComponent(
+        userName
+      )}`
     );
   };
 
+
   useEffect(() => {
     fetchUsers();
-  }, [token, selectedPlan, isActive]);
+  }, [token, selectedPlan, isActive, search]);
 
   return (
     <div className="p-4">
@@ -70,7 +81,10 @@ const SuperadminUsersView = () => {
             <DropdownMenu>
               <span className="mx-2">Plan: </span>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">{selectedPlan ?? "Todos"}</Button>
+                <Button variant="outline">
+                  {selectedPlan ?? "Todos"}{" "}
+                  <span className="text-custom-GrisOscuro">▼</span>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setSelectedPlan(null)}>
@@ -93,7 +107,8 @@ const SuperadminUsersView = () => {
               <span className="mx-2">Estado: </span>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">
-                  {isActive ? "Activos" : "Inactivos"}
+                  {isActive ? "Activos" : "Inactivos"}{" "}
+                  <span className="text-custom-GrisOscuro">▼</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -107,6 +122,37 @@ const SuperadminUsersView = () => {
             </DropdownMenu>
           </div>
         </div>
+        <section className="grid grid-cols-3 gap-4 mb-6">
+          <StatCard
+            title="Total de usuarios"
+            value={usersInactive.length + usersActive.length}
+            description="Cantidad total de usuarios"
+          />
+          <StatCard
+            title="Total usuarios activos"
+            value={usersActive.length}
+            description="Cantidad total de usuarios activos"
+          />
+          <StatCard
+            title="Total usuarios inactivos"
+            value={usersInactive.length}
+            description="Cantidad total de usuarios activos"
+          />
+        </section>
+        <section className="flex gap-1">
+          <div className="flex items-center mb-4">
+            <div className="flex items-center border rounded-md p-2 w-48">
+              <HiOutlineMagnifyingGlass className="mr-2" />
+              <input
+                type="text"
+                placeholder="Buscar usuario"
+                defaultValue={search ?? ""} // Si `search` es null, usa una cadena vacía
+                onChange={(e) => setSearch(e.target.value || null)} // Si el valor es vacío, lo convierte a null
+                className="w-full outline-none"
+              />
+            </div>
+          </div>
+        </section>
         <div className="grid grid-cols-7 text-lg gap-1 text-center p-2 bg-custom-grisClarito ">
           <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">
             ID Usuario

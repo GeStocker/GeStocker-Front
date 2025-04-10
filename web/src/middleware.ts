@@ -5,10 +5,10 @@ import { getInventoryFromToken } from "./helpers/getInventoryFromToken";
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const collaboratorRoutes = ["/dashboard/inventory"];
-  const superadminRoutes = ["/superadmin/dashboard"];
+  const superadminRoutes = ["/superadmin"];
 
   const protectedRoutes = ["/dashboard"];
-  const blockIfLogued = ["/login", "/register", "/superadmin/login"];
+  const blockIfLogued = ["/login", "/register"];
 
   const url = req.nextUrl;
   const hasTokenInURL = url.searchParams.has("token");
@@ -54,5 +54,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/register", "/superadmin/dashboard/:path*", "/superadmin/login"],
+  matcher: ["/dashboard/:path*", "/login", "/register"],
 };

@@ -32,7 +32,8 @@ export const loginUserCollaborator = async (
 export const getAllUsersList = async (
   token: string,
   isActive: boolean,
-  plan?: string
+  plan?: string,
+  search?: string
 ): Promise<IUserListItem[]> => {
   try {
     const users = (
@@ -41,7 +42,7 @@ export const getAllUsersList = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        params: { isActive, plan },
+        params: { isActive, plan, search },
       })
     ).data;
     return users;

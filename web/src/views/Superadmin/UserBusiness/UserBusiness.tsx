@@ -31,7 +31,7 @@ const UserBusiness:React.FC<{userId: string}>= ({userId}) => {
   };
 
   const onClickGetInventories = (businessId: string, businessName:string) => {
-    router.push(`${routes.superadminDashboard}/products/${businessId}?name=${encodeURIComponent(businessName)}`)
+    router.push(`${routes.superadmin}/products/${businessId}?name=${encodeURIComponent(businessName)}`)
   }
 
   useEffect(() => {

@@ -81,7 +81,7 @@ const InventoryView = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button className="flex" disabled={products.length === 0}>
+                  <Button className="flex">
                     + Añadir productos
                   </Button>
                 </TooltipTrigger>
