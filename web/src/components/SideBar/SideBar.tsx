@@ -39,7 +39,8 @@ const SideBar = () => {
     switch(rol) {
       case "basic": return 1;
       case "professional": return 3;
-      case "business": return Infinity; 
+      case "business": return Infinity;
+      case "superadmin" : return Infinity; 
       default: return 0;
     }
   };
@@ -51,6 +52,7 @@ const SideBar = () => {
       case "basic": return 1;
       case "professional": return 5;
       case "business": return Infinity; 
+      case "superadmin" : return Infinity; 
       default: return 0;
     }
   };

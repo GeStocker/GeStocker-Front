@@ -280,7 +280,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
         toast.success("Productos añadidos con exito");
         fetchProducts()
         setTimeout(() => {
-          router.push("/dashboard/inventory");
+          router.push(`/dashboard/inventory/${inventoryId}`);
         }
         , 2000);
       } catch (e: unknown) {

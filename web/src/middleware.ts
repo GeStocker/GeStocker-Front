@@ -5,7 +5,7 @@ import { getInventoryFromToken } from "./helpers/getInventoryFromToken";
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const collaboratorRoutes = ["/dashboard/inventory"];
-  const superadminRoutes = ["/superadmin"];
+  const superadminRoutes = ["/dashboard/superadmin"];
 
   const protectedRoutes = ["/dashboard"];
   const blockIfLogued = ["/login", "/register"];
