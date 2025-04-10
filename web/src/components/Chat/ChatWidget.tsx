@@ -16,14 +16,14 @@ export default function ChatWidget({ senderId, receiverId }: ChatWidgetProps) {
         <>
         <button
             onClick={() => setOpen(!open)}
-            className="fixed bottom-4 right-4 bg-custom-GrisOscuro text-background rounded-full p-4 shadow-lg hover:bg-custom-casiNegro z-50"
+            className="fixed bottom-4 right-4 bg-custom-casiNegro text-background rounded-full p-4 shadow-lg hover:bg-custom-casiNegro z-50"
         >
         CHAT
         </button>
 
         {open && (
             <div className="fixed bottom-20 right-4 w-96 h-[32rem] bg-background rounded-xl shadow-lg flex flex-col border border-custom-grisClarito overflow-hidden z-50">
-                <div className="bg-custom-GrisOscuro dark:bg-custom-casiNegro text-foreground px-4 py-2 flex justify-between items-center">
+                <div className="bg-custom-GrisOscuro dark:bg-custom-casiNegro text-foreground dark:text-gray-900 rustic:text-white px-4 py-2 flex justify-between items-center">
                     <span>Chat con {receiverId.name}</span>
                     <button onClick={() => setOpen(false)} className="text-background font-bold">X</button>
                 </div>

@@ -38,10 +38,10 @@ const sellSchema = Yup.object({
       name: "quantity-le-stock",
       message: "La cantidad de venta no puede ser mayor al stock disponible",
       test: function (value) {
-        const { stock } = this.parent; // Esto accede al stock del producto
-        return value <= stock; // Verifica si la cantidad de venta no excede el stock
+        const { stock } = this.parent;
+        return value <= stock;
       },
-    }),
+    })
 });
 
 interface ISelectProduct {
@@ -507,7 +507,7 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                             const value = parseInt(e.target.value, 10);
                             if (value <= p.stock) {
                               setSellQuantity(value);
-                              setError(""); // Si la cantidad es válida, limpiamos el error
+                              setError("");
                             } else {
                               setError("La cantidad de venta no puede ser mayor al stock disponible");
                             }

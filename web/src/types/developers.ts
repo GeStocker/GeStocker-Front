@@ -2,9 +2,9 @@ export const developers = [
     {
         name: "Gregorio Villanueva",
         role: "Backend Developer",
-        github: "https://github.com/carlos",
-        linkedin: "https://linkedin.com/in/carlos",
-        image: "/img/dev5.jpg",
+        github: "https://github.com/GregorioVilla",
+        linkedin: "https://www.linkedin.com/in/gregorio-villanueva-1368752ab/",
+        image: "Foto_keko.webp",
     },
     {
       name: "Juan Agustín Ockier",
