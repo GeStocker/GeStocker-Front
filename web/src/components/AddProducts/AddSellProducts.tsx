@@ -34,14 +34,6 @@ const sellSchema = Yup.object({
   sellQuantity: Yup.number()
     .min(1, "Debe ser mayor o igual a 1")
     .required("Este campo es obligatorio")
-    .test({
-      name: "quantity-le-stock",
-      message: "La cantidad de venta no puede ser mayor al stock disponible",
-      test: function (value) {
-        const { stock } = this.parent;
-        return value <= stock;
-      },
-    })
 });
 
 interface ISelectProduct {
@@ -69,8 +61,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
   const [isSending, setIsSending]=useState(false);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const router = useRouter();
-  const [sellQuantity, setSellQuantity] = useState(0); // Estado para la cantidad de venta
-  const [error, setError] = useState("");
 
   const fetchProducts = async () => {
     if (isLoading) return;
@@ -502,22 +492,15 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
                       <div>
                         <input
                           type="number"
-                          value={sellQuantity}
-                          onChange={(e) => {
-                            const value = parseInt(e.target.value, 10);
-                            if (value <= p.stock) {
-                              setSellQuantity(value);
-                              setError("");
-                            } else {
-                              setError("La cantidad de venta no puede ser mayor al stock disponible");
-                            }
-                          }}
+                          value={p.sellQuantity ?? 0}
+                          onChange={(e) =>
+                            handleChange(index, "sellQuantity", e.target.value ?? "0")
+                          }
                           className="w-20 p-1 border border-custom-GrisOscuro rounded text-center"
                           disabled={isLoading}
                           min="1"
                           max={p.stock}
                         />
-                        {error && <p className="text-red-500 text-sm">{error}</p>}
                       </div>
                     )}
                   </div>

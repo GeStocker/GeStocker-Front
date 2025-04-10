@@ -9,10 +9,10 @@ const ManagePayment = () => {
 
   return (
     <div className="p-4 mr-16">
-      <section className="flex justify-between items-center mb-10">
+      <section className="flex justify-between items-center">
         <div className="flex flex-col">
-          <h1 className="text-4xl font-semibold text-custom-casiNegro">Configuración</h1>
-          <h3>Personaliza y gestiona la configuración de tu negocio</h3>
+          <h1 className="text-4xl font-semibold text-custom-casiNegro">Gestión de plan</h1>
+          <h3>Información sobre tu suscripción e historial de pago.</h3>
         </div>
       </section>
       <Tabs defaultValue="suscripcion" className="w-full p-8">

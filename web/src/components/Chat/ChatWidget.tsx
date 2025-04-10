@@ -153,20 +153,20 @@
             <div className="fixed bottom-20 right-4 w-[32rem] h-[36rem] bg-white rounded-xl shadow-lg flex border border-gray-300 overflow-hidden z-50">
             {/* Sidebar de colaboradores */}
             <div className="w-1/3 border-r border-gray-300 p-2 overflow-y-auto bg-gray-100">
-                <h3 className="text-sm font-semibold mb-2">Colaboradores</h3>
+                <h3 className="text-sm font-semibold mb-2 dark:text-gray-900">Colaboradores</h3>
                 {collaborators.map((collab) => {
                 const unreadCount = unreadMessages[collab.id] || 0;
                 return (
                     <div
                     key={collab.id}
                     onClick={() => handleSelectReceiver(collab)}
-                    className={`relative cursor-pointer px-2 py-1 rounded hover:bg-blue-200 ${
-                        receiver?.id === collab.id ? "bg-blue-300 text-white" : ""
+                    className={`relative cursor-pointer px-2 py-1 rounded hover:bg-custom-GrisOscuro  dark:text-gray-900 ${
+                        receiver?.id === collab.id ? "bg-custom-casiNegro text-white" : ""
                     }`}
                     >
                     {collab.name}
                     {unreadCount > 0 && (
-                        <span className="absolute right-2 top-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                        <span className="absolute right-2 top-2 bg-green-500 text-white dark:text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
                         {unreadCount}
                         </span>
                     )}
@@ -177,7 +177,7 @@
 
             {/* Chat principal */}
             <div className="flex-1 flex flex-col">
-                <div className="bg-blue-600 text-white px-4 py-2 flex justify-between items-center">
+                <div className="bg-custom-casiNegro text-white dark:text-gray-900 px-4 py-2 flex justify-between items-center">
                 <span>
                     {receiver
                     ? `Chat con ${receiver.name}`
@@ -185,7 +185,7 @@
                 </span>
                 <button
                     onClick={() => setOpen(false)}
-                    className="text-white font-bold"
+                    className="text-white dark:text-gray-900 font-bold"
                 >
                     X
                 </button>
