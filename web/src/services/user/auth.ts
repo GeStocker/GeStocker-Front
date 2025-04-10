@@ -1,10 +1,11 @@
 import { IUser } from "../../types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 export const registerUser = async (userData: Partial<IUser>) => {
   try {
-    const response = await axios.post(`${API}/auth/signup`, userData, {
+    const response = await axiosInstance.post(`${API}/auth/signup`, userData, {
       withCredentials: true,
     });
     return response;
@@ -21,7 +22,7 @@ export const loginUser = async (
   userData: Partial<IUser>
 ): Promise<{ user: IUser; token: string, checkoutUrl: string }> => {
   try {
-    const user = (await axios.post(`${API}/auth/login`, userData, {
+    const user = (await axiosInstance.post(`${API}/auth/login`, userData, {
       withCredentials: true,
     })).data;
     return user.data;
@@ -37,7 +38,7 @@ export const loginUser = async (
 
 export const completeSubscription = async (sessionId: string) => {
   try {
-    const response = await axios.post(`${API}/purchases/success/${sessionId}`);
+    const response = await axiosInstance.post(`${API}/purchases/success/${sessionId}`);
     return response.data; 
 
   } catch (error: unknown) {
@@ -51,7 +52,7 @@ export const completeSubscription = async (sessionId: string) => {
 
 export const sendPasswordResetCode = async (email: string) => {
   try {
-    const response = await axios.post(`${API}/auth/forgot-password`, { email });
+    const response = await axiosInstance.post(`${API}/auth/forgot-password`, { email });
     return response.data;
   } catch (error) {
     console.error("Error al enviar el código de recuperación:", error);
@@ -61,7 +62,7 @@ export const sendPasswordResetCode = async (email: string) => {
 
 export const verifyResetCode = async (email: string, code: string) => {
   try {
-    const response = await axios.post(`${API}/auth/verify-code`, { email, code });
+    const response = await axiosInstance.post(`${API}/auth/verify-code`, { email, code });
     return response.data;
   } catch (error) {
     console.error("Error al verificar el código:", error);
@@ -71,7 +72,7 @@ export const verifyResetCode = async (email: string, code: string) => {
 
 export const updatePassword = async (newPassword: string, token: string) => {
   try {
-    const response = await axios.post(
+    const response = await axiosInstance.post(
       `${API}/auth/reset-password`,
       { newPassword },
       {

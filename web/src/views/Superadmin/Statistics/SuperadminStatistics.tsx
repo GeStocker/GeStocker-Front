@@ -49,14 +49,27 @@ const SuperadminStatistics = () => {
           <div className="mb-6">
             <h1 className="text-4xl font-bold mb-2">Suscripciones</h1>
             <h2 className="text-xl text-custom-textGris">
-              Estadisticas de las suscripciones
+              Records de las suscripciones
             </h2>
           </div>
           <div className="flex gap-2 items-center mx-4">
-              <GoArrowLeft onClick={() => setPage((prev) => prev - 1)} className="cursor-pointer" size={20}/>
-              <span>{`Pagina ${page+1}`}</span>
-              <GoArrowRight onClick={() => setPage((prev) => prev + 1)} className="cursor-pointer" size={20}/>
-            </div>
+            <GoArrowLeft
+              onClick={() =>
+                setPage((prev) => {
+                  if (prev <= 0) return 0;
+                  else return prev - 1;
+                })
+              }
+              className="cursor-pointer"
+              size={20}
+            />
+            <span>{`Pagina ${page + 1}`}</span>
+            <GoArrowRight
+              onClick={() => setPage((prev) => prev + 1)}
+              className="cursor-pointer"
+              size={20}
+            />
+          </div>
         </div>
         <div className="grid grid-cols-6 text-lg gap-1 text-center p-2 bg-custom-grisClarito ">
           <span className="text-custom-textSubtitle border-r border-custom-GrisOscuro">
@@ -80,23 +93,24 @@ const SuperadminStatistics = () => {
         </div>
         {loading ? (
           <span>Cargando metricas...</span>
-        ) : metrics.length > 0 ? (metrics.map((m, index) => {
-              return (
-                <div
-                  key={index}
-                  className="grid grid-cols-6 text-base gap-1 text-center p-4"
-                >
-                  <span className="break-words">{`${
-                    monthsString[m.month - 1]
-                  } - ${m.year}`}</span>
-                  <span className="break-words">{`${m.totalRevenue} €`}</span>
-                  <span className="break-words">{m.totalPayments}</span>
-                  <span className="break-words">{m.basicCount}</span>
-                  <span className="break-words">{m.professionalCount}</span>
-                  <span className="break-words">{m.businessCount}</span>
-                </div>
-              );
-            })
+        ) : metrics.length > 0 ? (
+          metrics.map((m, index) => {
+            return (
+              <div
+                key={index}
+                className="grid grid-cols-6 text-base gap-1 text-center p-4"
+              >
+                <span className="break-words">{`${
+                  monthsString[m.month - 1]
+                } - ${m.year}`}</span>
+                <span className="break-words">{`${m.totalRevenue} €`}</span>
+                <span className="break-words">{m.totalPayments}</span>
+                <span className="break-words">{m.basicCount}</span>
+                <span className="break-words">{m.professionalCount}</span>
+                <span className="break-words">{m.businessCount}</span>
+              </div>
+            );
+          })
         ) : (
           <span className="text-center">No hay metricas para mostrar</span>
         )}

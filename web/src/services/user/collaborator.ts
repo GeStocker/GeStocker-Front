@@ -1,5 +1,6 @@
 import { ICollaborator } from "@/types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,7 +17,7 @@ export const getCollaboratorsByBusiness = async (
   businessId: string
 ): Promise<ICollaborator[]> => {
   try {
-    const response = await axios.get(`${API}/collaborators/business/${businessId}`, {
+    const response = await axiosInstance.get(`${API}/collaborators/business/${businessId}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ export const createCollaborator =async (
     colaborador: collaboratorDto
   ): Promise<ICollaborator[]> => {
     try {
-      const response = await axios.post(`${API}/collaborators/signup`,colaborador, {
+      const response = await axiosInstance.post(`${API}/collaborators/signup`,colaborador, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -58,7 +59,7 @@ export const createCollaborator =async (
     userData: Partial<ICollaborator>
   ): Promise<{ user: ICollaborator; token: string }> => {
     try {
-      const user = (await axios.post(`${API}/collaborators/login`, userData, {
+      const user = (await axiosInstance.post(`${API}/collaborators/login`, userData, {
         withCredentials: true,
       })).data;
       return user;  

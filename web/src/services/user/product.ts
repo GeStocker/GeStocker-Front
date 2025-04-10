@@ -1,5 +1,6 @@
 import { ICategory, IProduct } from "@/types/interface";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,7 +18,7 @@ export const getAllProducts = async (
 ): Promise<IProduct[]> => {
   try {
     const products = (
-      await axios.get(`${API}/products/business/${businessId}`, {
+      await axiosInstance.get(`${API}/products/business/${businessId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,7 +42,7 @@ export const getCategories = async (
 ): Promise<ICategory[]> => {
   try {
     const category = (
-      await axios.get(`${API}/categories-product/business/${businessId}`, {
+      await axiosInstance.get(`${API}/categories-product/business/${businessId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ export const createProduct = async (
     if (fileImage) {
       formData.append("file", fileImage);
     }
-    await axios.post(`${API}/products/${businessId}`, formData, {
+    await axiosInstance.post(`${API}/products/${businessId}`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -103,7 +104,7 @@ export const updateProduct = async (
     if (category) formData.append("category", category);
     if (fileImage) formData.append("file", fileImage);
 
-    await axios.put(`${API}/products/${id}`, formData, {
+    await axiosInstance.put(`${API}/products/${id}`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -130,7 +131,7 @@ export const createProductExcel = async (
     formData.append("file", file);
     formData.append("userId", userId);
     formData.append("businessId", businessId);
-    await axios.post(`${API}/excel-import`, formData, {
+    await axiosInstance.post(`${API}/excel-import`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -148,7 +149,7 @@ export const createProductExcel = async (
 
 
 export const deactivateProductBusiness = async (product_id: string, token: string) => {
-  const response = await axios.put(`${API}/products/deactivate/${product_id}`, {}, {
+  const response = await axiosInstance.put(`${API}/products/deactivate/${product_id}`, {}, {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${token}`,

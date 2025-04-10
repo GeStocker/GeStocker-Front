@@ -49,9 +49,9 @@ const BanUnbanUser = ({
       <div className="bg-background p-4 rounded-lg w-96 z-40 shadow-lg">
         <div className="text-left font-bold text-2xl mb-1 w-max-400">
           {type === "ban" ? (
-            <h1>{`Estas seguro de banear a ${name}`}</h1>
+            <h1>{`Banear a ${name}`}</h1>
           ) : (
-            <h1>{`Estas seguro de desbanear a ${name}`}</h1>
+            <h1>{`Desbanear a ${name}`}</h1>
           )}
         </div>
         {type === "ban" ? (

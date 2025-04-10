@@ -6,6 +6,7 @@ import {
   IUserListItem,
 } from "@/views/Superadmin/types";
 import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance"
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,7 +15,7 @@ export const loginUserCollaborator = async (
 ): Promise<{ user: IUser; token: string }> => {
   try {
     const user = (
-      await axios.post(`${API}/superadmin/login`, userData, {
+      await axiosInstance.post(`${API}/superadmin/login`, userData, {
         withCredentials: true,
       })
     ).data;
@@ -31,16 +32,17 @@ export const loginUserCollaborator = async (
 export const getAllUsersList = async (
   token: string,
   isActive: boolean,
-  plan?: string
+  plan?: string,
+  search?: string
 ): Promise<IUserListItem[]> => {
   try {
     const users = (
-      await axios.get(`${API}/super-admin/users`, {
+      await axiosInstance.get(`${API}/super-admin/users`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        params: { isActive, plan },
+        params: { isActive, plan, search },
       })
     ).data;
     return users;
@@ -59,7 +61,7 @@ export const getUserBusiness = async (
 ): Promise<IUserBusiness[]> => {
   try {
     const users = (
-      await axios.get(`${API}/super-admin/users/businesses/${userId}`, {
+      await axiosInstance.get(`${API}/super-admin/users/businesses/${userId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,7 +84,7 @@ export const getBusinessProducts = async (
 ): Promise<IBusinessProduct[]> => {
   try {
     const users = (
-      await axios.get(`${API}/super-admin/business/products/${businessId}`, {
+      await axiosInstance.get(`${API}/super-admin/business/products/${businessId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,7 +107,7 @@ export const getSubscriptionMetrics = async (
 ): Promise<ISubscriptionMetrics[]> => {
   try {
     const users = (
-      await axios.get(`${API}/super-admin/subscription-metrics`, {
+      await axiosInstance.get(`${API}/super-admin/subscription-metrics`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -129,7 +131,7 @@ export const banUser = async (
   reason: string
 ): Promise<string> => {
   try {
-    await axios.patch(`${API}/super-admin/users/ban/${userId}`, reason, {
+    await axiosInstance.patch(`${API}/super-admin/users/ban/${userId}`, reason, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -150,7 +152,7 @@ export const unbanUser = async (
   userId: string
 ): Promise<string> => {
   try {
-    await axios.patch(`${API}/super-admin/users/unban/${userId}`,{}, {
+    await axiosInstance.patch(`${API}/super-admin/users/unban/${userId}`,{}, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
