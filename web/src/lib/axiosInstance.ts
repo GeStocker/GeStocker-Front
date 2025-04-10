@@ -1,3 +1,4 @@
+import { routes } from '@/routes/routes';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -9,11 +10,11 @@ axiosInstance.interceptors.response.use(
   response => response,
   error => {
     if (
-      error.response?.status === 403 &&
-      error.response?.data?.error === 'Usuario baneado'
+      error.response?.status === 401 &&
+      error.response?.data?.message === 'Token inválido'
     ) {
       if (typeof window !== 'undefined') {
-        window.location.href = '/login?banned=true';
+        window.location.href = routes.dashboard + '?banned=true';
       }
     }
 
