@@ -11,7 +11,7 @@ export const developers = [
       role: "Frontend Developer",
       github: "https://github.com/JAgusOckier",
       linkedin: "https://www.linkedin.com/in/juanagustin-ockier/",
-      image: "/img/dev1.jpg",
+      image: "/Foto_agus.webp",
     },
     {
         name: "Matías Torres",
