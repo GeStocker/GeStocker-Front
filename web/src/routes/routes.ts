@@ -1,0 +1,26 @@
+
+export const routes = {
+   home: "/",
+   login: "/login",
+   register: "/register",
+   dashboard: "/dashboard/perfil",
+   productDetails: "/productDetails",
+   about: "/about",
+   privacyPolicy: "/privacyPolicy",
+   cookiePolicy: "/cookiePolicy",
+   howItWorks: "/howItWorks",
+   contact: "/contact",
+   createBusiness: "/dashboard/createBusiness",
+   createInventory:  "/dashboard/createInventory",
+   inventory: "/dashboard/inventory",
+   createProducts: "/dashboard/business/createProducts",
+   createCategory: "/dashboard/business/createCategory",
+   Suscription: "register/suscription",
+   collaborators: "/dashboard/collaborators",
+   createCollaborator: "/dashboard/collaborators/registerCollaborator",
+   configuration: "/dashboard/configuration",
+   statistics: "/dashboard/statistics",
+   passwordRecovery: "/passwordRecovery",
+   ManagePayment: "/dashboard/managePayment",
+   superadmin: "/dashboard/superadmin"
+}
