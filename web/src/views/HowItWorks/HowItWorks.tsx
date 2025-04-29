@@ -71,7 +71,7 @@ const HowItWorks = () => {
         <div className="flex px-6">
           <div className="grid grid-cols-2 gap-12 items-center">
             <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg w-[600px] aspect-video">
-              <YouTubeEmbed videoId={stepsVideos.stepRegister} />
+              <YouTubeEmbed videoId={stepsVideos.stepAddBusiness} />
             </div>
             <div className="flex flex-col justify-center gap-4">
               <div className="flex items-center rounded-full bg-custom-GrisOscuro px-3 py-1 text-sm font-medium w-fit">
@@ -143,7 +143,7 @@ const HowItWorks = () => {
               </div>
             </div>
             <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg w-[600px] aspect-video">
-              <YouTubeEmbed videoId={stepsVideos.stepRegister} />
+              <YouTubeEmbed videoId={stepsVideos.stepAddInventory} />
             </div>
           </div>
         </div>
