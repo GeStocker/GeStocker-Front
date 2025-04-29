@@ -36,7 +36,7 @@ const UserAuth = () => {
         <Link href={routes.productDetails} className="text-sm font-medium hover:underline">
           Características
         </Link>
-        <Link href={routes.productDetails} className="text-sm font-medium hover:underline">
+        <Link href={routes.pricingDetails} className="text-sm font-medium hover:underline">
           Precios
         </Link>
         <ModalContacto type="text" text="Contacto" className="font-medium"/>

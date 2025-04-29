@@ -45,6 +45,19 @@ const plans: Plan[] = [
   },
 ];
 
+const mapSpanishToEnglish = (spanish: string) => {
+  switch (spanish) {
+    case "Básico":
+      return "basic";
+    case "Profesional":
+      return "professional";
+    case "Empresarial":
+      return "business";
+    default:
+      return spanish; 
+  }
+};
+
 const ProductDetailsView: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<Plan>(plans[0]);
 
@@ -86,7 +99,7 @@ const ProductDetailsView: React.FC = () => {
             ))}
           </ul>
         </div>
-        <Link href={routes.register}>
+        <Link href={`${routes.register}?plan=${encodeURIComponent(mapSpanishToEnglish(selectedPlan.title))}`}>
           <Button size="lg" className="mt-4">
             Seleccionar Plan
           </Button>

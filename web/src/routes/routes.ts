@@ -5,6 +5,7 @@ export const routes = {
    register: "/register",
    dashboard: "/dashboard/perfil",
    productDetails: "/productDetails",
+   pricingDetails: "/pricingDetails",
    about: "/about",
    privacyPolicy: "/privacyPolicy",
    cookiePolicy: "/cookiePolicy",
