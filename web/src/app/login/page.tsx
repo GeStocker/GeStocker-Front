@@ -15,7 +15,7 @@ const imgUrl = {
 const Login = () => {
   return (
     <div className="flex min-h-screen">
-      <div className="hidden md:flex flex-col w-[554px] p-5 bg-custom-grisClarito min-h-screen">
+      <div className="hidden lg:flex flex-col w-[554px] p-5 bg-custom-grisClarito min-h-screen">
         <Link href={routes.home} className="flex items-right gap-1 font-bold">
           <img
             src="logo.png"
@@ -41,8 +41,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col flex-1 p-5 mr-10 bg-background">
-        <div className="flex justify-end">
+      <div className="flex flex-col flex-1 md:p-5 mr-10 bg-background">
+        <div className="flex justify-end mr-4">
           <Link href={routes.home}>
             <span>Volver</span>
           </Link>

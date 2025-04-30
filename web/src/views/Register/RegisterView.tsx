@@ -132,7 +132,7 @@ const RegisterView: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="relative w-full flex items-center pr-10 my-6">
+      <div className="relative w-full flex items-center my-6">
         <div className="flex-grow h-px bg-custom-casiNegro"></div>
         <span className="mx-4">O</span>
         <div className="flex-grow h-px bg-custom-casiNegro"></div>
@@ -163,7 +163,7 @@ const RegisterView: React.FC = () => {
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
-            <div className="flex gap-16">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16">
               <div className="flex flex-col">
                 <label htmlFor="name" className="font-semibold text-xl">
                   Nombre
@@ -199,7 +199,7 @@ const RegisterView: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="flex gap-16">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16">
               <div className="flex flex-col">
                 <label htmlFor="city" className="font-semibold text-xl">
                   Ciudad
@@ -228,7 +228,7 @@ const RegisterView: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="flex gap-16">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16">
               <div className="flex flex-col">
                 <label htmlFor="address" className="font-semibold text-xl">
                   Dirección
@@ -264,7 +264,7 @@ const RegisterView: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="flex gap-16">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16">
               <div className="flex flex-col">
                 <label htmlFor="password" className="font-semibold text-xl">
                   Contraseña
@@ -358,7 +358,7 @@ const RegisterView: React.FC = () => {
             </div>
             <div className="flex flex-col gap-3">
               <h3 className="text-2xl">Selecciona tu plan:</h3>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 gap-4 justify-center">
                 {[
                   {
                     plan: "basic",
@@ -396,7 +396,7 @@ const RegisterView: React.FC = () => {
                 ].map(({ plan, title, price, features }) => (
                   <div
                     key={plan}
-                    className={`flex flex-col bg-custom-grisClarito w-64 rounded-sm p-3 cursor-pointer ${
+                    className={`flex flex-col bg-custom-grisClarito w-60 lg:w-64 rounded-sm p-3 cursor-pointer ${
                       selectedPlan === plan ? "border-2 border-foreground" : ""
                     }`}
                     onClick={() => handlePlanChange(plan, setFieldValue)}
