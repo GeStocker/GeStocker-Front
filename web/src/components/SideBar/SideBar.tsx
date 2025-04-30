@@ -16,7 +16,12 @@ import InventoryList from "../InventoryList/InventoryList";
 import { MdBusinessCenter } from "react-icons/md";
 import ChatWidget from "../Chat/ChatWidget";
 import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 const SideBar = () => {
   const {
@@ -34,40 +39,54 @@ const SideBar = () => {
   const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  const [collapsed, setCollapsed] = useState(true);
 
   const getBusinessLimit = () => {
-    switch(rol) {
-      case "basic": return 1;
-      case "professional": return 3;
-      case "business": return Infinity;
-      case "superadmin" : return Infinity; 
-      default: return 0;
+    switch (rol) {
+      case "basic":
+        return 1;
+      case "professional":
+        return 3;
+      case "business":
+        return Infinity;
+      case "superadmin":
+        return Infinity;
+      default:
+        return 0;
     }
   };
 
   const hasReachedBusinessLimit = businessList?.length >= getBusinessLimit();
-  
+
   const getInventoryLimitPerBusiness = () => {
-    switch(rol) {
-      case "basic": return 1;
-      case "professional": return 5;
-      case "business": return Infinity; 
-      case "superadmin" : return Infinity; 
-      default: return 0;
+    switch (rol) {
+      case "basic":
+        return 1;
+      case "professional":
+        return 5;
+      case "business":
+        return Infinity;
+      case "superadmin":
+        return Infinity;
+      default:
+        return 0;
     }
   };
 
   const countInventoriesForCurrentBusiness = () => {
     if (!businessId || !businessList || !Array.isArray(businessList)) return 0;
-    
-    const currentBusiness = businessList.find(business => business.id === businessId);
+
+    const currentBusiness = businessList.find(
+      (business) => business.id === businessId
+    );
     return currentBusiness?.inventories?.length || 0;
   };
-  
+
   const currentBusinessInventories = countInventoriesForCurrentBusiness();
-  const inventoryLimitPerBusiness = getInventoryLimitPerBusiness(); 
-  const hasReachedInventoryLimit = currentBusinessInventories >= inventoryLimitPerBusiness;
-  
+  const inventoryLimitPerBusiness = getInventoryLimitPerBusiness();
+  const hasReachedInventoryLimit =
+    currentBusinessInventories >= inventoryLimitPerBusiness;
+
   const isBusinessRoute = () => {
     return /^\/dashboard\/(business|inventory|createInventory|collaborators|registerCollaborator|statistics|configuration)(\/[^/]+)*$/.test(
       pathname
@@ -138,11 +157,19 @@ const SideBar = () => {
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
       ) : (
         <div
-          className={`flex flex-col bg-custom-grisClarito w-56 h-screen p-3 shrink-0 ${
-            rol === "COLLABORATOR" && "hidden"
-          }`}
+          className={`flex flex-col bg-custom-grisClarito h-screen p-3 shrink-0
+          ${rol === "COLLABORATOR" && "hidden"}
+          ${collapsed ? "w-10" : "w-56"} bg-custom-grisClarito`}
         >
           <>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="self-end mb-4 text-gray-700 hover:text-black"
+            >
+              {collapsed ? "☰" : "←"}
+            </button>
+            
+            {!collapsed && (<>
             <div className="flex items-center justify-center m-5 h-6">
               <BusinessSelect
                 businesses={businessList}
@@ -205,33 +232,35 @@ const SideBar = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2 mt-6">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div>
-                    <Link 
-                      href={hasReachedBusinessLimit ? "#" : routes.createBusiness}
-                      aria-disabled={hasReachedBusinessLimit}
-                    >
-                      <Button 
-                        variant={"outline"} 
-                        className="w-full"
-                        disabled={hasReachedBusinessLimit}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div>
+                      <Link
+                        href={
+                          hasReachedBusinessLimit ? "#" : routes.createBusiness
+                        }
+                        aria-disabled={hasReachedBusinessLimit}
                       >
-                        Agregar Negocio
-                      </Button>
-                    </Link>
-                  </div>
-                </TooltipTrigger>
-                {hasReachedBusinessLimit && (
-                  <TooltipContent>
-                    <p>Actualiza tu plan para agregar más negocios</p>
-                  </TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
+                        <Button
+                          variant={"outline"}
+                          className="w-full"
+                          disabled={hasReachedBusinessLimit}
+                        >
+                          Agregar Negocio
+                        </Button>
+                      </Link>
+                    </div>
+                  </TooltipTrigger>
+                  {hasReachedBusinessLimit && (
+                    <TooltipContent>
+                      <p>Actualiza tu plan para agregar más negocios</p>
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
 
-            {/* Botón de Agregar Local - temporalmente desactivado hasta tener la data */}
+              {/* Botón de Agregar Local - temporalmente desactivado hasta tener la data */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -248,36 +277,43 @@ const SideBar = () => {
                   </TooltipTrigger>
                   {hasReachedInventoryLimit ? (
                     <TooltipContent>
-                    <p>Actualiza tu plan para agregar más locales</p>
-                  </TooltipContent>
-                  ) : !businessId && (
-                    <TooltipContent side="right">
-                      <p>Primero selecciona o agrega un negocio</p>
+                      <p>Actualiza tu plan para agregar más locales</p>
                     </TooltipContent>
+                  ) : (
+                    !businessId && (
+                      <TooltipContent side="right">
+                        <p>Primero selecciona o agrega un negocio</p>
+                      </TooltipContent>
+                    )
                   )}
                 </Tooltip>
               </TooltipProvider>
-          </div>
+            </div>
             <div className="flex-grow"></div>
             <div className="flex border border-foreground p-2 rounded-md my-5 gap-2 ">
               <div>
-                <div>{/* <h3 className='text-sm font-bold'>Plan Básico</h3> */}</div>
+                <div>
+                  {/* <h3 className='text-sm font-bold'>Plan Básico</h3> */}
+                </div>
                 <div className="flex flex-col text-xs ">
                   <h4>Conoce sobre:</h4>
                 </div>
               </div>
               <div className="flex items-center justify-center ml-auto">
                 <Link href={routes.ManagePayment}>
-                <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
-                  Gestionar
-                </button>
+                  <button className="flex items-center bg-background text-center text-md h-6 rounded-md p-3 border border-foreground">
+                    Gestionar
+                  </button>
                 </Link>
               </div>
             </div>
+            </>)}
           </>
         </div>
       )}
-      {rol==="COLLABORATOR" && token && userId && <ChatWidget token={token} senderId={userId} />}
+      {rol === "COLLABORATOR" && token && userId && (
+        <ChatWidget token={token} senderId={userId} />
+      )}
     </>
   );
 };
