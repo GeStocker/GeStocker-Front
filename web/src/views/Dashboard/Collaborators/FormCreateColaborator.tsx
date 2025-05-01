@@ -85,7 +85,7 @@ const FormCreateColaborator = () => {
   }, [token, businessId]);
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-1/2 p-6 rounded-lg my-8 mx-auto">
+    <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-full lg:w-1/2 p-6 rounded-lg my-8 mx-auto">
       <h1 className="text-left font-semibold text-2xl">Agregar colaborador</h1>
       <p className="flex text-sm text-red-500 mb-4">
         <Info className="w-5 h-5 mr-2" />

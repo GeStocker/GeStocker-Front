@@ -44,7 +44,7 @@ const StatisticsView = () => {
       ) : !rol ? (
         <span>Cargando metricas</span>
       ) : (
-        <section className="grid grid-cols-2 grid-rows-6 gap-2">
+        <section className="grid lg:grid-cols-2 lg:grid-rows-6 gap-2">
           {(rol === "basic" ||
             rol === "professional" ||
             rol === "business" ||
@@ -56,7 +56,7 @@ const StatisticsView = () => {
               <div>
                 <LowStock token={token} businessId={businessId} />
               </div>
-              <div className="col-start-2 row-start-2 text-xl">
+              <div className="lg:col-start-2 lg:row-start-2 text-xl">
                 <WithoutSales token={token} businessId={businessId} />
               </div>
             </>
@@ -65,13 +65,13 @@ const StatisticsView = () => {
             rol === "business" ||
             rol === "superadmin") && (
             <>
-              <div className="row-span-2 col-start-1 row-start-2">
+              <div className="lg:row-span-2 lg:col-start-1 lg:row-start-2">
                 <ProfitMargin token={token} businessId={businessId} />
               </div>
-              <div className="row-span-2 col-start-2">
+              <div className="lg:row-span-2 lg:col-start-2">
                 <AverageSales token={token} businessId={businessId} />
               </div>
-              <div className="row-span-2 row-start-4">
+              <div className="lg:row-span-2 lg:row-start-4">
                 <InventoryEfficiency token={token} businessId={businessId} />
               </div>
             </>
@@ -79,10 +79,10 @@ const StatisticsView = () => {
           {rol === "business" ||
             (rol === "superadmin" && (
               <>
-                <div className="row-span-2 col-start-2 row-start-5">
+                <div className="lg:row-span-2 lg:col-start-2 lg:row-start-5">
                   <InventoryRotation token={token} businessId={businessId} />
                 </div>
-                <div className="row-start-6">
+                <div className="lg:row-start-6">
                   <ComparisonInventories
                     token={token}
                     businessId={businessId}

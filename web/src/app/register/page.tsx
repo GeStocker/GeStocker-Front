@@ -16,7 +16,7 @@ const imgUrl = {
 const Register = () => {
   return (
     <div className="flex min-h-screen">
-      <div className="hidden md:flex flex-col w-[554px] p-5 bg-custom-grisClarito text-black-900 min-h-screen">
+      <div className="hidden lg:flex flex-col w-[554px] p-5 bg-custom-grisClarito text-black-900 min-h-screen">
         <Link href={routes.home} className="flex items-right gap-1 font-bold">
           <img src="logo.png" alt="Logo GeStocker" className="h-6 w-6" />
           <span>GeStocker</span>
@@ -53,14 +53,14 @@ const Register = () => {
       </div>
 
       <div className="flex flex-col flex-1 p-5 mr-10 bg-background">
-        <div className="flex justify-end">
+        <div className="flex justify-end mr-4">
           <Link href={routes.home}>
             <span>Volver</span>
           </Link>
         </div>
 
-        <div className="flex flex-col flex-1 ml-16 mt-12 mx-4">
-          <h2 className="text-4xl font-bold mb-6">Registrarse</h2>
+        <div className="flex flex-col flex-1 lg:ml-16 mt-12 lg:mx-4">
+          <h2 className="text-4xl text-center lg:text-left font-bold mb-6">Registrarse</h2>
           
           <div className="w-full">
             <RegisterView />

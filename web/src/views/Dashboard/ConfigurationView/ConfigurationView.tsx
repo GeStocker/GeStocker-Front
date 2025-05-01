@@ -14,7 +14,7 @@ const handleTabClick = (tab: 'notificaciones' | 'negocio' | 'exportacion'): void
 };
 
   return (
-    <div className="p-4 mr-16">
+    <div className="p-4 md:mr-16">
       <section className="flex justify-between items-center mb-10">
         <div className="flex flex-col">
           <h1 className="text-4xl font-semibold text-custom-casiNegro">Configuración</h1>

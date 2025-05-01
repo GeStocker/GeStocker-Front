@@ -92,7 +92,7 @@ const ProductDetailsView: React.FC = () => {
         <div className="px-10">
           <ul className="text-custom-textSubtitle text-lg space-y-2">
             {selectedPlan.features.map((feature, index) => (
-              <li key={index} className="flex items-center justify-left gap-2">
+              <li key={index} className="flex items-center text-left justify-left gap-2">
                 <MdCheck />
                 {feature}
               </li>

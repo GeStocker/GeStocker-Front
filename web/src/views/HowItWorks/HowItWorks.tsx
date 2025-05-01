@@ -22,9 +22,9 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      <section className="py-16 border-b w-full px-16">
+      <section className="py-16 border-b w-full md:px-16">
         <div className="flex px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col justify-center gap-4">
               <div className="flex items-center rounded-full bg-custom-GrisOscuro px-3 py-1 text-sm font-medium w-fit">
                 <span>Paso 1</span>
@@ -60,17 +60,17 @@ const HowItWorks = () => {
                 </Link>
               </div>
             </div>
-            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg w-[600px] aspect-video">
+            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg min-w-[300px] max-w-[600px] aspect-video">
               <YouTubeEmbed videoId={stepsVideos.stepRegister} />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 border-b w-full px-16">
+      <section className="py-16 border-b w-full md:px-16">
         <div className="flex px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
-            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg w-[600px] aspect-video">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-12 items-center">
+            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg min-w-[300px] max-w-[600px] aspect-video">
               <YouTubeEmbed videoId={stepsVideos.stepAddBusiness} />
             </div>
             <div className="flex flex-col justify-center gap-4">
@@ -104,9 +104,9 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      <section className="py-16 border-b w-full px-16">
+      <section className="py-16 border-b w-full md:px-16">
         <div className="flex px-6">
-          <div className="grid grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col justify-center gap-4">
               <div className="flex items-center rounded-full bg-custom-GrisOscuro px-3 py-1 text-sm font-medium w-fit">
                 <span>Paso 3</span>
@@ -130,19 +130,19 @@ const HowItWorks = () => {
                 </li>
                 <li className="flex items-start">
                   <CheckCircle2 className="mr-2 h-5 w-5  flex mt-0.5" />
-                  <span>Genera informes y visualiza estadísticas en tiempo real</span>
+                  <span>
+                    Genera informes y visualiza estadísticas en tiempo real
+                  </span>
                 </li>
               </ul>
 
               <div className="pt-4">
                 <Link href={routes.register}>
-                  <Button>
-                    Comenzar ahora
-                  </Button>
+                  <Button>Comenzar ahora</Button>
                 </Link>
               </div>
             </div>
-            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg w-[600px] aspect-video">
+            <div className="flex items-center justify-center overflow-hidden rounded-lg border bg-foreground shadow-lg min-w-[300px] max-w-[600px] aspect-video">
               <YouTubeEmbed videoId={stepsVideos.stepAddInventory} />
             </div>
           </div>

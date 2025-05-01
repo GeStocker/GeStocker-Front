@@ -270,7 +270,7 @@ const CreateProducts = () => {
 
   return (
     <div>
-      <div className="flex flex-row-reverse justify-center gap-x-8 my-8">
+      <div className="flex flex-col-reverse lg:flex-row-reverse justify-center gap-x-8 my-8">
         <div className="border rounded-md text-center w-fit h-fit p-1">
           <h2 className="text-lg text-custom-textSubtitle">
             Lista de productos
@@ -302,7 +302,7 @@ const CreateProducts = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-1/2 p-6 rounded-lg">
+        <div className="flex flex-col gap-4 items-center justify-center border shadow-lg w-full lg:w-1/2 p-6 rounded-lg">
           <h1 className="text-left font-semibold text-2xl">
             Productos
           </h1>

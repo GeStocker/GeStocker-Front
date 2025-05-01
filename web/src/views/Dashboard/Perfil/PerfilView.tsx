@@ -196,8 +196,8 @@ const PerfilView = () => {
       <h2 className="text-xl text-custom-textGris">
         Administra tu información personal y preferencias
       </h2>
-      <div className="flex">
-        <div className="w-1/5 flex flex-col">
+      <div className="flex flex-col lg:flex-row">
+        <div className="w-full lg:w-1/5 flex flex-col">
           <div className=" p-4 border rounded-md my-8">
             <h2 className="text-xl font-bold">Foto de perfil</h2>
             <h3 className="text-sm text-custom-textSubtitle">
@@ -279,7 +279,7 @@ const PerfilView = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="Informacion personal" className="w-4/5 p-8">
+        <Tabs defaultValue="Informacion personal" className="w-full lg:w-4/5 p-8">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="Informacion personal">
               Informacion personal

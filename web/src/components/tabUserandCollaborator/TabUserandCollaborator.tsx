@@ -8,7 +8,7 @@ import LoginCollaborator from '@/views/Login/LoginCollaborator'
 
 const TabUserandCollaborator = () => {
   return (
-    <div className="relative w-full flex items-center px-60 my-3">
+    <div className="relative w-full flex items-center md:px-40 lg:px-60 my-3">
         <Tabs defaultValue="admin" className="w-[400px]"> 
         <div className="flex justify-center">
             <TabsList>
