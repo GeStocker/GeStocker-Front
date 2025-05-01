@@ -62,7 +62,7 @@ const InventoryView = () => {
 
   return (
     <div className="p-4 mr-16">
-      <section className="flex justify-between items-center mb-10">
+      <section className="flex flex-wrap gap-3 justify-between items-center mb-10">
         <div className="flex flex-col">
         <h1 className="text-4xl font-semibold text-custom-casiNegro">Inventario del {currentInventory?.name || "sin nombre"}</h1>
           <h3>Gestiona tus productos y controla tu stock</h3>
@@ -90,7 +90,7 @@ const InventoryView = () => {
           </Link>
         </div>
       </section>
-      <section className="grid grid-cols-3 gap-4 mb-6">
+      <section className="grid md:grid-cols-3 gap-4 mb-6">
         <StatCard
           title="Total de productos"
           value={totalProducts}

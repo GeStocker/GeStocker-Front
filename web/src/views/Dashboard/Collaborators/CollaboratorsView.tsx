@@ -34,8 +34,8 @@ const CollaboratorsView = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between">
-        <div className="mb-8">
+      <div className="flex flex-wrap justify-between mb-8">
+        <div>
           <h1 className="text-4xl font-bold">Colaboradores</h1>
           <h2 className="text-xl text-custom-textGris">
             Gestiona los usuarios que tienen acceso al sistema

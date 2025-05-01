@@ -8,14 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 const ManagePayment = () => {
 
   return (
-    <div className="p-4 mr-16">
+    <div className="p-4 md:mr-16">
       <section className="flex justify-between items-center">
         <div className="flex flex-col">
           <h1 className="text-4xl font-semibold text-custom-casiNegro">Gestión de plan</h1>
           <h3>Información sobre tu suscripción e historial de pago.</h3>
         </div>
       </section>
-      <Tabs defaultValue="suscripcion" className="w-full p-8">
+      <Tabs defaultValue="suscripcion" className="w-full md:p-8">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="suscripcion">
               Suscripción

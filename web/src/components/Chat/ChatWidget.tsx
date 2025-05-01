@@ -150,7 +150,7 @@
         </button>
 
         {open && (
-            <div className="fixed bottom-20 right-4 w-[32rem] h-[36rem] bg-white rounded-xl shadow-lg flex border border-gray-300 overflow-hidden z-50">
+            <div className="fixed bottom-20 right-4 w-full md:w-[32rem] h-[36rem] bg-white rounded-xl shadow-lg flex border border-gray-300 overflow-hidden z-50">
             {/* Sidebar de colaboradores */}
             <div className="w-1/3 border-r border-gray-300 p-2 overflow-y-auto bg-gray-100">
                 <h3 className="text-sm font-semibold mb-2 dark:text-gray-900">Colaboradores</h3>
