@@ -63,7 +63,6 @@ export const getBusinessOwner = async (token: string, businessId: string): Promi
           Authorization: `Bearer ${token}`,
         },
     })).data
-    console.log(owner)
     return owner.userId
   } catch (error) {
     console.warn("Error al obtener negocios", error);

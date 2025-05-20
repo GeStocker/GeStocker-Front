@@ -75,7 +75,6 @@ const PricingDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {plans.map((plan, index) => {
             const planInEnglish = mapSpanishToEnglish(plan.title);
-            console.log(planInEnglish,"--",plan.title)
             return (
             <div
               key={index}

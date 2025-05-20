@@ -98,8 +98,6 @@ export const cancelSubscription = async (
   token: string
 ) => {
   try {
-    console.log("Cancelando suscripción con token:", token);
-    console.log("ID de suscripción en servicio:", subscriptionId);
     const response = await axios.post(`${API}/purchases/subscription/cancel`,  subscriptionId , {
       withCredentials: true,
       headers: {

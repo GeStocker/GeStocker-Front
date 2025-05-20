@@ -23,7 +23,6 @@ export const getCollaboratorsByBusiness = async (
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("entra y responde", response)
     return response.data;
   } catch (error) {
     console.warn("Error al obtener colaboradores", error);

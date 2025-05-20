@@ -113,8 +113,6 @@
         };
     }, [token, open, receiver, senderId]);
 
-    console.log(collaborators);
-
     useEffect(() => {
         if (open) fetchCollaborators();
     }, [open, token, businessId]);

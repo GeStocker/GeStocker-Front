@@ -272,7 +272,6 @@ const AddSellProducts = ({ type }: { type: "add" | "sell" }) => {
       if (!excelFile || !token || !businessId || !inventoryId) return;
       try {
         const userId = getUserIdFromToken(token);
-        console.log("userId", userId);
         if (!userId) return;
         const formData = new FormData();
         formData.append("file", excelFile);

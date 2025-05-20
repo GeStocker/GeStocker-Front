@@ -44,8 +44,6 @@ const SubscriptionPlans = () => {
   const { token, resetUserData } = useAuth();
   const [purchase, setPurchase] = useState<Purchase | null>(null);
 
-  console.log("Token:", token);
-
   useEffect(() => {
     const rol = getUserRol() ?? null;
     setUserRol(rol);
@@ -120,9 +118,7 @@ const SubscriptionPlans = () => {
     try {
       if (token && purchase?.id) {
         const subscriptionId = purchase.id;
-        console.log("ID de suscripción:", subscriptionId);
-        const response = await cancelSubscription(subscriptionId, token);
-        console.log("Respuesta de la API:", response);
+        await cancelSubscription(subscriptionId, token);
         toast.success("Suscripción cancelada con éxito");
         resetUserData();
         setTimeout(() => {
@@ -138,17 +134,6 @@ const SubscriptionPlans = () => {
       setIsProcessing(false);
     }
   };
-
-  // const handlePlanChange = async (selectedPlan: string) => {
-  //   setIsProcessing(true);
-  //   try {
-  //     console.log("Plan cambiado a:", selectedPlan);
-  //   } catch (error) {
-  //     console.error("Error cambiando de plan:", error);
-  //   } finally {
-  //     setIsProcessing(false);
-  //   }
-  // };
 
   if (!userRol) {
     return (

@@ -87,8 +87,6 @@ const RegisterView: React.FC = () => {
   const handleOnSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      console.log("vaors", values);
-
       const finalValues = { ...values };
 
       if (selectedPlan) {
