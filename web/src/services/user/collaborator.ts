@@ -70,3 +70,24 @@ export const createCollaborator =async (
       throw new Error(errorMessage);
     }
   };
+
+  export const desactivateCollaborator = async (
+    token: string,
+    id: string
+  ): Promise<ICollaborator[]> => {
+    try {
+      const response = await axiosInstance.delete(`${API}/collaborators/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.warn("Error al eliminar colaborador", error);
+      const errorMessage =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "Error al eliminar colaborador";
+      throw new Error(errorMessage);
+    }
+  }
