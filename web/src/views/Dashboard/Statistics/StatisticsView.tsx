@@ -44,7 +44,7 @@ const StatisticsView = () => {
       ) : !rol ? (
         <span>Cargando metricas</span>
       ) : (
-        <section className="grid lg:grid-cols-2 lg:grid-rows-6 gap-2">
+        <section className="grid lg:grid-cols-2 gap-2">
           {(rol === "basic" ||
             rol === "professional" ||
             rol === "business" ||
@@ -56,7 +56,8 @@ const StatisticsView = () => {
               <div>
                 <LowStock token={token} businessId={businessId} />
               </div>
-              <div className="lg:col-start-2 lg:row-start-2 text-xl">
+              {/* <div className="lg:col-start-2 lg:row-start-2 text-xl"> */}
+              <div className="lg:row-span-2 text-xl">
                 <WithoutSales token={token} businessId={businessId} />
               </div>
             </>
@@ -65,7 +66,7 @@ const StatisticsView = () => {
             rol === "business" ||
             rol === "superadmin") && (
             <>
-              <div className="lg:row-span-2 lg:col-start-1 lg:row-start-2">
+              <div className="">
                 <ProfitMargin token={token} businessId={businessId} />
               </div>
               <div className="lg:row-span-2 lg:col-start-2">
