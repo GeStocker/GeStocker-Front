@@ -66,7 +66,7 @@ const CreateProducts = () => {
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [newCategoryOpen, setNewCategoryOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("/sadImage.png");
+  const [previewImage, setPreviewImage] = useState("/upload.png");
   const [previewEditImage, setPreviewEditImage] = useState<string | null>(null);
   const [isAdding, setIsAdding]=useState(false);
   const [isSending, setIsSending]=useState(false);
@@ -452,16 +452,16 @@ const CreateProducts = () => {
                           </p>
                         )}
                       </div>
-                      <h2 className="font-semibold text-base mt-4">
+                      <h2 className="font-semibold text-base mt-3">
                         Elegir foto
                       </h2>
-                      <div className=" relative">
+                      <div className=" relative bottom-3 m-3">
                         <img
                           src={previewImage}
                           alt="User Profile"
                           className="w-40 h-40 rounded-full border"
                         />
-                        <div className="absolute -right-2 -bottom-2">
+                        <div className="absolute m-2 -right-0 -bottom-1">
                           <label htmlFor="fileImage" className="cursor-pointer">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
                               <Camera className="h-4 w-4" />
